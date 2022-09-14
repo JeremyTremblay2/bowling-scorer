@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model.score
 {
-    internal enum ThrowResult
+    enum ThrowResult
     {
         STRIKE,
         SPAIR,
