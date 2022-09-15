@@ -12,7 +12,7 @@
 [![Vulnerabilities](https://codefirst.ddns.net/sonar/api/project_badges/measure?project=bowling-scorer&metric=vulnerabilities)](https://codefirst.ddns.net/sonar/dashboard?id=bowling-scorer)  
 
 
-# bowling-scorer
+# bowling-scorer 
 
 Welcome on the bowling-scorer project!  
 
