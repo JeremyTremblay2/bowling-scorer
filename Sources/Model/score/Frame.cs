@@ -25,6 +25,10 @@ namespace Model.score
         }
         public Frame(int numberOfThrow)
         {
+            if (numberOfThrow <= 0)
+            {
+                throw new ArgumentException("The number of throw must be > 0");
+            }
             throwResults = new ThrowResult[numberOfThrow];
             ThrowResults = new System.Collections.ObjectModel.ReadOnlyCollection<ThrowResult>(throwResults);
         }
