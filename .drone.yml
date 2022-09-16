@@ -47,7 +47,8 @@ steps:
     depends_on: [tests]
 
   - name: generate-and-deploy-docs
-    image: pubhub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-docdeployer
+    image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-docdeployer
+    failure: ignore
     volumes:
       - name: docs
         path: /docs
