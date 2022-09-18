@@ -9,7 +9,7 @@ namespace Model.score
     /// <summary>
     /// This enumeration is used for describe all possible results of a throw
     /// </summary>
-    enum ThrowResult
+    public enum ThrowResult
     {
         STRIKE,
         SPAIR,
