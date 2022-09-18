@@ -32,12 +32,27 @@ namespace Model.score
                 else scoreValue = value;
             }
         }
+
+        private int frameNumber;
+        public int FrameNumber
+        {
+            get
+            {
+                return frameNumber;
+            }
+            private set
+            {
+                if (value <= 0) frameNumber = 1;
+                else frameNumber = value;
+            }
+        }
+
         /// <summary>
         /// Constructor of Frame
         /// </summary>
         /// <param name="numberOfThrow">The maximum number of throws that the Frame can contains</param>
         /// <exception cref="ArgumentException">If the given number of throw is <= 0</exception>
-        public Frame(int numberOfThrow)
+        public Frame(int numberOfThrow, int frameNumber)
         {
             if (numberOfThrow <= 0)
             {
@@ -45,6 +60,7 @@ namespace Model.score
             }
             throwResults = new ThrowResult[numberOfThrow];
             ThrowResults = new System.Collections.ObjectModel.ReadOnlyCollection<ThrowResult>(throwResults);
+            FrameNumber = frameNumber;
         }
 
         /// <summary>
