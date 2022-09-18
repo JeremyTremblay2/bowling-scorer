@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace Model.score
 {
@@ -15,7 +16,7 @@ namespace Model.score
         /// Contains all results 
         /// </summary>
         private ThrowResult[] throwResults;
-        public System.Collections.ObjectModel.ReadOnlyCollection<ThrowResult> ThrowResults
+        public ReadOnlyCollection<ThrowResult> ThrowResults
         {
             get;
             private set;
@@ -59,7 +60,7 @@ namespace Model.score
                 throw new ArgumentException("The number of throw must be > 0");
             }
             throwResults = new ThrowResult[numberOfThrow];
-            ThrowResults = new System.Collections.ObjectModel.ReadOnlyCollection<ThrowResult>(throwResults);
+            ThrowResults = new ReadOnlyCollection<ThrowResult>(throwResults);
             FrameNumber = frameNumber;
         }
 
