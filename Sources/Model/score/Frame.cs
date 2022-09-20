@@ -60,8 +60,20 @@ namespace Model.score
                 throw new ArgumentException("The number of throw must be > 0");
             }
             throwResults = new ThrowResult[numberOfThrow];
+            for (int i = 0; i < numberOfThrow; i++)
+            {
+                throwResults[i] = ThrowResult.NONE;
+            }
             ThrowResults = new ReadOnlyCollection<ThrowResult>(throwResults);
             FrameNumber = frameNumber;
+        }
+
+        public Frame(int frameNumber, ThrowResult[] results) : this(results.Length, frameNumber)
+        {
+            for (int i = 0; i < results.Length; i++)
+            {
+                throwResults[i] = results[i];
+            }
         }
 
         /// <summary>
@@ -74,5 +86,14 @@ namespace Model.score
             throwResults[index] = throwResult;
         }
 
+        public bool isStrike()
+        {
+            return throwResults[1] == ThrowResult.STRIKE;
+        }
+
+        public bool isSpair()
+        {
+            return throwResults[1] == ThrowResult.SPAIR;
+        }
     }
 }

@@ -22,6 +22,7 @@ namespace Model.score
         SIX,
         SEVEN,
         EIGHT,
-        NINE
+        NINE,
+        NONE
     }
 }
