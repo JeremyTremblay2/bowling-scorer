@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Model.exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,33 +22,66 @@ namespace Model.score
 
         public void UpdateFromFrame(int index, List<Frame> frames)
         {
-            Frame frame = frames[index];
-            if (IsStrike(frame) && frames.Count - (index + 1) >= 2)
-            {
-                
-            }
-            Frame precedent;
-            if (index - 1 >= 0)
-                precedent = frames[index - 1];
-            else
-            {
-                
-            }
+            
         }
 
         public void UpdateLastFrame(List<Frame> frames)
         {
-            throw new NotImplementedException();
+            int index = frames.Count - 1;
+            ComputeOneFrame(index, frames);
         }
 
-        /// <summary>
-        /// Check if the given frame contains a STRIKE
-        /// </summary>
-        /// <param name="frame"></param>
-        /// <returns></returns>
-        private Boolean IsStrike(Frame frame)
+        private void ComputeOneFrame(int selectedFrameIdx, List<Frame> scoreBoard)
         {
-            return frame.ThrowResults[1] == ThrowResult.STRIKE;
+            Frame frame = scoreBoard[selectedFrameIdx];
+            int calculatedScore = 0;
+            if (frame.isStrike() || frame.isSpair())
+            {
+                Frame nextFrame = scoreBoard[selectedFrameIdx + 1];
+                if (nextFrame == null) throw new MissingFrameException();
+                calculatedScore = 10;
+                if (frame.isStrike())
+                {
+                    if (nextFrame.isStrike())
+                    {
+                        Frame nextNextFrame = scoreBoard[selectedFrameIdx + 2];
+                        if (nextNextFrame == null) throw new MissingFrameException();
+                        if (nextNextFrame.isStrike())
+                        {
+                            calculatedScore = calculatedScore + 10;
+                        }
+                        else
+                        {
+                            calculatedScore = calculatedScore + ThrowResultExtension.ToInt(nextNextFrame.ThrowResults[0]);
+                        }
+                    }
+                    else if (nextFrame.isSpair())
+                    {
+                        calculatedScore = calculatedScore + 10;
+                    }
+                    else
+                    {
+                        calculatedScore = calculatedScore + ThrowResultExtension.ToInt(nextFrame.ThrowResults[0])
+                                                          + ThrowResultExtension.ToInt(nextFrame.ThrowResults[1]);
+                    }
+                }
+                else if (frame.isSpair())
+                {
+                    if (nextFrame.isStrike())
+                    {
+                        calculatedScore = calculatedScore + 10;
+                    }
+                    else
+                    {
+                        calculatedScore = calculatedScore + ThrowResultExtension.ToInt(nextFrame.ThrowResults[0]);
+                    }
+                }
+            }
+            else
+            {
+                calculatedScore = ThrowResultExtension.ToInt(frame.ThrowResults[0]) + ThrowResultExtension.ToInt(frame.ThrowResults[1]);
+            }
+            frame.ScoreValue = calculatedScore;
         }
     }
 }
