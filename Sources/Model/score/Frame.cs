@@ -34,6 +34,17 @@ namespace Model.score
             }
         }
 
+        private int cumulativeScore;
+        public int CumulativeScore
+        {
+            get => cumulativeScore;
+            private set
+            {
+                if (value < 0) cumulativeScore = 0;
+                else cumulativeScore = value;
+            }
+        }
+
         private int frameNumber;
         public int FrameNumber
         {
