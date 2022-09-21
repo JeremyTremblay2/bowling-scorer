@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Model.score
 {
-    internal class ClassicScoreCalculator : IScoreCalculator
+    public class ClassicScoreCalculator : IScoreCalculator
     {
         public int CalculateScore(List<Frame> frames)
         {
@@ -22,7 +22,7 @@ namespace Model.score
 
         public void UpdateFromFrame(int index, List<Frame> frames)
         {
-            
+            ComputeOneFrame(index, frames);
         }
 
         public void UpdateLastFrame(List<Frame> frames)
@@ -46,6 +46,7 @@ namespace Model.score
                     {
                         Frame nextNextFrame = scoreBoard[selectedFrameIdx + 2];
                         if (nextNextFrame == null) throw new MissingFrameException();
+                        calculatedScore = calculatedScore + 10;
                         if (nextNextFrame.isStrike())
                         {
                             calculatedScore = calculatedScore + 10;

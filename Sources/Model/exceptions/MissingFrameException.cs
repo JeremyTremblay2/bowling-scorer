@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Model.exceptions
 {
-    internal class MissingFrameException
+    public class MissingFrameException : Exception
     {
+
     }
 }
