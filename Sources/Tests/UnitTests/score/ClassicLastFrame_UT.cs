@@ -25,7 +25,7 @@ namespace UnitTests.score
         [Theory]
         [InlineData(false, ThrowResult.TWO, ThrowResult.TWO)]
         [InlineData(true, ThrowResult.SPAIR, ThrowResult.NONE)]
-        [InlineData(false, ThrowResult.STRIKE, ThrowResult.NONE)]
+        [InlineData(false, ThrowResult.STRIKE, ThrowResult.STRIKE)]
         public void Test_WriteFirstThrow(bool throwExcep, ThrowResult resultToWrite, ThrowResult exceptedWritenResult)
         {
             ClassicLastFrame classic = new ClassicLastFrame(1);
