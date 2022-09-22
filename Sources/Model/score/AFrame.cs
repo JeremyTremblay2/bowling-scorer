@@ -110,5 +110,14 @@ namespace Model.score
             AFrame other = (AFrame)obj;
             return frameNumberLabel == other.FrameNumberLabel;
         }
+
+        /// <summary>
+        /// TO DO MOST CORRECTLY
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return FrameNumberLabel;
+        }
     }
 }
