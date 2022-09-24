@@ -18,7 +18,7 @@ namespace Model.score
         public int FrameNumberLabel
         {
             get { return frameNumberLabel; }
-            set
+            private set
             {
                 if (value < 1) frameNumberLabel = 1;
                 else frameNumberLabel = value;
@@ -29,7 +29,7 @@ namespace Model.score
         /// <summary>
         /// Results of each Throw contained in the Frame
         /// </summary>
-        private ThrowResult[] throwResults;
+        private readonly ThrowResult[] throwResults;
         public ReadOnlyCollection<ThrowResult> ThrowResults { get; private set; }
 
         /// <summary>
@@ -47,17 +47,17 @@ namespace Model.score
         private int scoreValue;
         
         /// <summary>
-        /// Property that contains CumulativeScore, computed by another class
+        /// Property that contains CumulativeScore, computed and updated by another class 
         /// </summary>
-        public int CumulativeScoreValue {
-            get { return cumulativeScoreValue; }
+        public int CumulativeScore {
+            get { return cumulativeScore; }
             set
             {
-                if (value < 0) cumulativeScoreValue = 0;
-                else cumulativeScoreValue = value;
+                if (value < 0) cumulativeScore = 0;
+                else cumulativeScore = value;
             }
         }
-        private int cumulativeScoreValue;
+        private int cumulativeScore;
 
         /// <summary>
         /// Build a Frame with the specified label and the specified number of slots
