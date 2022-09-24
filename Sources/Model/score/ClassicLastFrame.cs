@@ -51,7 +51,9 @@ namespace Model.score
         /// if we didn't made a STRIKE or a SPAIR previously)</exception>
         public void WriteThridThrow(ThrowResult throwResult)
         {
-            if (ThrowResults[0] != ThrowResult.STRIKE && ThrowResults[1] != ThrowResult.STRIKE && ThrowResults[1] != ThrowResult.SPAIR)
+            if (ThrowResults[0] != ThrowResult.STRIKE 
+                && ThrowResults[1] != ThrowResult.STRIKE 
+                && ThrowResults[1] != ThrowResult.SPAIR)
             {
                 throw new ForbiddenThrowResultException("You can't write a third result if you didn't made a STRIKE in one of the two pervious slot");
             }
