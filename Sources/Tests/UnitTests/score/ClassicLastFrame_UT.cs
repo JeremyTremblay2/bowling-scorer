@@ -46,29 +46,24 @@ namespace UnitTests.score
             Assert.Equal(ThrowResult.TREE, classic.ThrowResults[1]);
         }
 
-        /*public static IEnumerable<object[]> Data_toWriteThirdThrow()
-        {
-            yield return new object[]
-            {
-                true,
-                new 
-            }
-        }
 
         [Theory]
-        [InlineData(false, ThrowResult.TWO, ThrowResult.TWO)]
-        [InlineData(true, ThrowResult.SPAIR, ThrowResult.NONE)]
-        [InlineData(false, ThrowResult.STRIKE, ThrowResult.NONE)]
-        public void Test_WriteThridThrow(bool throwExcep, ThrowResult resultToWrite, ThrowResult exceptedWritenResult)
+        [InlineData(false, ThrowResult.STRIKE, ThrowResult.STRIKE, ThrowResult.STRIKE, ThrowResult.STRIKE)]
+        [InlineData(false, ThrowResult.STRIKE, ThrowResult.STRIKE, ThrowResult.NINE, ThrowResult.SPAIR)]
+        [InlineData(true, ThrowResult.STRIKE, ThrowResult.STRIKE, ThrowResult.TWO, ThrowResult.TWO)]
+        [InlineData(true, ThrowResult.STRIKE, ThrowResult.STRIKE, ThrowResult.NONE, ThrowResult.NONE)]
+        public void Test_WriteThridThrow(bool throwExcep, ThrowResult resultToWrite, ThrowResult exceptedWritenResult, ThrowResult firstSlotResult, ThrowResult secondSlotResult)
         {
             ClassicLastFrame classic = new ClassicLastFrame(1);
+            classic.WriteFirstThrow(firstSlotResult);
+            classic.WriteSecondThrow(secondSlotResult);
             if (throwExcep)
             {
                 Assert.Throws<ForbiddenThrowResultException>(() => { classic.WriteThridThrow(resultToWrite); });
                 return;
             }
             classic.WriteThridThrow(resultToWrite);
-            Assert.Equal(exceptedWritenResult, classic.ThrowResults[0]);
-        }*/
+            Assert.Equal(exceptedWritenResult, classic.ThrowResults[2]);
+        }
     }
 }
