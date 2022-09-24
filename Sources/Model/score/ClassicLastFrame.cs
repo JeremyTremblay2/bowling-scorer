@@ -21,6 +21,17 @@ namespace Model.score
         }
 
         /// <summary>
+        /// Constructor of ClassicLastFrame with default ThrowResults
+        /// </summary>
+        /// <param name="frameNumberLabel">The number of the Frame</param>
+        public ClassicLastFrame(int frameNumberLabel, ThrowResult throwResult1, ThrowResult throwResult2, ThrowResult throwResult3) : base(frameNumberLabel, 3)
+        {
+            WriteFirstThrow(throwResult1);
+            WriteSecondThrow(throwResult2);
+            WriteThridThrow(throwResult3);
+        }
+
+        /// <summary>
         /// Write a throw in the first slot of the frame
         /// </summary>
         /// <param name="throwResult">Result to write</param>
@@ -51,13 +62,27 @@ namespace Model.score
         /// if we didn't made a STRIKE or a SPAIR previously)</exception>
         public void WriteThridThrow(ThrowResult throwResult)
         {
-            if (ThrowResults[0] != ThrowResult.STRIKE 
+            if (throwResult == ThrowResult.NONE) WriteThrow(2, throwResult);
+            else if (ThrowResults[0] != ThrowResult.STRIKE 
                 && ThrowResults[1] != ThrowResult.STRIKE 
                 && ThrowResults[1] != ThrowResult.SPAIR)
             {
                 throw new ForbiddenThrowResultException("You can't write a third result if you didn't made a STRIKE in one of the two pervious slot");
             }
             WriteThrow(2, throwResult);
+        }
+
+        public override bool isSpair()
+        {
+            return ThrowResults[2] == ThrowResult.SPAIR 
+                || ThrowResults[1] == ThrowResult.SPAIR;
+        }
+
+        public override bool isStrike()
+        {
+            return ThrowResults[2] == ThrowResult.STRIKE 
+                || ThrowResults[1] == ThrowResult.STRIKE 
+                || ThrowResults[0] == ThrowResult.STRIKE;
         }
     }
 }

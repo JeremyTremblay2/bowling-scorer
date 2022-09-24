@@ -22,6 +22,7 @@ namespace Model.score
                 case ThrowResult.EIGHT: { return 8; }
                 case ThrowResult.NINE: { return 9; }
                 case ThrowResult.STRIKE: { return 10; }
+                case ThrowResult.SPAIR: { return 10; }
                 default: { throw new ArgumentException("Cannot convert this ThrowResult to int"); }
             }
         }

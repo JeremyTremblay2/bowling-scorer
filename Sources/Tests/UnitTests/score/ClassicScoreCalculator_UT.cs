@@ -11,48 +11,224 @@ namespace UnitTests.score
 {
     public class ClassicScoreCalculator_UT
     {
-        [Theory]
-        [InlineData(false, 5, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NINE, ThrowResult.ZERO, ThrowResult.TWO, ThrowResult.TREE, ThrowResult.NINE, ThrowResult.ZERO, ThrowResult.TWO, ThrowResult.TREE)]
-        [InlineData(false, 19, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NINE, ThrowResult.ZERO, ThrowResult.TWO, ThrowResult.SPAIR, ThrowResult.NINE, ThrowResult.ZERO, ThrowResult.TWO, ThrowResult.TREE)]
-        [InlineData(false, 17, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NINE, ThrowResult.ZERO, ThrowResult.NONE, ThrowResult.STRIKE, ThrowResult.FOUR, ThrowResult.TREE, ThrowResult.TWO, ThrowResult.TREE)]
-        [InlineData(false, 20, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NINE, ThrowResult.ZERO, ThrowResult.NONE, ThrowResult.STRIKE, ThrowResult.TWO, ThrowResult.SPAIR, ThrowResult.TWO, ThrowResult.TREE)]
-        [InlineData(false, 22, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NINE, ThrowResult.ZERO, ThrowResult.NONE, ThrowResult.STRIKE, ThrowResult.NONE, ThrowResult.STRIKE, ThrowResult.TWO, ThrowResult.TREE)]
-        [InlineData(false, 22, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NINE, ThrowResult.ZERO, ThrowResult.NONE, ThrowResult.STRIKE, ThrowResult.NONE, ThrowResult.STRIKE, ThrowResult.TWO, ThrowResult.SPAIR)]
-        [InlineData(false, 30, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NINE, ThrowResult.ZERO, ThrowResult.NONE, ThrowResult.STRIKE, ThrowResult.NONE, ThrowResult.STRIKE, ThrowResult.NONE, ThrowResult.STRIKE)]
-        public void TestUpdateFromFrame(bool throwException, int exceptedResult, ThrowResult f1Val1, ThrowResult f1Val2, ThrowResult f2Val1, ThrowResult f2Val2,
-            ThrowResult f3Val1, ThrowResult f3Val2, ThrowResult f4Val1, ThrowResult f4Val2, ThrowResult f5Val1, ThrowResult f5Val2)
+        public static IEnumerable<object[]> Data_UpdateFromFrameClassic()
         {
-            IScoreCalculator scoreCalculator = new ClassicScoreCalculator();
-            Frame f1 = new Frame(2, 1);
-            Frame f2 = new Frame(2, 2);
-            Frame f3 = new Frame(2, 3);
-            Frame f4 = new Frame(2, 4);
-            Frame f5 = new Frame(2, 5);
-            List<Frame> frames = new List<Frame>();
+            yield return new object[] {
+                false,
+                new List<AFrame>
+                {
+                    new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(5, ThrowResult.TREE, ThrowResult.TWO),
+                    new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(9, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicLastFrame(10, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NONE)
+                },
+                4,
+                new List<int>{ 0, 0, 3, 3, 5, 0, 0, 0, 0, 0 }
+            };
+            yield return new object[] {
+                false,
+                new List<AFrame>
+                {
+                    new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(5, ThrowResult.TREE, ThrowResult.SPAIR),
+                    new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(9, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicLastFrame(10, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NONE)
+                },
+                4,
+                new List<int>{ 0, 0, 3, 3, 11, 0, 0, 0, 0, 0 }
+            };
+            yield return new object[] {
+                false,
+                new List<AFrame>
+                {
+                    new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.SPAIR),
+                    new ClassicFrame(5, ThrowResult.TREE, ThrowResult.TWO),
+                    new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(9, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicLastFrame(10, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NONE)
+                },
+                4,
+                new List<int>{ 0, 0, 3, 13, 5, 0, 0, 0, 0, 0 }
+            };
+            yield return new object[] {
+                false,
+                new List<AFrame>
+                {
+                    new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.SPAIR),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(5, ThrowResult.TREE, ThrowResult.TWO),
+                    new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(9, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicLastFrame(10, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NONE)
+                },
+                4,
+                new List<int>{ 0, 0, 11, 3, 5, 0, 0, 0, 0, 0 }
+            };
+            yield return new object[] {
+                false,
+                new List<AFrame>
+                {
+                    new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.SPAIR),
+                    new ClassicFrame(5, ThrowResult.TREE, ThrowResult.SPAIR),
+                    new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(9, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicLastFrame(10, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NONE)
+                },
+                4,
+                new List<int>{ 0, 0, 3, 13, 11, 0, 0, 0, 0, 0 }
+            };
+            yield return new object[] {
+                false,
+                new List<AFrame>
+                {
+                    new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.SPAIR),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.SPAIR),
+                    new ClassicFrame(5, ThrowResult.TREE, ThrowResult.SPAIR),
+                    new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(9, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicLastFrame(10, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NONE)
+                },
+                4,
+                new List<int>{ 0, 0, 11, 13, 11, 0, 0, 0, 0, 0 }
+            };
+            yield return new object[] {
+                false,
+                new List<AFrame>
+                {
+                    new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(5, ThrowResult.NONE, ThrowResult.STRIKE),
+                    new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(9, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicLastFrame(10, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NONE)
+                },
+                4,
+                new List<int>{ 0, 0, 3, 3, 13, 0, 0, 0, 0, 0 }
+            };
+            yield return new object[] {
+                false,
+                new List<AFrame>
+                {
+                    new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(4, ThrowResult.NONE, ThrowResult.STRIKE),
+                    new ClassicFrame(5, ThrowResult.TREE, ThrowResult.TWO),
+                    new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(9, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicLastFrame(10, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NONE)
+                },
+                4,
+                new List<int>{ 0, 0, 3, 15, 5, 0, 0, 0, 0, 0 }
+            };
+            yield return new object[] {
+                false,
+                new List<AFrame>
+                {
+                    new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(3, ThrowResult.NONE, ThrowResult.STRIKE),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(5, ThrowResult.TREE, ThrowResult.TWO),
+                    new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(9, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicLastFrame(10, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NONE)
+                },
+                4,
+                new List<int>{ 0, 0, 13, 3, 5, 0, 0, 0, 0, 0 }
+            };
+            yield return new object[] {
+                false,
+                new List<AFrame>
+                {
+                    new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.STRIKE),
+                    new ClassicFrame(5, ThrowResult.NONE, ThrowResult.STRIKE),
+                    new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(9, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicLastFrame(10, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NONE)
+                },
+                4,
+                new List<int>{ 0, 0, 3, 21, 13, 0, 0, 0, 0, 0 }
+            };
+            yield return new object[] {
+                false,
+                new List<AFrame>
+                {
+                    new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.STRIKE),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.STRIKE),
+                    new ClassicFrame(5, ThrowResult.NONE, ThrowResult.STRIKE),
+                    new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(9, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicLastFrame(10, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NONE)
+                },
+                4,
+                new List<int>{ 0, 0, 30, 21, 13, 0, 0, 0, 0, 0 }
+            };
 
-            f1.AddThrow(0, f1Val1);
-            f1.AddThrow(1, f1Val2);
-            f2.AddThrow(0, f2Val1);
-            f2.AddThrow(1, f2Val2);
-            f3.AddThrow(0, f3Val1);
-            f3.AddThrow(1, f3Val2);
-            f4.AddThrow(0, f4Val1);
-            f4.AddThrow(1, f4Val2);
-            f5.AddThrow(0, f5Val1);
-            f5.AddThrow(1, f5Val2);
-            frames.Add(f1);
-            frames.Add(f2);
-            frames.Add(f3);
-            frames.Add(f4);
-            frames.Add(f5);
+        }
 
-            if (throwException)
+        [Theory]
+        [MemberData(nameof(Data_UpdateFromFrameClassic))]
+        public void Test_UpdateFromFrameClassic(bool throwExep, List<AFrame> scoreBoard, int indexToBeUpdated, List<int> exceptedScoresValue)
+        {
+            IScoreCalculator calculator = new ClassicScoreCalculator();
+            if (throwExep)
             {
-                Assert.Throws<MissingFrameException>(() => scoreCalculator.UpdateFromFrame(2, frames));
+                Assert.Throws<MissingFrameException>(() => { calculator.UpdateFromFrame(indexToBeUpdated, scoreBoard); });
+                return;
             }
-
-            scoreCalculator.UpdateFromFrame(2, frames);
-            Assert.Equal(exceptedResult, f3.ScoreValue);
+            calculator.UpdateFromFrame(indexToBeUpdated, scoreBoard);
+            for(int i = 0; i < exceptedScoresValue.Count - 1; i++)
+            {
+                Assert.Equal(exceptedScoresValue[i], scoreBoard[i].ScoreValue);
+            }
         }
     }
 }

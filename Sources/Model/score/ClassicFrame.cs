@@ -21,6 +21,16 @@ namespace Model.score
         }
 
         /// <summary>
+        /// Constructor of ClassicFrame with default ThrowResultValues
+        /// </summary>
+        /// <param name="frameNumberLabel">The number of the Frame</param>
+        public ClassicFrame(int frameNumberLabel, ThrowResult throwResult1, ThrowResult throwResult2) : base(frameNumberLabel, 2)
+        {
+            WriteFirstThrow(throwResult1);
+            WriteSecondThrow(throwResult2);
+        }
+
+        /// <summary>
         /// Write a throw in the first slot of the frame
         /// </summary>
         /// <param name="throwResult">Result to write</param>
@@ -41,6 +51,16 @@ namespace Model.score
         public void WriteSecondThrow(ThrowResult throwResult)
         {
             WriteThrow(1, throwResult);
+        }
+
+        public override bool isSpair()
+        {
+            return ThrowResults[1] == ThrowResult.SPAIR;
+        }
+
+        public override bool isStrike()
+        {
+            return ThrowResults[1] == ThrowResult.STRIKE;
         }
     }
 }
