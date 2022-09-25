@@ -61,7 +61,10 @@ namespace Model.score
             if (nextFrame is ClassicLastFrame)
             {
                 ClassicLastFrame classicLast1 = (ClassicLastFrame)nextFrame;
-                calculatedScore = EncounterLastFrameDirectly(classicLast1, calculatedScore);
+                if (classic0.isStrike())
+                    calculatedScore = EncounterLastFrameDirectlyStrike(classicLast1, calculatedScore);
+                else if (classic0.isSpair())
+                    calculatedScore = EncounterLastFrameDirectlySpair(classicLast1, calculatedScore);
             }
             else if (nextFrame is ClassicFrame)
             {
@@ -72,14 +75,18 @@ namespace Model.score
             return calculatedScore;
         }
 
+        private int EncounterLastFrameDirectlySpair(ClassicLastFrame classicLast1, int calculatedScore)
+        {
+            return calculatedScore + ThrowResultExtension.ToInt(classicLast1.ThrowResults[0]);
+        }
+
         private int FirstIsClassicFrame(AFrame nextFrame, ClassicFrame classic0, ClassicFrame classic1, List<AFrame> scoreBoard, int calculatedScore, int selectedFrameIdx)
         {
             if (classic0.isStrike())
             {
                 if (classic1.isStrike())
                 {
-                    calculatedScore = Classic1IsStrike(scoreBoard, selectedFrameIdx, calculatedScore);
-                    
+                    calculatedScore = Classic1IsStrike(scoreBoard, selectedFrameIdx, calculatedScore); 
                 }
                 else if (classic1.isSpair())
                 {
@@ -110,6 +117,7 @@ namespace Model.score
             AFrame nextNextFrame = scoreBoard[selectedFrameIdx + 2];
             if (nextNextFrame == null) throw new MissingFrameException();
             calculatedScore = calculatedScore + 10;
+
             if (nextNextFrame is ClassicLastFrame)
             {
                 ClassicLastFrame classicLast2 = (ClassicLastFrame)nextNextFrame;
@@ -119,7 +127,6 @@ namespace Model.score
             {
                 ClassicFrame classic2 = (ClassicFrame)nextNextFrame;
                 calculatedScore = ComputeWithClassic2(classic2, calculatedScore);
-                
             }
             else throw new ArgumentException("The given score board use bad Frame type, please use only ClassicFrame and ClassicLastFrame or create your own calculator that implements IScoreCalculator");
             return calculatedScore;
@@ -146,28 +153,22 @@ namespace Model.score
             }
             else
             {
-                calculatedScore = calculatedScore + ThrowResultExtension.ToInt(classicLast2.ThrowResults[0])
-                                                  + ThrowResultExtension.ToInt(classicLast2.ThrowResults[1]);
+                calculatedScore = calculatedScore + ThrowResultExtension.ToInt(classicLast2.ThrowResults[0]);
             }
             return calculatedScore;
         }
 
-        private int EncounterLastFrameDirectly(ClassicLastFrame classicLast1, int calculatedScore)
+        private int EncounterLastFrameDirectlyStrike(ClassicLastFrame classicLast1, int calculatedScore)
         {
-            if (classicLast1.ThrowResults[1] == ThrowResult.STRIKE)
+            if (classicLast1.ThrowResults[1] == ThrowResult.SPAIR)
             {
-                calculatedScore = calculatedScore + 10 + ThrowResultExtension.ToInt(classicLast1.ThrowResults[2]);
-            }
-            else if (classicLast1.ThrowResults[1] == ThrowResult.SPAIR)
-            {
-                calculatedScore += 10;
+                return calculatedScore + ThrowResultExtension.ToInt(ThrowResult.SPAIR) + ThrowResultExtension.ToInt(classicLast1.ThrowResults[2]);
             }
             else
             {
-                calculatedScore = calculatedScore + ThrowResultExtension.ToInt(classicLast1.ThrowResults[0])
-                                                  + ThrowResultExtension.ToInt(classicLast1.ThrowResults[1]);
+                return calculatedScore + ThrowResultExtension.ToInt(classicLast1.ThrowResults[0]) 
+                                       + ThrowResultExtension.ToInt(classicLast1.ThrowResults[1]);
             }
-            return calculatedScore;
         }
 
         public void UpdateLastFrame(List<AFrame> frames)

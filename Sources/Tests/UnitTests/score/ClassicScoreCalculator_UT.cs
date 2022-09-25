@@ -230,5 +230,98 @@ namespace UnitTests.score
                 Assert.Equal(exceptedScoresValue[i], scoreBoard[i].ScoreValue);
             }
         }
+
+        public static IEnumerable<object[]> Data_UpdateFromFrameClassicMaybeLast()
+        {
+            yield return new object[] {
+                false,
+                new List<AFrame>
+                {
+                    new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(5, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(8, ThrowResult.NONE, ThrowResult.STRIKE),
+                    new ClassicFrame(9, ThrowResult.NONE, ThrowResult.STRIKE),
+                    new ClassicLastFrame(10, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NONE)
+                },
+                7,
+                new List<int>{ 0, 0, 0, 0, 0, 3, 3, 21, 0, 0 }
+            };
+            yield return new object[] {
+                false,
+                new List<AFrame>
+                {
+                    new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(5, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(8, ThrowResult.NONE, ThrowResult.STRIKE),
+                    new ClassicFrame(9, ThrowResult.NONE, ThrowResult.STRIKE),
+                    new ClassicLastFrame(10, ThrowResult.STRIKE, ThrowResult.TWO, ThrowResult.NONE)
+                },
+                7,
+                new List<int>{ 0, 0, 0, 0, 0, 3, 3, 30, 0, 0 }
+            };
+            yield return new object[] {
+                false,
+                new List<AFrame>
+                {
+                    new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(5, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(9, ThrowResult.NONE, ThrowResult.STRIKE),
+                    new ClassicLastFrame(10, ThrowResult.STRIKE, ThrowResult.STRIKE, ThrowResult.FIVE)
+                },
+                8,
+                new List<int>{ 0, 0, 0, 0, 0, 0, 3, 3, 30, 0 }
+            };
+            yield return new object[] {
+                false,
+                new List<AFrame>
+                {
+                    new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(5, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(9, ThrowResult.NONE, ThrowResult.SPAIR),
+                    new ClassicLastFrame(10, ThrowResult.STRIKE, ThrowResult.STRIKE, ThrowResult.FIVE)
+                },
+                8,
+                new List<int>{ 0, 0, 0, 0, 0, 0, 3, 3, 20, 0 }
+            };
+        }
+
+        [Theory]
+        [MemberData(nameof(Data_UpdateFromFrameClassicMaybeLast))]
+        public void Test_UpdateFromFrameClassicMaybeLast(bool throwExep, List<AFrame> scoreBoard, int indexToBeUpdated, List<int> exceptedScoresValue)
+        {
+            IScoreCalculator calculator = new ClassicScoreCalculator();
+            if (throwExep)
+            {
+                Assert.Throws<MissingFrameException>(() => { calculator.UpdateFromFrame(indexToBeUpdated, scoreBoard); });
+                return;
+            }
+            calculator.UpdateFromFrame(indexToBeUpdated, scoreBoard);
+            for (int i = 0; i < exceptedScoresValue.Count - 1; i++)
+            {
+                Assert.Equal(exceptedScoresValue[i], scoreBoard[i].ScoreValue);
+            }
+        }
     }
 }
