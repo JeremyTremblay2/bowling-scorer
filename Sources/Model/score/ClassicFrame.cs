@@ -53,12 +53,12 @@ namespace Model.score
             WriteThrow(1, throwResult);
         }
 
-        public override bool isSpair()
+        public bool isSpair()
         {
             return ThrowResults[1] == ThrowResult.SPAIR;
         }
 
-        public override bool isStrike()
+        public bool isStrike()
         {
             return ThrowResults[1] == ThrowResult.STRIKE;
         }

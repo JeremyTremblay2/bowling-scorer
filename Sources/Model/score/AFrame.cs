@@ -119,17 +119,5 @@ namespace Model.score
         {
             return FrameNumberLabel;
         }
-
-        /// <summary>
-        /// True if the Frame is a STRIKE
-        /// </summary>
-        /// <returns></returns>
-        public abstract bool isStrike();
-
-        /// <summary>
-        /// True if the Frame is a SPAIR
-        /// </summary>
-        /// <returns></returns>
-        public abstract bool isSpair();
     }
 }

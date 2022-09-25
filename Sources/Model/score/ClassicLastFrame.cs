@@ -71,18 +71,5 @@ namespace Model.score
             }
             WriteThrow(2, throwResult);
         }
-
-        public override bool isSpair()
-        {
-            return ThrowResults[2] == ThrowResult.SPAIR 
-                || ThrowResults[1] == ThrowResult.SPAIR;
-        }
-
-        public override bool isStrike()
-        {
-            return ThrowResults[2] == ThrowResult.STRIKE 
-                || ThrowResults[1] == ThrowResult.STRIKE 
-                || ThrowResults[0] == ThrowResult.STRIKE;
-        }
     }
 }

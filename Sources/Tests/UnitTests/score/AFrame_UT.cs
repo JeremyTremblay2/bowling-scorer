@@ -20,16 +20,6 @@ namespace UnitTests.score
             public BadFrame(int frameNumberLabel, int nbThrows) : base(frameNumberLabel, nbThrows)
             {
             }
-
-            public override bool isSpair()
-            {
-                throw new NotImplementedException();
-            }
-
-            public override bool isStrike()
-            {
-                throw new NotImplementedException();
-            }
         }
         [Fact]
         public void Test_Constructor()
