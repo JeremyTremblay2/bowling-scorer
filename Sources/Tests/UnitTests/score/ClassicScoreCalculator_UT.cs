@@ -211,6 +211,60 @@ namespace UnitTests.score
                 4,
                 new List<int>{ 0, 0, 30, 21, 13, 0, 0, 0, 0, 0 }
             };
+            yield return new object[] {
+                true,
+                new List<AFrame>
+                {
+                    new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.STRIKE),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.STRIKE),
+                    new ClassicFrame(5, ThrowResult.NONE, ThrowResult.STRIKE),
+                    null,
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(9, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicLastFrame(10, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NONE)
+                },
+                4,
+                new List<int>{ 0, 0, 30, 21, 13, 0, 0, 0, 0, 0 }
+            };
+            yield return new object[] {
+                false,
+                new List<AFrame>
+                {
+                    new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(3, ThrowResult.NONE, ThrowResult.STRIKE),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.SPAIR),
+                    new ClassicFrame(5, ThrowResult.NONE, ThrowResult.STRIKE),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(9, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicLastFrame(10, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NONE)
+                },
+                4,
+                new List<int>{ 0, 0, 20, 20, 13, 0, 0, 0, 0, 0 }
+            };
+            yield return new object[] {
+                false,
+                new List<AFrame>
+                {
+                    new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.SPAIR),
+                    new ClassicFrame(4, ThrowResult.NONE, ThrowResult.STRIKE),
+                    new ClassicFrame(5, ThrowResult.NONE, ThrowResult.STRIKE),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(9, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicLastFrame(10, ThrowResult.ONE, ThrowResult.TWO, ThrowResult.NONE)
+                },
+                4,
+                new List<int>{ 0, 0, 20, 21, 13, 0, 0, 0, 0, 0 }
+            };
 
         }
 
@@ -304,6 +358,24 @@ namespace UnitTests.score
                 },
                 8,
                 new List<int>{ 0, 0, 0, 0, 0, 0, 3, 3, 20, 0 }
+            };
+            yield return new object[] {
+                false,
+                new List<AFrame>
+                {
+                    new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(5, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(9, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicLastFrame(10, ThrowResult.STRIKE, ThrowResult.STRIKE, ThrowResult.FIVE)
+                },
+                9,
+                new List<int>{ 0, 0, 0, 0, 0, 0, 0, 3, 3, 25 }
             };
         }
 

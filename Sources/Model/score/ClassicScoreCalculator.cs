@@ -25,17 +25,18 @@ namespace Model.score
         {
             AFrame frame0 = frames[index];
             if (frame0 == null) return;
-            if (frame0 is ClassicFrame)
+            ClassicFrame classic0 = frame0 as ClassicFrame;
+            ClassicLastFrame classicLast0 = frame0 as ClassicLastFrame;
+            if (classic0 != null)
             {
-                ClassicFrame classic0 = (ClassicFrame)frame0;
                 ComputeClassicFrameMaybeLast(classic0, frames);
-                ComputeClassicFrameMaybeLast((ClassicFrame)frames[index - 1], frames);
-                ComputeClassicFrameMaybeLast((ClassicFrame)frames[index - 2], frames);
             }
-            else if (frame0 is ClassicLastFrame)
+            else if (classicLast0 != null)
             {
-                ComputeClassicLastFrame((ClassicLastFrame)frame0);
+                ComputeClassicLastFrame(classicLast0);
             }
+            ComputeClassicFrameMaybeLast(frames[index - 1] as ClassicFrame, frames);
+            ComputeClassicFrameMaybeLast(frames[index - 2] as ClassicFrame, frames);
         }
         public void UpdateLastFrame(List<AFrame> frames)
         {
