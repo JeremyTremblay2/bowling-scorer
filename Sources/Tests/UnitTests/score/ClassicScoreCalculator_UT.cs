@@ -265,7 +265,6 @@ namespace UnitTests.score
                 4,
                 new List<int>{ 0, 0, 20, 21, 13, 0, 0, 0, 0, 0 }
             };
-
         }
 
         [Theory]
@@ -423,6 +422,18 @@ namespace UnitTests.score
             {
                 Assert.Equal(exceptedResults[i], scoreBoard[i].CumulativeScore);
             }
+        }
+
+        [Fact]
+        public void Test_UpdateFromFrame_FirstFrame()
+        {
+            List<AFrame> scoreBoard = new List<AFrame>
+            {
+                    new ClassicFrame(1),
+                    new ClassicFrame(1),
+            };
+            IScoreCalculator calculator = new ClassicScoreCalculator();
+            Assert.Throws<MissingFrameException>(() =>  calculator.UpdateFromFrame(0, scoreBoard));
         }
     }
 }

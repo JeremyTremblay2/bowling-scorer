@@ -23,67 +23,111 @@ namespace Model.score
 
         public void UpdateFromFrame(int index, List<AFrame> frames)
         {
-            AFrame frame0 = frames[index];
-            if (frame0 == null) return;
-            ClassicFrame classic0 = frame0 as ClassicFrame;
-            ClassicLastFrame classicLast0 = frame0 as ClassicLastFrame;
-            if (classic0 != null)
+            AFrame frame0;
+            ClassicFrame classic0;
+            ClassicLastFrame classicLast0;
+
+            try
             {
-                ComputeClassicFrameMaybeLast(classic0, frames);
+                frame0 = frames[index];
+                classic0 = frame0 as ClassicFrame;
+                classicLast0 = frame0 as ClassicLastFrame;
+                if (classic0 != null) ComputeClassicFrame(classic0, frames);
+                else if (classicLast0 != null) ComputeClassicLastFrame(classicLast0);
+                if (index - 1 >= 0) ComputeClassicFrame(frames[index - 1] as ClassicFrame, frames);
+                if (index - 2 >= 0) ComputeClassicFrame(frames[index - 2] as ClassicFrame, frames);
             }
-            else if (classicLast0 != null)
+            catch (ArgumentOutOfRangeException)
             {
-                ComputeClassicLastFrame(classicLast0);
+                throw new ArgumentException("The given index is out of range");
             }
-            ComputeClassicFrameMaybeLast(frames[index - 1] as ClassicFrame, frames);
-            ComputeClassicFrameMaybeLast(frames[index - 2] as ClassicFrame, frames);
         }
+
         public void UpdateLastFrame(List<AFrame> frames)
         {
             UpdateFromFrame(frames.Count - 1, frames);
         }
 
-        private void ComputeClassicFrameMaybeLast(ClassicFrame classic0, List<AFrame> scoreBoard)
+        /// <summary>
+        /// Compute the score value of a classic frame
+        /// </summary>
+        /// <param name="classic0">Frame to compute</param>
+        /// <param name="scoreBoard">The scoreboard</param>
+        /// <exception cref="ArgumentException"></exception>
+        private void ComputeClassicFrame(ClassicFrame classic0, List<AFrame> scoreBoard)
         {
             int calculatedScore = 0;
-            int selectedFrameIdx = scoreBoard.IndexOf(classic0);
-            if (selectedFrameIdx == -1) throw new ArgumentException("The given frame is not in the given list of AFrames");
-            if (classic0.isStrike() || classic0.isSpair())
+            int selectedFrameIdx;
+            AFrame nextFrame;
+
+            selectedFrameIdx = scoreBoard.IndexOf(classic0);
+            try
             {
-                calculatedScore = ClassicStrikeOrSpair(classic0, scoreBoard, selectedFrameIdx, calculatedScore);
+                nextFrame = scoreBoard[selectedFrameIdx + 1];
+                if (classic0.isStrike() || classic0.isSpair()) 
+                    calculatedScore = Frame1IsNormalOrLast(classic0, scoreBoard, calculatedScore, selectedFrameIdx, nextFrame);
+                else 
+                    calculatedScore = ThrowResultExtension.ToInt(classic0.ThrowResults[0]) + ThrowResultExtension.ToInt(classic0.ThrowResults[1]);
+                classic0.ScoreValue = calculatedScore;
             }
-            else
+            catch (ArgumentOutOfRangeException)
             {
-                calculatedScore = ThrowResultExtension.ToInt(classic0.ThrowResults[0]) + ThrowResultExtension.ToInt(classic0.ThrowResults[1]);
+                throw new MissingFrameException();
             }
-            classic0.ScoreValue = calculatedScore;
         }
 
-        private int ClassicStrikeOrSpair(ClassicFrame classic0, List<AFrame> scoreBoard, int selectedFrameIdx, int calculatedScore)
+        /// <summary>
+        /// Called when classi0 contains a STRIKE or a SPAIR
+        /// </summary>
+        /// <param name="classic0"></param>
+        /// <param name="scoreBoard"></param>
+        /// <param name="calculatedScore"></param>
+        /// <param name="selectedFrameIdx"></param>
+        /// <param name="nextFrame"></param>
+        /// <returns></returns>
+        private int Frame1IsNormalOrLast(ClassicFrame classic0, List<AFrame> scoreBoard, int calculatedScore, int selectedFrameIdx, AFrame nextFrame)
         {
-            AFrame nextFrame = scoreBoard[selectedFrameIdx + 1];
-            if (nextFrame == null) throw new MissingFrameException();
-            ClassicLastFrame classicLast1 = nextFrame as ClassicLastFrame;
-            ClassicFrame classic1 = nextFrame as ClassicFrame;
+            ClassicLastFrame classicLast1;
+            ClassicFrame classic1;
+
+            classicLast1 = nextFrame as ClassicLastFrame;
+            classic1 = nextFrame as ClassicFrame;
             calculatedScore += 10;
             if (classicLast1 != null)
             {
-                if (classic0.isStrike())
-                    calculatedScore = EncounterLastFrameDirectlyStrike(classicLast1, calculatedScore);
-                else if (classic0.isSpair())
-                    calculatedScore = EncounterLastFrameDirectlySpair(classicLast1, calculatedScore);
+                if (classic0.isStrike()) calculatedScore = EncounterLastFrameDirectlyStrike(classicLast1, calculatedScore);
+                else if (classic0.isSpair()) calculatedScore = EncounterLastFrameDirectlySpair(classicLast1, calculatedScore);
             }
             else if (classic1 != null)
             {
                 calculatedScore = FirstIsClassicFrame(nextFrame, classic0, classic1, scoreBoard, calculatedScore, selectedFrameIdx);
             }
-            else throw new ArgumentException("The given score board use bad Frame type, please use only ClassicFrame and ClassicLastFrame or create your own calculator that implements IScoreCalculator");
+
             return calculatedScore;
         }
 
+        /// <summary>
+        /// Called when the Frame1 is a last frame
+        /// </summary>
+        /// <param name="classicLast1"></param>
+        /// <param name="calculatedScore"></param>
+        /// <returns></returns>
         private int EncounterLastFrameDirectlySpair(ClassicLastFrame classicLast1, int calculatedScore)
         {
             return calculatedScore + ThrowResultExtension.ToInt(classicLast1.ThrowResults[0]);
+        }
+
+        private int EncounterLastFrameSecondly(ClassicLastFrame classicLast2, int calculatedScore)
+        {
+            if (classicLast2.ThrowResults[1] == ThrowResult.STRIKE || classicLast2.ThrowResults[1] == ThrowResult.SPAIR)
+            {
+                calculatedScore += 10;
+            }
+            else
+            {
+                calculatedScore += ThrowResultExtension.ToInt(classicLast2.ThrowResults[0]);
+            }
+            return calculatedScore;
         }
 
         private int FirstIsClassicFrame(AFrame nextFrame, ClassicFrame classic0, ClassicFrame classic1, List<AFrame> scoreBoard, int calculatedScore, int selectedFrameIdx)
@@ -96,7 +140,7 @@ namespace Model.score
                 }
                 else if (classic1.isSpair())
                 {
-                    calculatedScore = calculatedScore + 10;
+                    calculatedScore += 10;
                 }
                 else
                 {
@@ -108,11 +152,11 @@ namespace Model.score
             {
                 if (classic1.isStrike())
                 {
-                    calculatedScore = calculatedScore + 10;
+                    calculatedScore += 10;
                 }
                 else
                 {
-                    calculatedScore = calculatedScore + ThrowResultExtension.ToInt(nextFrame.ThrowResults[0]);
+                    calculatedScore += ThrowResultExtension.ToInt(nextFrame.ThrowResults[0]);
                 }
             }
             return calculatedScore;
@@ -120,20 +164,24 @@ namespace Model.score
 
         private int Classic1IsStrike(List<AFrame> scoreBoard, int selectedFrameIdx, int calculatedScore)
         {
-            AFrame nextNextFrame = scoreBoard[selectedFrameIdx + 2];
-            if (nextNextFrame == null) throw new MissingFrameException();
-            ClassicLastFrame classicLast2 = nextNextFrame as ClassicLastFrame;
-            ClassicFrame classic2 = nextNextFrame as ClassicFrame;
-            calculatedScore = calculatedScore + 10;
-            if (nextNextFrame is ClassicLastFrame)
+            AFrame nextNextFrame;
+            ClassicLastFrame classicLast2;
+            ClassicFrame classic2;
+
+            try
             {
-                calculatedScore = EncounterLastFrameSecondly(classicLast2, calculatedScore);
+                nextNextFrame = scoreBoard[selectedFrameIdx + 2];
+                classicLast2 = nextNextFrame as ClassicLastFrame;
+                classic2 = nextNextFrame as ClassicFrame;
+                calculatedScore += 10;
+                if (nextNextFrame is ClassicLastFrame) calculatedScore = EncounterLastFrameSecondly(classicLast2, calculatedScore);
+                else if (nextNextFrame is ClassicFrame) calculatedScore = ComputeWithClassic2(classic2, calculatedScore);
             }
-            else if (nextNextFrame is ClassicFrame)
+            catch (ArgumentOutOfRangeException)
             {
-                calculatedScore = ComputeWithClassic2(classic2, calculatedScore);
+                throw new MissingFrameException();
             }
-            else throw new ArgumentException("The given score board use bad Frame type, please use only ClassicFrame and ClassicLastFrame or create your own calculator that implements IScoreCalculator");
+            
             return calculatedScore;
         }
 
@@ -141,24 +189,11 @@ namespace Model.score
         {
             if (classic2.isStrike())
             {
-                calculatedScore = calculatedScore + 10;
+                calculatedScore += 10;
             }
             else
             {
-                calculatedScore = calculatedScore + ThrowResultExtension.ToInt(classic2.ThrowResults[0]);
-            }
-            return calculatedScore;
-        }
-
-        private int EncounterLastFrameSecondly(ClassicLastFrame classicLast2, int calculatedScore)
-        {
-            if (classicLast2.ThrowResults[1] == ThrowResult.STRIKE || classicLast2.ThrowResults[1] == ThrowResult.SPAIR)
-            {
-                calculatedScore = calculatedScore + 10;
-            }
-            else
-            {
-                calculatedScore = calculatedScore + ThrowResultExtension.ToInt(classicLast2.ThrowResults[0]);
+                calculatedScore += ThrowResultExtension.ToInt(classic2.ThrowResults[0]);
             }
             return calculatedScore;
         }
@@ -167,7 +202,8 @@ namespace Model.score
         {
             if (classicLast1.ThrowResults[1] == ThrowResult.SPAIR)
             {
-                return calculatedScore + ThrowResultExtension.ToInt(ThrowResult.SPAIR) + ThrowResultExtension.ToInt(classicLast1.ThrowResults[2]);
+                return calculatedScore + ThrowResultExtension.ToInt(ThrowResult.SPAIR) 
+                                       + ThrowResultExtension.ToInt(classicLast1.ThrowResults[2]);
             }
             else
             {
@@ -179,15 +215,14 @@ namespace Model.score
         private void ComputeClassicLastFrame(ClassicLastFrame frame0)
         {
             int computedScore = 0;
-            if (frame0.ThrowResults[0] == ThrowResult.STRIKE)
+
+            if (frame0.ThrowResults[0] == ThrowResult.STRIKE || frame0.ThrowResults[1] == ThrowResult.SPAIR)
             {
-                computedScore = computedScore + 10;
-                computedScore = ClassicLastFirstThrowIsStrike(frame0, computedScore);
-            }
-            else if (frame0.ThrowResults[1] == ThrowResult.SPAIR)
-            {
-                computedScore = computedScore + 10;
-                computedScore = ClassicLastFirstThrowIsSpair(frame0, computedScore);
+                computedScore += 10;
+                if (frame0.ThrowResults[0] == ThrowResult.STRIKE) 
+                    computedScore = ClassicLastFirstThrowIsStrike(frame0, computedScore);
+                else if (frame0.ThrowResults[1] == ThrowResult.SPAIR) 
+                    computedScore = ClassicLastFirstThrowIsSpair(frame0, computedScore);
             }
             else
             {
@@ -202,11 +237,11 @@ namespace Model.score
         {
             if (frame0.ThrowResults[2] == ThrowResult.STRIKE)
             {
-                computedScore = computedScore + 10;
+                computedScore += 10;
             }
             else
             {
-                computedScore = computedScore + ThrowResultExtension.ToInt(frame0.ThrowResults[2]);
+                computedScore += ThrowResultExtension.ToInt(frame0.ThrowResults[2]);
             }
 
             return computedScore;
@@ -216,17 +251,17 @@ namespace Model.score
         {
             if (frame0.ThrowResults[1] == ThrowResult.STRIKE)
             {
-                computedScore = computedScore + 10;
+                computedScore += 10;
                 if (frame0.ThrowResults[2] == ThrowResult.STRIKE)
                 {
-                    computedScore = computedScore + 10;
+                    computedScore += 10;
                 }
             }
             else
             {
                 if (frame0.ThrowResults[2] == ThrowResult.SPAIR)
                 {
-                    computedScore = computedScore + 10;
+                    computedScore += 10;
                 }
                 else
                 {
