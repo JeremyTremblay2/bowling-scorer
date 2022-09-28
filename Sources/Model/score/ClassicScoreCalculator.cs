@@ -117,6 +117,12 @@ namespace Model.score
             return calculatedScore + ThrowResultExtension.ToInt(classicLast1.ThrowResults[0]);
         }
 
+        /// <summary>
+        /// Called when the Frame2 is a last frame
+        /// </summary>
+        /// <param name="classicLast2"></param>
+        /// <param name="calculatedScore"></param>
+        /// <returns></returns>
         private int EncounterLastFrameSecondly(ClassicLastFrame classicLast2, int calculatedScore)
         {
             if (classicLast2.ThrowResults[1] == ThrowResult.STRIKE || classicLast2.ThrowResults[1] == ThrowResult.SPAIR)
@@ -130,6 +136,16 @@ namespace Model.score
             return calculatedScore;
         }
 
+        /// <summary>
+        /// Called when frame1 is ClassicFrame
+        /// </summary>
+        /// <param name="nextFrame"></param>
+        /// <param name="classic0"></param>
+        /// <param name="classic1"></param>
+        /// <param name="scoreBoard"></param>
+        /// <param name="calculatedScore"></param>
+        /// <param name="selectedFrameIdx"></param>
+        /// <returns></returns>
         private int FirstIsClassicFrame(AFrame nextFrame, ClassicFrame classic0, ClassicFrame classic1, List<AFrame> scoreBoard, int calculatedScore, int selectedFrameIdx)
         {
             if (classic0.isStrike())
@@ -162,6 +178,14 @@ namespace Model.score
             return calculatedScore;
         }
 
+        /// <summary>
+        /// Called when frame1 contains a STRIKE
+        /// </summary>
+        /// <param name="scoreBoard"></param>
+        /// <param name="selectedFrameIdx"></param>
+        /// <param name="calculatedScore"></param>
+        /// <returns></returns>
+        /// <exception cref="MissingFrameException"></exception>
         private int Classic1IsStrike(List<AFrame> scoreBoard, int selectedFrameIdx, int calculatedScore)
         {
             AFrame nextNextFrame;
@@ -185,6 +209,12 @@ namespace Model.score
             return calculatedScore;
         }
 
+        /// <summary>
+        /// Called when frame2 is ClassicFrame
+        /// </summary>
+        /// <param name="classic2"></param>
+        /// <param name="calculatedScore"></param>
+        /// <returns></returns>
         private int ComputeWithClassic2(ClassicFrame classic2, int calculatedScore)
         {
             if (classic2.isStrike())
@@ -198,6 +228,12 @@ namespace Model.score
             return calculatedScore;
         }
 
+        /// <summary>
+        /// Called when we frame1 sur a ClassicLastFrame
+        /// </summary>
+        /// <param name="classicLast1"></param>
+        /// <param name="calculatedScore"></param>
+        /// <returns></returns>
         private int EncounterLastFrameDirectlyStrike(ClassicLastFrame classicLast1, int calculatedScore)
         {
             if (classicLast1.ThrowResults[1] == ThrowResult.SPAIR)
@@ -212,6 +248,10 @@ namespace Model.score
             }
         }
 
+        /// <summary>
+        /// Compute the scoreValue of a ClassicLastFrame
+        /// </summary>
+        /// <param name="frame0"></param>
         private void ComputeClassicLastFrame(ClassicLastFrame frame0)
         {
             int computedScore = 0;
@@ -233,6 +273,12 @@ namespace Model.score
             frame0.ScoreValue = computedScore;
         }
 
+        /// <summary>
+        /// Called when the first throw of the ClassicLastFrame is a SPAIR
+        /// </summary>
+        /// <param name="frame0"></param>
+        /// <param name="computedScore"></param>
+        /// <returns></returns>
         private static int ClassicLastFirstThrowIsSpair(ClassicLastFrame frame0, int computedScore)
         {
             if (frame0.ThrowResults[2] == ThrowResult.STRIKE)
@@ -247,6 +293,12 @@ namespace Model.score
             return computedScore;
         }
 
+        /// <summary>
+        /// Called when the first throw of the ClassicLastFrame is a STRIKE
+        /// </summary>
+        /// <param name="frame0"></param>
+        /// <param name="computedScore"></param>
+        /// <returns></returns>
         private static int ClassicLastFirstThrowIsStrike(ClassicLastFrame frame0, int computedScore)
         {
             if (frame0.ThrowResults[1] == ThrowResult.STRIKE)

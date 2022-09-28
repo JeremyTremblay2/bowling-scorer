@@ -8,7 +8,7 @@ namespace Model.score
 {
     public static class ThrowResultExtension
     {
-        public static int ToInt(ThrowResult throwResult)
+        public static int ToInt(this ThrowResult throwResult)
         {
             switch (throwResult)
             {
