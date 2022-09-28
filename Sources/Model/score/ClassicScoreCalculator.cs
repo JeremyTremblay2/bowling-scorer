@@ -62,18 +62,18 @@ namespace Model.score
         {
             AFrame nextFrame = scoreBoard[selectedFrameIdx + 1];
             if (nextFrame == null) throw new MissingFrameException();
-            calculatedScore = 10;
-            if (nextFrame is ClassicLastFrame)
+            ClassicLastFrame classicLast1 = nextFrame as ClassicLastFrame;
+            ClassicFrame classic1 = nextFrame as ClassicFrame;
+            calculatedScore += 10;
+            if (classicLast1 != null)
             {
-                ClassicLastFrame classicLast1 = (ClassicLastFrame)nextFrame;
                 if (classic0.isStrike())
                     calculatedScore = EncounterLastFrameDirectlyStrike(classicLast1, calculatedScore);
                 else if (classic0.isSpair())
                     calculatedScore = EncounterLastFrameDirectlySpair(classicLast1, calculatedScore);
             }
-            else if (nextFrame is ClassicFrame)
+            else if (classic1 != null)
             {
-                ClassicFrame classic1 = (ClassicFrame)nextFrame;
                 calculatedScore = FirstIsClassicFrame(nextFrame, classic0, classic1, scoreBoard, calculatedScore, selectedFrameIdx);
             }
             else throw new ArgumentException("The given score board use bad Frame type, please use only ClassicFrame and ClassicLastFrame or create your own calculator that implements IScoreCalculator");
@@ -121,16 +121,15 @@ namespace Model.score
         {
             AFrame nextNextFrame = scoreBoard[selectedFrameIdx + 2];
             if (nextNextFrame == null) throw new MissingFrameException();
+            ClassicLastFrame classicLast2 = nextNextFrame as ClassicLastFrame;
+            ClassicFrame classic2 = nextNextFrame as ClassicFrame;
             calculatedScore = calculatedScore + 10;
-
             if (nextNextFrame is ClassicLastFrame)
             {
-                ClassicLastFrame classicLast2 = (ClassicLastFrame)nextNextFrame;
                 calculatedScore = EncounterLastFrameSecondly(classicLast2, calculatedScore);
             }
             else if (nextNextFrame is ClassicFrame)
             {
-                ClassicFrame classic2 = (ClassicFrame)nextNextFrame;
                 calculatedScore = ComputeWithClassic2(classic2, calculatedScore);
             }
             else throw new ArgumentException("The given score board use bad Frame type, please use only ClassicFrame and ClassicLastFrame or create your own calculator that implements IScoreCalculator");
