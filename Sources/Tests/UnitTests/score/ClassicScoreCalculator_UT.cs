@@ -323,5 +323,34 @@ namespace UnitTests.score
                 Assert.Equal(exceptedScoresValue[i], scoreBoard[i].ScoreValue);
             }
         }
+
+        [Fact]
+        public void Test_CalculateScore()
+        {
+            List<AFrame> scoreBoard = new List<AFrame>
+                {
+                    new ClassicFrame(1),
+                    new ClassicFrame(2),
+                    new ClassicFrame(3),
+                    new ClassicFrame(4),
+                    new ClassicFrame(5),
+                    new ClassicFrame(6),
+                    new ClassicFrame(7),
+                    new ClassicFrame(8),
+                    new ClassicFrame(9),
+                    new ClassicLastFrame(10)
+                };
+            List<int> exceptedResults = new List<int> { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 };
+            foreach (AFrame score in scoreBoard)
+            {
+                score.ScoreValue = 10;
+            }
+            IScoreCalculator calculator = new ClassicScoreCalculator();
+            calculator.CalculateScore(scoreBoard);
+            for (int i = 0; i < exceptedResults.Count - 1; i++)
+            {
+                Assert.Equal(exceptedResults[i], scoreBoard[i].CumulativeScore);
+            }
+        }
     }
 }

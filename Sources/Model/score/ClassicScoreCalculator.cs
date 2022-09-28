@@ -16,6 +16,7 @@ namespace Model.score
             foreach (AFrame frame in frames)
             {
                 total = total + frame.ScoreValue;
+                frame.CumulativeScore = total;
             }
             return total;
         }
@@ -35,6 +36,10 @@ namespace Model.score
             {
                 ComputeClassicLastFrame((ClassicLastFrame)frame0);
             }
+        }
+        public void UpdateLastFrame(List<AFrame> frames)
+        {
+            UpdateFromFrame(frames.Count - 1, frames);
         }
 
         private void ComputeClassicFrameMaybeLast(ClassicFrame classic0, List<AFrame> scoreBoard)
@@ -169,10 +174,6 @@ namespace Model.score
                 return calculatedScore + ThrowResultExtension.ToInt(classicLast1.ThrowResults[0]) 
                                        + ThrowResultExtension.ToInt(classicLast1.ThrowResults[1]);
             }
-        }
-
-        public void UpdateLastFrame(List<AFrame> frames)
-        {
         }
 
         private void ComputeClassicLastFrame(ClassicLastFrame frame0)
