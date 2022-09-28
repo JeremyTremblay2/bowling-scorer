@@ -182,48 +182,60 @@ namespace Model.score
             if (frame0.ThrowResults[0] == ThrowResult.STRIKE)
             {
                 computedScore = computedScore + 10;
-                if (frame0.ThrowResults[1] == ThrowResult.STRIKE)
+                computedScore = ClassicLastFirstThrowIsStrike(frame0, computedScore);
+            }
+            else if (frame0.ThrowResults[1] == ThrowResult.SPAIR)
+            {
+                computedScore = computedScore + 10;
+                computedScore = ClassicLastFirstThrowIsSpair(frame0, computedScore);
+            }
+            else
+            {
+                computedScore = computedScore + ThrowResultExtension.ToInt(frame0.ThrowResults[0])
+                                              + ThrowResultExtension.ToInt(frame0.ThrowResults[0]);
+            }
+
+            frame0.ScoreValue = computedScore;
+        }
+
+        private static int ClassicLastFirstThrowIsSpair(ClassicLastFrame frame0, int computedScore)
+        {
+            if (frame0.ThrowResults[2] == ThrowResult.STRIKE)
+            {
+                computedScore = computedScore + 10;
+            }
+            else
+            {
+                computedScore = computedScore + ThrowResultExtension.ToInt(frame0.ThrowResults[2]);
+            }
+
+            return computedScore;
+        }
+
+        private static int ClassicLastFirstThrowIsStrike(ClassicLastFrame frame0, int computedScore)
+        {
+            if (frame0.ThrowResults[1] == ThrowResult.STRIKE)
+            {
+                computedScore = computedScore + 10;
+                if (frame0.ThrowResults[2] == ThrowResult.STRIKE)
                 {
                     computedScore = computedScore + 10;
-                    if (frame0.ThrowResults[2] == ThrowResult.STRIKE)
-                    {
-                        computedScore = computedScore + 10;
-                    }
-                }
-                else
-                {
-                    if (frame0.ThrowResults[2] == ThrowResult.SPAIR)
-                    {
-                        computedScore = computedScore + 10;
-                    }
-                    else
-                    {
-                        computedScore = computedScore + ThrowResultExtension.ToInt(frame0.ThrowResults[1])
-                                                      + ThrowResultExtension.ToInt(frame0.ThrowResults[2]);
-                    }
                 }
             }
             else
             {
-                if (frame0.ThrowResults[1] == ThrowResult.SPAIR)
+                if (frame0.ThrowResults[2] == ThrowResult.SPAIR)
                 {
                     computedScore = computedScore + 10;
-                    if (frame0.ThrowResults[2] == ThrowResult.STRIKE)
-                    {
-                        computedScore = computedScore + 10;
-                    }
-                    else
-                    {
-                        computedScore = computedScore + ThrowResultExtension.ToInt(frame0.ThrowResults[2]);
-                    }
                 }
                 else
                 {
-                    computedScore = computedScore + ThrowResultExtension.ToInt(frame0.ThrowResults[0])
-                                                  + ThrowResultExtension.ToInt(frame0.ThrowResults[0]);
+                    computedScore = computedScore + ThrowResultExtension.ToInt(frame0.ThrowResults[1])
+                                                  + ThrowResultExtension.ToInt(frame0.ThrowResults[2]);
                 }
             }
-            frame0.ScoreValue = computedScore;
+
+            return computedScore;
         }
     }
 }
