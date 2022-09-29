@@ -245,8 +245,7 @@ namespace Model.Score
         {
             if (classicLast1.ThrowResults[1] == ThrowResult.SPARE)
             {
-                return calculatedScore + ThrowResult.SPARE.ToInt() 
-                                       + classicLast1.ThrowResults[2].ToInt();
+                return calculatedScore + ThrowResult.SPARE.ToInt();
             }
             else
             {

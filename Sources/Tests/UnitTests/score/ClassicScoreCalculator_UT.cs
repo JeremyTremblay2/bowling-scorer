@@ -316,6 +316,24 @@ namespace UnitTests.score
                     new ClassicFrame(5, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(8, ThrowResult.NONE, ThrowResult.STRIKE),
+                    new ClassicFrame(9, ThrowResult.NONE, ThrowResult.SPARE),
+                    new ClassicLastFrame(10, ThrowResult.STRIKE, ThrowResult.TWO, ThrowResult.NONE)
+                },
+                7,
+                new List<int>{ 0, 0, 0, 0, 0, 3, 3, 20, 0, 0 }
+            };
+            yield return new object[] {
+                false,
+                new List<AFrame>
+                {
+                    new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(5, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(9, ThrowResult.NONE, ThrowResult.STRIKE),
                     new ClassicLastFrame(10, ThrowResult.STRIKE, ThrowResult.STRIKE, ThrowResult.FIVE)
@@ -337,6 +355,24 @@ namespace UnitTests.score
                     new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(9, ThrowResult.NONE, ThrowResult.SPARE),
                     new ClassicLastFrame(10, ThrowResult.STRIKE, ThrowResult.STRIKE, ThrowResult.FIVE)
+                },
+                8,
+                new List<int>{ 0, 0, 0, 0, 0, 0, 3, 3, 20, 0 }
+            };
+            yield return new object[] {
+                false,
+                new List<AFrame>
+                {
+                    new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(5, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
+                    new ClassicFrame(9, ThrowResult.NONE, ThrowResult.STRIKE),
+                    new ClassicLastFrame(10, ThrowResult.TREE, ThrowResult.SPARE, ThrowResult.STRIKE)
                 },
                 8,
                 new List<int>{ 0, 0, 0, 0, 0, 0, 3, 3, 20, 0 }
@@ -379,6 +415,13 @@ namespace UnitTests.score
         }
 
         [Fact]
+        public void Test_UpdateFromFrame_BadIndex()
+        {
+            IScoreCalculator calculator = new ClassicScoreCalculator();
+            Assert.Throws<ArgumentException>(() => { calculator.UpdateFromFrame(-1, new List<AFrame>()); });
+        }
+
+        [Fact]
         public void Test_CalculateScore()
         {
             List<AFrame> scoreBoard = new List<AFrame>
@@ -408,14 +451,34 @@ namespace UnitTests.score
         }
 
         [Fact]
-        public void Test_UpdateFromFrame_FirstFrame()
+        public void Test_UpdateFromFrame_AllFrameMissing()
         {
-            List<AFrame> scoreBoard = new List<AFrame>
+            List<AFrame> scoreBoard = new List<AFrame>();
+            IScoreCalculator calculator = new ClassicScoreCalculator();
+            Assert.Throws<ArgumentException>(() =>  calculator.UpdateFromFrame(0, scoreBoard));
+        }
+
+        [Fact]
+        public void Test_UpdateFromFrame_ZeroFrameHereButFirstMissing()
+        {
+            List<AFrame> scoreBoard = new List<AFrame>()
             {
-                    new ClassicFrame(1)
+                new ClassicFrame(1, ThrowResult.NONE, ThrowResult.STRIKE)
             };
             IScoreCalculator calculator = new ClassicScoreCalculator();
-            Assert.Throws<MissingFrameException>(() =>  calculator.UpdateFromFrame(0, scoreBoard));
+            Assert.Throws<MissingFrameException>(() => calculator.UpdateFromFrame(0, scoreBoard));
+        }
+
+        [Fact]
+        public void Test_UpdateFromFrame_ZeroFrameHereButSecondMissing()
+        {
+            List<AFrame> scoreBoard = new List<AFrame>()
+            {
+                new ClassicFrame(1, ThrowResult.NONE, ThrowResult.STRIKE),
+                new ClassicFrame(1, ThrowResult.NONE, ThrowResult.STRIKE)
+            };
+            IScoreCalculator calculator = new ClassicScoreCalculator();
+            Assert.Throws<MissingFrameException>(() => calculator.UpdateFromFrame(0, scoreBoard));
         }
     }
 }
