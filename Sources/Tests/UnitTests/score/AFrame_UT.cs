@@ -1,4 +1,4 @@
-﻿using Model.score;
+﻿using Model.Score.Frame;
 using System;
 using System.Collections.Generic;
 using System.Linq;

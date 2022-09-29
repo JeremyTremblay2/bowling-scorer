@@ -4,12 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.exceptions
+namespace Model.Exceptions
 {
+    [Serializable]
     public class ForbiddenThrowResultException : Exception
     {
+        public ForbiddenThrowResultException()
+        { }
+
         public ForbiddenThrowResultException(string message) : base(message)
-        {
-        }
+        { }
+
+        public ForbiddenThrowResultException(string message, Exception innerException) : base(message, innerException)
+        { }
     }
 }

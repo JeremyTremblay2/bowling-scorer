@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.score
+namespace Model.Score.Frame
 {
     /// <summary>
     /// Represents a Frame
@@ -45,11 +45,12 @@ namespace Model.score
             }
         }
         private int scoreValue;
-        
+
         /// <summary>
         /// Property that contains CumulativeScore, computed and updated by another class 
         /// </summary>
-        public int CumulativeScore {
+        public int CumulativeScore
+        {
             get { return cumulativeScore; }
             set
             {
@@ -92,7 +93,7 @@ namespace Model.score
         /// </summary>
         public void CleanFrame()
         {
-            for(int i = 0; i < throwResults.Length; i++)
+            for (int i = 0; i < throwResults.Length; i++)
             {
                 throwResults[0] = ThrowResult.NONE;
             }
