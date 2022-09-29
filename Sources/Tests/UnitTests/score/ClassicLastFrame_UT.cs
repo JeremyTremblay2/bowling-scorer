@@ -1,4 +1,4 @@
-﻿using Model.Exceptions;
+using Model.Exceptions;
 using Model.Score;
 using Model.Score.Frame;
 using System;
