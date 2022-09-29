@@ -4,10 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.exceptions
+namespace Model.Exceptions
 {
+    [Serializable]
     public class MissingFrameException : Exception
     {
+        public MissingFrameException()
+        { }
 
+        public MissingFrameException(string message) : base(message)
+        { }
+
+        public MissingFrameException(string message, Exception innerException) : base(message, innerException)
+        { }
     }
 }

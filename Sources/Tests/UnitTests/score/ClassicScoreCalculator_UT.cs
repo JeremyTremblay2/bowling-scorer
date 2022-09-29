@@ -1,5 +1,6 @@
-﻿using Model.exceptions;
-using Model.score;
+﻿using Model.Exceptions;
+using Model.Score;
+using Model.Score.Frame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +40,7 @@ namespace UnitTests.score
                     new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(3, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(4, ThrowResult.ONE, ThrowResult.TWO),
-                    new ClassicFrame(5, ThrowResult.TREE, ThrowResult.SPAIR),
+                    new ClassicFrame(5, ThrowResult.TREE, ThrowResult.SPARE),
                     new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
@@ -56,7 +57,7 @@ namespace UnitTests.score
                     new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(3, ThrowResult.ONE, ThrowResult.TWO),
-                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.SPAIR),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.SPARE),
                     new ClassicFrame(5, ThrowResult.TREE, ThrowResult.TWO),
                     new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
@@ -73,7 +74,7 @@ namespace UnitTests.score
                 {
                     new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
-                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.SPAIR),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.SPARE),
                     new ClassicFrame(4, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(5, ThrowResult.TREE, ThrowResult.TWO),
                     new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
@@ -92,8 +93,8 @@ namespace UnitTests.score
                     new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(3, ThrowResult.ONE, ThrowResult.TWO),
-                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.SPAIR),
-                    new ClassicFrame(5, ThrowResult.TREE, ThrowResult.SPAIR),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.SPARE),
+                    new ClassicFrame(5, ThrowResult.TREE, ThrowResult.SPARE),
                     new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
@@ -109,9 +110,9 @@ namespace UnitTests.score
                 {
                     new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
-                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.SPAIR),
-                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.SPAIR),
-                    new ClassicFrame(5, ThrowResult.TREE, ThrowResult.SPAIR),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.SPARE),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.SPARE),
+                    new ClassicFrame(5, ThrowResult.TREE, ThrowResult.SPARE),
                     new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
@@ -218,7 +219,7 @@ namespace UnitTests.score
                     new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(3, ThrowResult.NONE, ThrowResult.STRIKE),
-                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.SPAIR),
+                    new ClassicFrame(4, ThrowResult.ONE, ThrowResult.SPARE),
                     new ClassicFrame(5, ThrowResult.NONE, ThrowResult.STRIKE),
                     new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
@@ -235,7 +236,7 @@ namespace UnitTests.score
                 {
                     new ClassicFrame(1, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(2, ThrowResult.ONE, ThrowResult.TWO),
-                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.SPAIR),
+                    new ClassicFrame(3, ThrowResult.ONE, ThrowResult.SPARE),
                     new ClassicFrame(4, ThrowResult.NONE, ThrowResult.STRIKE),
                     new ClassicFrame(5, ThrowResult.NONE, ThrowResult.STRIKE),
                     new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
@@ -334,7 +335,7 @@ namespace UnitTests.score
                     new ClassicFrame(6, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(7, ThrowResult.ONE, ThrowResult.TWO),
                     new ClassicFrame(8, ThrowResult.ONE, ThrowResult.TWO),
-                    new ClassicFrame(9, ThrowResult.NONE, ThrowResult.SPAIR),
+                    new ClassicFrame(9, ThrowResult.NONE, ThrowResult.SPARE),
                     new ClassicLastFrame(10, ThrowResult.STRIKE, ThrowResult.STRIKE, ThrowResult.FIVE)
                 },
                 8,
@@ -411,8 +412,7 @@ namespace UnitTests.score
         {
             List<AFrame> scoreBoard = new List<AFrame>
             {
-                    new ClassicFrame(1),
-                    new ClassicFrame(1),
+                    new ClassicFrame(1)
             };
             IScoreCalculator calculator = new ClassicScoreCalculator();
             Assert.Throws<MissingFrameException>(() =>  calculator.UpdateFromFrame(0, scoreBoard));

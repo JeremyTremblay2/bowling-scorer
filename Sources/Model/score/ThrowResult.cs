@@ -4,15 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.score
+namespace Model.Score
 {
     /// <summary>
     /// This enumeration is used for describe all possible results of a throw
     /// </summary>
     public enum ThrowResult
     {
-        STRIKE,
-        SPAIR,
         ZERO,
         ONE,
         TWO,
@@ -23,6 +21,8 @@ namespace Model.score
         SEVEN,
         EIGHT,
         NINE,
+        SPARE,
+        STRIKE,
         NONE
     }
 }

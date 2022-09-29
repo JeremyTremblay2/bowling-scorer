@@ -1,22 +1,24 @@
-﻿using Model.exceptions;
+﻿using Model.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.score
+namespace Model.Score.Frame
 {
     /// <summary>
     /// The last ClassiFrame in the ScoreBoard in bowling
     /// </summary>
     public class ClassicLastFrame : AFrame
     {
+        private const int CLASSIC_LAST_SIZE = 3;
+
         /// <summary>
         /// Constructor of ClassicLastFrame
         /// </summary>
         /// <param name="frameNumberLabel">The number of the Frame</param>
-        public ClassicLastFrame(int frameNumberLabel) : base(frameNumberLabel, 3)
+        public ClassicLastFrame(int frameNumberLabel) : base(frameNumberLabel, CLASSIC_LAST_SIZE)
         {
         }
 
@@ -38,9 +40,9 @@ namespace Model.score
         /// <exception cref="ArgumentException">If the result cannot be written here (We can't write a SPAIR in the first slot)</exception>
         public void WriteFirstThrow(ThrowResult throwResult)
         {
-            if (throwResult == ThrowResult.SPAIR)
+            if (throwResult == ThrowResult.SPARE)
             {
-                throw new ForbiddenThrowResultException("You can't write a SPAIR in the first slot of a ClassicLastFrame");
+                throw new ForbiddenThrowResultException("You can't write a SPARE in the first slot of a ClassicLastFrame");
             }
             WriteThrow(0, throwResult);
         }
@@ -59,13 +61,13 @@ namespace Model.score
         /// </summary>
         /// <param name="throwResult">Result to write</param>
         /// <exception cref="ForbiddenThrowResultException">If the result cannot be written here (We can't write something in the third slot
-        /// if we didn't made a STRIKE or a SPAIR previously)</exception>
+        /// if we didn't made a STRIKE or a SPARE previously)</exception>
         public void WriteThridThrow(ThrowResult throwResult)
         {
             if (throwResult == ThrowResult.NONE) WriteThrow(2, throwResult);
-            else if (ThrowResults[0] != ThrowResult.STRIKE 
-                && ThrowResults[1] != ThrowResult.STRIKE 
-                && ThrowResults[1] != ThrowResult.SPAIR)
+            else if (ThrowResults[0] != ThrowResult.STRIKE
+                && ThrowResults[1] != ThrowResult.STRIKE
+                && ThrowResults[1] != ThrowResult.SPARE)
             {
                 throw new ForbiddenThrowResultException("You can't write a third result if you didn't made a STRIKE in one of the two pervious slot");
             }
