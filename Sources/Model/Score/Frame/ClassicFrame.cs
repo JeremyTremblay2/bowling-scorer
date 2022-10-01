@@ -41,11 +41,7 @@ namespace Model.Score.Frame
         /// <exception cref="ArgumentException">If the result cannot be written here (We can't write a SPARE or a STRIKE in the first slot)</exception>
         public void WriteFirstThrow(ThrowResult throwResult)
         {
-            if (throwResult == ThrowResult.STRIKE || throwResult == ThrowResult.SPARE)
-            {
-                throw new ForbiddenThrowResultException("You can't write a STRIKE or a SPARE in the first slot of a ClassicFrame");
-            }
-            WriteThrow(0, throwResult);
+            
         }
 
         /// <summary>
