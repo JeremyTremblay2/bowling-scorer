@@ -83,7 +83,7 @@ namespace Model.Score.Frame
         /// </summary>
         /// <param name="index"></param>
         /// <param name="throwResult"></param>
-        protected void WriteThrow(int index, ThrowResult throwResult)
+        public void WriteThrow(int index, ThrowResult throwResult)
         {
             throwResults[index] = throwResult;
         }
