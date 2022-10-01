@@ -1,4 +1,5 @@
 ﻿using Model.Exceptions;
+using Model.Score.Rules;
 using Model.Score;
 using Model.Score.Frame;
 using System;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace UnitTests.score
+namespace UnitTests.Score.Rules
 {
     public class ClassicScoreCalculator_UT
     {

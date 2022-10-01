@@ -1,4 +1,5 @@
 ﻿using Model.Exceptions;
+using Model.Score.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace Model.Score.Frame
     public class ClassicFrame : AFrame
     {
         private const int CLASSIC_SIZE = 2;
+        private static readonly ClassicFrameWriter frameWriter = new ClassicFrameWriter();
         public bool IsSpare => ThrowResults[1] == ThrowResult.SPARE;
         public bool IsStrike => ThrowResults[1] == ThrowResult.STRIKE;
 
@@ -30,27 +32,8 @@ namespace Model.Score.Frame
         /// <param name="frameNumberLabel">The number of the Frame</param>
         public ClassicFrame(int frameNumberLabel, ThrowResult throwResult1, ThrowResult throwResult2) : base(frameNumberLabel, 2)
         {
-            WriteFirstThrow(throwResult1);
-            WriteSecondThrow(throwResult2);
-        }
-
-        /// <summary>
-        /// Write a throw in the first slot of the frame
-        /// </summary>
-        /// <param name="throwResult">Result to write</param>
-        /// <exception cref="ArgumentException">If the result cannot be written here (We can't write a SPARE or a STRIKE in the first slot)</exception>
-        public void WriteFirstThrow(ThrowResult throwResult)
-        {
-            
-        }
-
-        /// <summary>
-        /// Write a throw in the second slot of the frame
-        /// </summary>
-        /// <param name="throwResult">Result to write</param>
-        public void WriteSecondThrow(ThrowResult throwResult)
-        {
-            WriteThrow(1, throwResult);
+            frameWriter.WriteValue(this, 0, throwResult1);
+            frameWriter.WriteValue(this, 1, throwResult2);
         }
     }
 }

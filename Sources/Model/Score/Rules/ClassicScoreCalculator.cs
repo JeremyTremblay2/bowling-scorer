@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.score.Rules
+namespace Model.Score.Rules
 {
     /// <summary>
     /// Compute the score of one frame by using the classic bowling scoring rules that you can found here :
