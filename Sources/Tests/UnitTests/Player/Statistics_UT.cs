@@ -9,6 +9,9 @@ using Xunit;
 
 namespace UnitTests.Player
 {
+    /// <summary>
+    /// Unit test class for statistics.
+    /// </summary>
     public class Statistics_UT
     {
         [Fact]
@@ -49,6 +52,5 @@ namespace UnitTests.Player
             statistics.RemoveGame(21);
             Assert.Equal(0, statistics.NumberOfGames);
         }
-
     }
 }
