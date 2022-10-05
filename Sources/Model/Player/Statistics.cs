@@ -13,7 +13,7 @@ namespace Model.Player
     /// We can for example cite the average score, the number of games won or the best result. 
     /// This class is therefore responsible for encapsulating this data.
     /// </summary>
-    public class Statistics : IEquatable<Statistics>
+    public class Statistics : IEquatable<Statistics>, IComparable, IComparable<Statistics>
     {
         private readonly IDictionary<ThrowResult, int> throwResults;
         private readonly IList<int> gamesID;
@@ -175,5 +175,31 @@ namespace Model.Player
             }
             scores.Add(score);
         }
+
+        int IComparable.CompareTo(object obj)
+        {
+            if (!(obj is Statistics))
+            {
+                throw new ArgumentException("The argument is not a statistic.", nameof(obj));
+            }
+            return CompareTo((Statistics) obj);
+        }
+
+        public int CompareTo(Statistics other)
+        {
+            return BestScore.CompareTo(other.BestScore);
+        }
+
+        public static bool operator <(Statistics left, Statistics right)
+            => left.CompareTo(right) < 0;
+
+        public static bool operator <=(Statistics left, Statistics right)
+            => left.CompareTo(right) <= 0;
+
+        public static bool operator >(Statistics left, Statistics right)
+            => left.CompareTo(right) > 0;
+
+        public static bool operator >=(Statistics left, Statistics right)
+            => left.CompareTo(right) >= 0;
     }
 }
