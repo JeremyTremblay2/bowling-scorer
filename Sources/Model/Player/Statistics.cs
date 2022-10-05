@@ -10,19 +10,23 @@ namespace Model.Player
 {
     public class Statistics : IEquatable<Statistics>
     {
-        private IDictionary<ThrowResult, int> throwResults;
-        private IList<int> gamesID;
-        private IList<int> scores;
+        private readonly IDictionary<ThrowResult, int> throwResults;
+        private readonly IList<int> gamesID;
+        private readonly IList<int> scores;
 
         public int NumberOfVictory { get; private set; }
         
         public int NumberOfDefeat { get; private set; }
 
-        public int NumberOfGames {
-            get => NumberOfVictory + NumberOfDefeat;
-        }
+        public int NumberOfGames { get; private set; }
 
         public int BestScore { get; private set; }
+
+        public ReadOnlyCollection<int> Scores { get; private set; }
+
+        public ReadOnlyDictionary<ThrowResult, int> ThrowResults { get; private set; }
+
+        public ReadOnlyCollection<int> GamesID { get; private set; }
 
         public double MediumThrow
         {
@@ -33,12 +37,6 @@ namespace Model.Player
         {
             get => Scores.Average();
         }
-
-        public IReadOnlyDictionary<ThrowResult, int> ThrowResults { get; private set; }
-
-        public ReadOnlyCollection<int> GamesID { get; private set; }
-
-        public ReadOnlyCollection<int> Scores { get; private set; }
 
         public Statistics()
         {
@@ -51,18 +49,14 @@ namespace Model.Player
             Scores = new ReadOnlyCollection<int>(scores);
         }
 
-        public void AddThrowResult(ThrowResult result)
+        public void AddThrowResult(ThrowResult throwResult)
         {
-            if (throwResults == null)
-            {
-                throw new ArgumentNullException(nameof(throwResults));
-            }
-            throwResults.Add(result, 1);
+            throwResults.Add(throwResult, 1);
         }
 
         public void AddGame(int gameID)
         {
-            if (gamesID.Contains(gameID))
+            if (!gamesID.Contains(gameID))
             {
                 gamesID.Add(gameID);
             }
@@ -96,7 +90,7 @@ namespace Model.Player
 
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new();
             _ = builder.Append("Statistics of ").Append(NumberOfGames).AppendLine(" games: ")
                 .Append("V: ").Append(NumberOfVictory).Append(", D: ").Append(NumberOfDefeat)
                 .Append(", Best Score: ").Append(BestScore).Append(", Medium Throw: ")
