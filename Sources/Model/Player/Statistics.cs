@@ -103,6 +103,7 @@ namespace Model.Player
             {
                 gamesID.Add(gameID);
             }
+            NumberOfGames++;
             // Implements logic here to add scores and stats.
         }
 
@@ -113,6 +114,7 @@ namespace Model.Player
         public void RemoveGame(int gameID)
         {
             gamesID.Remove(gameID);
+            NumberOfGames--;
             // Implements logic here to remove scores and stats.
         }
 
