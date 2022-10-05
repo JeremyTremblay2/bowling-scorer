@@ -1,5 +1,6 @@
-﻿using Model.exceptions;
-using Model.score;
+using Model.Exceptions;
+using Model.Score;
+using Model.Score.Frame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace UnitTests.score
 
         [Theory]
         [InlineData(false, ThrowResult.TWO, ThrowResult.TWO)]
-        [InlineData(true, ThrowResult.SPAIR, ThrowResult.NONE)]
+        [InlineData(true, ThrowResult.SPARE, ThrowResult.NONE)]
         [InlineData(false, ThrowResult.STRIKE, ThrowResult.STRIKE)]
         public void Test_WriteFirstThrow(bool throwExcep, ThrowResult resultToWrite, ThrowResult exceptedWritenResult)
         {
@@ -49,7 +50,7 @@ namespace UnitTests.score
 
         [Theory]
         [InlineData(false, ThrowResult.STRIKE, ThrowResult.STRIKE, ThrowResult.STRIKE, ThrowResult.STRIKE)]
-        [InlineData(false, ThrowResult.STRIKE, ThrowResult.STRIKE, ThrowResult.NINE, ThrowResult.SPAIR)]
+        [InlineData(false, ThrowResult.STRIKE, ThrowResult.STRIKE, ThrowResult.NINE, ThrowResult.SPARE)]
         [InlineData(true, ThrowResult.STRIKE, ThrowResult.STRIKE, ThrowResult.TWO, ThrowResult.TWO)]
         [InlineData(true, ThrowResult.STRIKE, ThrowResult.STRIKE, ThrowResult.NONE, ThrowResult.NONE)]
         public void Test_WriteThridThrow(bool throwExcep, ThrowResult resultToWrite, ThrowResult exceptedWritenResult, ThrowResult firstSlotResult, ThrowResult secondSlotResult)
