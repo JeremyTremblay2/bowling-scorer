@@ -64,13 +64,14 @@ namespace UnitTests.Players
                 {
                     if (player.ID.Equals(internalPlayer.ID))
                     {
-                        Assert.True(player.Equals(internalPlayer));
+                        // The player is cast into an object to check also the Equals method.
+                        Assert.True(player.Equals((object)internalPlayer));
                         Assert.True(player == internalPlayer);
                         Assert.True(player.GetHashCode() == internalPlayer.GetHashCode());
                     }
                     else
                     {
-                        Assert.False(player.Equals(internalPlayer));
+                        Assert.False(player.Equals((object)internalPlayer));
                         Assert.False(player == internalPlayer);
                         Assert.False(player.GetHashCode() == internalPlayer.GetHashCode());
                     }
@@ -80,7 +81,7 @@ namespace UnitTests.Players
 
         [Theory]
         [MemberData(nameof(PlayerDataTest.Test_PlayerDataComparison), MemberType = typeof(PlayerDataTest))]
-        public void PlayerComparisonShouldBeLogical(Player[] expectedPlayers, Player[] givenPlayers)
+        public void EqualityOperatorsShouldBeLogical(Player[] expectedPlayers, Player[] givenPlayers)
         {
             for (int i = 0; i < expectedPlayers.Length - 1; i++)
             {
@@ -98,6 +99,25 @@ namespace UnitTests.Players
             }
 
             Assert.True(expectedPlayers.SequenceEqual(sortedPlayers));
+        }
+
+        [Fact]
+        public void ComparisonOpeartorsShouldReturnLogicValues()
+        {
+            Player player1 = new(Guid.NewGuid(), "Jean", "linkToImage");
+            Player player2 = new(Guid.NewGuid(), "Adrien", "linkToImage");
+            Player player3 = new(Guid.NewGuid(), "Maxime", "linkToImage");
+            Assert.True(player1 > player2);
+            Assert.True(player2 < player1);
+            Assert.True(player3 > player2);
+        }
+
+        [Fact]
+        public void EqualityOperatorShouldReturnsNullWhenEqualsNullValue()
+        {
+            Player player1 = null;
+            Player player2 = null;
+            Assert.True(player1 == player2);
         }
     }
 }
