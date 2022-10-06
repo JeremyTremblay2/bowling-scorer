@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.Player
+namespace Model.Players
 {
     /// <summary>
     /// Statistics represent various data collected through different games of bowling and are intrinsic to a particular player.
