@@ -8,6 +8,9 @@ using Xunit;
 
 namespace UnitTests.Players
 {
+    /// <summary>
+    /// Unit tests class used for the players.
+    /// </summary>
     public class Player_UT
     {
         [Fact]
@@ -16,6 +19,7 @@ namespace UnitTests.Players
             Player player = new(Guid.NewGuid(), "Jean", "linkToImage");
             Assert.NotNull(player.Name);
             Assert.NotNull(player.Image);
+            Assert.NotNull(player.Statistics);
         }
 
         [Fact]
@@ -48,6 +52,52 @@ namespace UnitTests.Players
                 Assert.Equal(image, player.Image);
                 Assert.Equal(name, player.Name);
             }
+        }
+
+        [Theory]
+        [MemberData(nameof(PlayerDataTest.Test_PlayerDataEquality), MemberType = typeof(PlayerDataTest))]
+        public void EqualsShouldReturnsLogicalValue(IEnumerable<Player> players)
+        {
+            foreach (Player player in players)
+            {
+                foreach (Player internalPlayer in players)
+                {
+                    if (player.ID.Equals(internalPlayer.ID))
+                    {
+                        Assert.True(player.Equals(internalPlayer));
+                        Assert.True(player == internalPlayer);
+                        Assert.True(player.GetHashCode() == internalPlayer.GetHashCode());
+                    }
+                    else
+                    {
+                        Assert.False(player.Equals(internalPlayer));
+                        Assert.False(player == internalPlayer);
+                        Assert.False(player.GetHashCode() == internalPlayer.GetHashCode());
+                    }
+                }
+            }
+        }
+
+        [Theory]
+        [MemberData(nameof(PlayerDataTest.Test_PlayerDataComparison), MemberType = typeof(PlayerDataTest))]
+        public void PlayerComparisonShouldBeLogical(Player[] expectedPlayers, Player[] givenPlayers)
+        {
+            for (int i = 0; i < expectedPlayers.Length - 1; i++)
+            {
+                Assert.True(expectedPlayers[i] <= expectedPlayers[i + 1]);
+                Assert.True(expectedPlayers[i+1] >= expectedPlayers[i]);
+            }
+
+            var sortedPlayers = givenPlayers.ToList();
+            sortedPlayers.Sort();
+
+            for (int i = 0; i < sortedPlayers.Count - 1; i++)
+            {
+                Assert.True(sortedPlayers[i] == expectedPlayers[i]);
+                Assert.False(sortedPlayers[i] != expectedPlayers[i]);
+            }
+
+            Assert.True(expectedPlayers.SequenceEqual(sortedPlayers));
         }
     }
 }
