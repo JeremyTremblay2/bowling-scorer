@@ -1,6 +1,6 @@
-﻿using Model.Exceptions;
-using Model.Score;
-using Model.Score.Frame;
+﻿using FrameWriterModel.Frame;
+using FrameWriterModel.Frame.ThrowResults;
+using Model.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.Score.Rules
+namespace Model.Score.Rules.Calculator
 {
     /// <summary>
     /// Compute the score of one frame by using the classic bowling scoring rules that you can found here :

@@ -1,13 +1,14 @@
 ﻿using Model.Exceptions;
 using Model.Score.Rules;
-using Model.Score;
-using Model.Score.Frame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Model.Score.Rules.Calculator;
+using FrameWriterModel.Frame;
+using FrameWriterModel.Frame.ThrowResults;
 
 namespace UnitTests.Score.Rules
 {

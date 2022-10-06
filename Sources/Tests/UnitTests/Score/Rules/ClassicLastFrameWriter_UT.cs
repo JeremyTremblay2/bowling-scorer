@@ -1,5 +1,4 @@
 ﻿using Model.Exceptions;
-using Model.Score.Frame;
 using Model.Score;
 using System;
 using System.Collections.Generic;
@@ -8,6 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Model.Score.Rules;
+using FrameWriterModel.Frame.ThrowResults;
+using FrameWriterModel.Frame;
+using FrameWriterModel.Writer;
+using FrameWriterModel.Exceptions;
 
 namespace UnitTests.Score.Rules
 {
@@ -20,7 +23,7 @@ namespace UnitTests.Score.Rules
         public void Test_WriteFirstThrow(bool throwExcep, ThrowResult resultToWrite, ThrowResult exceptedWritenResult)
         {
             ClassicLastFrame classic = new ClassicLastFrame(1);
-            IFrameWriter writer = new ClassicLastFrameWriter();
+            AFrameWriter writer = new ClassicLastFrameWriter();
             if (throwExcep)
             {
                 Assert.Throws<ForbiddenThrowResultException>(() => { writer.WriteValue(classic, 0, resultToWrite); });
@@ -34,7 +37,7 @@ namespace UnitTests.Score.Rules
         public void Test_WriteSecondThrow()
         {
             ClassicLastFrame classic = new ClassicLastFrame(1);
-            IFrameWriter writer = new ClassicLastFrameWriter();
+            AFrameWriter writer = new ClassicLastFrameWriter();
             writer.WriteValue(classic, 1, ThrowResult.TREE);
             Assert.Equal(ThrowResult.TREE, classic.ThrowResults[1]);
         }
@@ -48,7 +51,7 @@ namespace UnitTests.Score.Rules
         public void Test_WriteThridThrow(bool throwExcep, ThrowResult resultToWrite, ThrowResult exceptedWritenResult, ThrowResult firstSlotResult, ThrowResult secondSlotResult)
         {
             ClassicLastFrame classic = new ClassicLastFrame(1);
-            IFrameWriter writer = new ClassicLastFrameWriter();
+            AFrameWriter writer = new ClassicLastFrameWriter();
             writer.WriteValue(classic, 0, firstSlotResult);
             writer.WriteValue(classic, 1, secondSlotResult);
             if (throwExcep)
