@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.Player
+namespace Model.Players
 {
     /// <summary>
     /// A Player represent someone with a name, an image (a profile picture), and a unique identifier.
@@ -44,10 +44,6 @@ namespace Model.Player
             if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentNullException(nameof(name), "The name cannot be null or empty");
-            }
-            if (string.IsNullOrWhiteSpace(image))
-            {
-                throw new ArgumentNullException(nameof(image), "The image cannot be null or empty");
             }
             this.ID = ID;
             Name = name;

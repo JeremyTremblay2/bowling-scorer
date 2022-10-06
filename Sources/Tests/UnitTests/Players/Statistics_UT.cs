@@ -1,7 +1,7 @@
-﻿using Model.Player;
+﻿using Model.Players;
 using Xunit;
 
-namespace UnitTests.Player
+namespace UnitTests.Players
 {
     /// <summary>
     /// Unit test class for statistics.
