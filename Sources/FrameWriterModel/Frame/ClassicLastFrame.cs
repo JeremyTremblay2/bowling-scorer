@@ -1,12 +1,12 @@
-﻿using Model.Exceptions;
-using Model.Score.Rules;
+﻿using FrameWriterModel.Frame.ThrowResults;
+using FrameWriterModel.Writer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.Score.Frame
+namespace FrameWriterModel.Frame
 {
     /// <summary>
     /// The last ClassiFrame in the ScoreBoard in bowling
@@ -14,7 +14,7 @@ namespace Model.Score.Frame
     public class ClassicLastFrame : AFrame
     {
         private const int CLASSIC_LAST_SIZE = 3;
-        private static readonly IFrameWriter frameWriter = new ClassicLastFrameWriter();
+        private static readonly AFrameWriter frameWriter = new ClassicLastFrameWriter();
 
         /// <summary>
         /// Constructor of ClassicLastFrame

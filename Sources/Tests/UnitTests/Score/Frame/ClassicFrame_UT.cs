@@ -1,6 +1,6 @@
+using FrameWriterModel.Frame;
 using Model.Exceptions;
 using Model.Score;
-using Model.Score.Frame;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.Score
+namespace FrameWriterModel.Frame.ThrowResults
 {
     /// <summary>
     /// This enumeration is used for describe all possible results of a throw

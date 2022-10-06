@@ -1,12 +1,12 @@
-﻿using Model.Exceptions;
-using Model.Score.Rules;
+﻿using FrameWriterModel.Frame.ThrowResults;
+using FrameWriterModel.Writer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.Score.Frame
+namespace FrameWriterModel.Frame
 {
     /// <summary>
     /// The classic Frame in bowling
@@ -14,7 +14,7 @@ namespace Model.Score.Frame
     public class ClassicFrame : AFrame
     {
         private const int CLASSIC_SIZE = 2;
-        private static readonly ClassicFrameWriter frameWriter = new ClassicFrameWriter();
+        private static readonly AFrameWriter frameWriter = new ClassicFrameWriter();
         public bool IsSpare => ThrowResults[1] == ThrowResult.SPARE;
         public bool IsStrike => ThrowResults[1] == ThrowResult.STRIKE;
 

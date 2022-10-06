@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.Score
+namespace FrameWriterModel.Frame.ThrowResults
 {
     /// <summary>
     /// Extension used to convert ThrowResult occurences into other types

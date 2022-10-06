@@ -1,4 +1,5 @@
-﻿using Model.Score;
+﻿using FrameWriterModel.Frame.ThrowResults;
+using Model.Score;
 using System;
 using System.Collections.Generic;
 using System.Linq;
