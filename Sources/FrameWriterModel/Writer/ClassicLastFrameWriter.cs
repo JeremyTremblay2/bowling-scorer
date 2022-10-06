@@ -11,10 +11,17 @@ namespace FrameWriterModel.Writer
 {
     public class ClassicLastFrameWriter : AFrameWriter
     {
+        /// <summary>
+        /// Write a throw in the selected slot of the given AFrame
+        /// </summary>
+        /// <param name="frame">The frame which will receive the new throw</param>
+        /// <param name="index">The slot number</param>
+        /// <param name="throwResult">The result to write</param>
+        /// <exception cref="ArgumentOutOfRangeException">If index < 0 or index > 2</exception>
+        /// <exception cref="ForbiddenThrowResultException">If you can't write this ThrowResult in this slot</exception>
         public override void WriteValue(AFrame frame, int index, ThrowResult throwResult)
         {
             if (index >= 3 || index < 0) throw new ArgumentOutOfRangeException("The given index is out of range, the classic last frame has only 3 slots. (index 0, 1 and 2)");
-            if (!(frame is ClassicLastFrame)) throw new ArgumentException("Only ClassicLastFrame accepted");
             if (index == 0)
             {
                 if (throwResult == ThrowResult.SPARE)
