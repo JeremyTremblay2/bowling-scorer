@@ -121,14 +121,14 @@ namespace Model.Players
         /// <summary>
         /// Determines whether the two object instances are equal.
         /// </summary>
-        /// <param name="other">The object to compare with the actual object.</param>
+        /// <param name="obj">The object to compare with the actual object.</param>
         /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
-        public override bool Equals(Object other)
+        public override bool Equals(Object obj)
         {
-            if (other == null) return false;
-            if (other == this) return true;
-            if (other.GetType() != this.GetType()) return false;
-            return Equals((ThrowResult) other);
+            if (obj == null) return false;
+            if (obj == this) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((ThrowResult) obj);
         }
 
         /// <summary>
@@ -242,5 +242,26 @@ namespace Model.Players
         /// <returns>An integer indicating the result of the comparison.</returns>
         public static bool operator >=(Statistics left, Statistics right)
             => left.CompareTo(right) >= 0;
+
+        /// <summary>
+        /// Returns true if its left-hand operand is equals to its right-hand operand, false otherwise.
+        /// </summary>
+        /// <param name="left">The first object to compare.</param>
+        /// <param name="right">The second object to compare.</param>
+        /// <returns>A boolean indicating the result of the comparison.</returns>
+        public static bool operator ==(Statistics left, Statistics right)
+        {
+            if (left is null) return right is null;
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// Returns true if its left-hand operand is not equals to its right-hand operand, false otherwise.
+        /// </summary>
+        /// <param name="left">The first object to compare.</param>
+        /// <param name="right">The second object to compare.</param>
+        /// <returns>A boolean indicating the result of the comparison.</returns>
+        public static bool operator !=(Statistics left, Statistics right)
+            => !(left == right);
     }
 }
