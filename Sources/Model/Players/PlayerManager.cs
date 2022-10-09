@@ -25,10 +25,11 @@ namespace Model.Players
         /// <summary>
         /// Create a new PlayerManager.
         /// </summary>
-        public PlayerManager()
+        public PlayerManager(params Player[] players)
         {
-            players = new List<Player>();
+            this.players = new List<Player>();
             Players = new ReadOnlyCollection<Player>(players);
+            AddPlayers(players);
         }
 
         /// <summary>
@@ -36,29 +37,39 @@ namespace Model.Players
         /// </summary>
         /// <param name="name">The name of the player.</param>
         /// <param name="image">The image of the player.</param>
-        public void AddPlayer(string name, string image)
+        /// <returns>A boolean indicating if the player was added.</returns>
+        public bool AddPlayer(string name, string image)
             => AddPlayer(new Player(name, image));
 
         /// <summary>
         /// Add a player to the collection if it is not already present and if it is not null.
         /// </summary>
         /// <param name="player">The player to add.</param>
-        public void AddPlayer(Player player)
+        /// <returns>A boolean indicating if the player was added.</returns>
+        public bool AddPlayer(Player player)
         {
-            if (player == null || players.Contains(player)) return;
+            if (player == null || players.Contains(player)) return false;
             players.Add(player);
+            return true;
         }
 
         /// <summary>
-        /// Add a player collection into the manager.
+        /// Add a collection of players into the manager, and return the players added.
         /// </summary>
         /// <param name="players">The players to be added.</param>
-        public void AddPlayers(params Player[] players)
+        /// <returns>A collecion of the players that have been added to the collection.</returns>
+        public IEnumerable<Player> AddPlayers(params Player[] players)
         {
+            List<Player> result = new();
+            if (players == null) return result;
             foreach (Player player in players)
             {
-                AddPlayer(player);
+                if (AddPlayer(player))
+                {
+                    result.Add(player);
+                }
             }
+            return result;
         }
 
         /// <summary>
