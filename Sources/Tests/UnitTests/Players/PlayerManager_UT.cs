@@ -9,6 +9,9 @@ using Xunit;
 
 namespace UnitTests.Players
 {
+    /// <summary>
+    /// Represent a test class for the PlayerManager.
+    /// </summary>
     public class PlayerManager_UT
     {
         [Fact]
@@ -121,6 +124,36 @@ namespace UnitTests.Players
             playerManager.EditPlayer(12, newName, newImage);
             Assert.Equal(newName, playerManager.Players.First().Name);
             Assert.Equal(newImage, playerManager.Players.First().Image);
+        }
+
+        [Theory]
+        [MemberData(nameof(PlayerManagerDataTest.Data_RemovePlayers), MemberType = typeof(PlayerManagerDataTest))]
+        public void RemovePlayerShouldRemovePlayerFromCollections(bool expectedResult,
+                                                                  PlayerManager manager,
+                                                                  Player playerToRemove)
+        {
+            int sizeBeforeRemoving = manager.Players.Count;
+            bool result;
+            if (playerToRemove != null)
+            {
+                result = manager.RemovePlayer(playerToRemove.ID);
+            }
+            else
+            {
+                result = manager.RemovePlayer(playerToRemove);
+            }
+            Assert.Equal(expectedResult, result);
+            Assert.Equal(sizeBeforeRemoving - (expectedResult ? 1 : 0), manager.Players.Count);
+        }
+
+        [Theory]
+        [MemberData(nameof(PlayerManagerDataTest.Data_FindPlayersFromID), MemberType = typeof(PlayerManagerDataTest))]
+        public void FindPlayerFromIDShouldRetrievePlayerFromCollectionsWhenPresent(Player expectedPlayer,
+                                                                                   PlayerManager playerManager,
+                                                                                   int playerID)
+        {
+            Player player = playerManager.GetPlayerFromID(playerID);
+            Assert.Equal(expectedPlayer, player);
         }
 
         [Theory]

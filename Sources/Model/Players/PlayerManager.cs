@@ -102,7 +102,10 @@ namespace Model.Players
         /// <param name="id">The player's ID.</param>
         /// <returns>A boolean indicating if the player as removed.</returns>
         public bool RemovePlayer(int id)
-            => players.Remove(GetPlayerFromID(id));
+            => RemovePlayer(GetPlayerFromID(id));
+
+        public bool RemovePlayer(Player player)
+            => players.Remove(player);
         
         /// <summary>
         /// Get a player from his ID or null if no player has been founded.
