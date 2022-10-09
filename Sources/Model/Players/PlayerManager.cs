@@ -15,12 +15,12 @@ namespace Model.Players
         /// <summary>
         /// The private read-only collection of player.
         /// </summary>
-        private readonly IList<Player> players;
+        private readonly List<Player> players;
 
         /// <summary>
         /// Property containing a read-only collection of players.
         /// </summary>
-        public IReadOnlyCollection<Player> Players { get; private set; }
+        public ReadOnlyCollection<Player> Players { get; private set; }
 
         /// <summary>
         /// Create a new PlayerManager.
@@ -121,7 +121,7 @@ namespace Model.Players
         {
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(Player)) return false;
+            if (obj.GetType() != typeof(PlayerManager)) return false;
             return Equals((PlayerManager) obj);
         }
 
@@ -132,7 +132,9 @@ namespace Model.Players
         /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
         public bool Equals(PlayerManager other)
         {
-            return other != null && other.players.Equals(players);
+            players.Sort();
+            other.players.Sort();
+            return other != null && other.players.SequenceEqual(players);
         }
 
         /// <summary>
@@ -141,7 +143,13 @@ namespace Model.Players
         /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
-            return HashCode.Combine(players);
+            players.Sort();
+            int hash = 19;
+            foreach (var player in players)
+            {
+                hash = hash * 31 + player.GetHashCode();
+            }
+            return hash;
         }
 
         /// <summary>

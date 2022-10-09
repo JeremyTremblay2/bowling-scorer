@@ -1,6 +1,7 @@
 ﻿using Model.Players;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,11 +26,18 @@ namespace UnitTests.Players
         }
 
         [Fact]
+        public void PublicPlayerCollectionShouldBeReadOnly()
+        {
+            var playerManager = new PlayerManager();
+            Assert.Equal(typeof(ReadOnlyCollection<Player>), playerManager.Players.GetType());
+        }
+
+        [Fact]
         public void AddPlayerToManagerShouldAddPlayer()
         {
             PlayerManager playerManager = new();
             playerManager.AddPlayer("Jean", "image");
-            Assert.Equal(1, playerManager.Players.Count);
+            Assert.Single(playerManager.Players);
             Assert.Equal(0, playerManager.Players.First().ID);
             Assert.Equal("Jean", playerManager.Players.First().Name);
             Assert.Equal("image", playerManager.Players.First().Image);
@@ -47,7 +55,7 @@ namespace UnitTests.Players
             PlayerManager playerManager = new();
             Player player = new(ID, name, image);
             playerManager.AddPlayer(player);
-            Assert.Equal(1, playerManager.Players.Count);
+            Assert.Single(playerManager.Players);
             Assert.Equal(player.ID, playerManager.Players.First().ID);
             Assert.Equal(player.Name, playerManager.Players.First().Name);
             Assert.Equal(player.Image, playerManager.Players.First().Image);
@@ -64,6 +72,22 @@ namespace UnitTests.Players
             Assert.Equal(expectedResult, result);
             Assert.Equal(expectedPlayers.Count(), playerManager.Players.Count);
             Assert.All(expectedPlayers, action: p => playerManager.Players.Contains(p));
+        }
+
+        [Theory]
+        [MemberData(nameof(PlayerManagerDataTest.Data_AddMultiplePlayersToManager), MemberType = typeof(PlayerManagerDataTest))]
+        public void AddMultiplePlayersShouldUpdateCollection(int expectedResult,
+                                                    IEnumerable<Player> expectedPlayers,
+                                                    IEnumerable<Player> expectedAddedPlayers,
+                                                    PlayerManager playerManager,
+                                                    params Player[] playersToAdd)
+        {
+            var addedPlayers = playerManager.AddPlayers(playersToAdd);
+            Assert.Equal(expectedResult, addedPlayers.Count());
+            Assert.All(expectedAddedPlayers, p => addedPlayers.Contains(p));
+
+            Assert.All(expectedPlayers.Except(expectedAddedPlayers), p => addedPlayers.Contains(p));
+            Assert.All(expectedPlayers, p => playerManager.Players.Contains(p));
         }
 
         [Fact]
@@ -99,6 +123,22 @@ namespace UnitTests.Players
             Assert.Equal(newImage, playerManager.Players.First().Image);
         }
 
-
+        [Theory]
+        [MemberData(nameof(PlayerManagerDataTest.Data_EqualsManagers), MemberType = typeof(PlayerManagerDataTest))]
+        public void EqualsShouldReturnsLogicalValue(bool expectedResult, 
+                                                    PlayerManager playerManager1,
+                                                    PlayerManager playerManager2)
+        {
+            Assert.Equal(expectedResult, playerManager1.Equals((object) playerManager2));
+            Assert.Equal(expectedResult, playerManager2.Equals((object) playerManager1));
+            if (expectedResult)
+            {
+                Assert.Equal(playerManager1.GetHashCode(), playerManager2.GetHashCode());
+            }
+            else
+            {
+                Assert.NotEqual(playerManager1.GetHashCode(), playerManager2.GetHashCode());
+            }
+        }
     }
 }

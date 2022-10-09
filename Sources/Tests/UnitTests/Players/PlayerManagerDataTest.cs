@@ -281,5 +281,131 @@ namespace UnitTests.Players
                 }
             };
         }
+
+        public static IEnumerable<object[]> Data_EqualsManagers()
+        {
+            // Create two managers identicals and empty.
+            yield return new object[] {
+                true,
+                new PlayerManager(
+
+                ),
+                new PlayerManager(
+
+                ),
+            };
+
+            // Create two managers identicals and add some data to them.
+            yield return new object[] {
+                true,
+                new PlayerManager(
+                    new Player(12, "Marlon", "marlonImage"),
+                    new Player(45, "Vincent", "vincentImage"),
+                    new Player(85, "Jas", "jasImage"),
+                    new Player(75, "Pierre", "pierreImage"),
+                    new Player(43, "Maru", "maruImage"),
+                    new Player(45, "Emily", "emilyImage"),
+                    new Player(25, "Leah", "leahImage"),
+                    new Player(22, "Gus", "gusImage"),
+                    new Player(71, "Clint", "clintImage"),
+                    new Player(99, "Sebastian", "sebastianImage")
+                ),
+                new PlayerManager(
+                    new Player(12, "Marlon", "marlonImage"),
+                    new Player(45, "Vincent", "vincentImage"),
+                    new Player(85, "Jas", "jasImage"),
+                    new Player(75, "Pierre", "pierreImage"),
+                    new Player(43, "Maru", "maruImage"),
+                    new Player(45, "Emily", "emilyImage"),
+                    new Player(25, "Leah", "leahImage"),
+                    new Player(22, "Gus", "gusImage"),
+                    new Player(71, "Clint", "clintImage"),
+                    new Player(99, "Sebastian", "sebastianImage")
+                ),
+            };
+
+            // Create two managers identicals and add some data to them, but data is shuffle.
+            yield return new object[] {
+                true,
+                new PlayerManager(
+                    new Player(25, "Leah", "leahImage"),
+                    new Player(12, "Marlon", "marlonImage"),
+                    new Player(99, "Sebastian", "sebastianImage"),
+                    new Player(45, "Vincent", "vincentImage"),
+                    new Player(85, "Jas", "jasImage"),
+                    new Player(22, "Gus", "gusImage"),
+                    new Player(71, "Clint", "clintImage"),
+                    new Player(75, "Pierre", "pierreImage"),
+                    new Player(43, "Maru", "maruImage"),
+                    new Player(45, "Emily", "emilyImage")
+                ),
+                new PlayerManager(
+                    new Player(12, "Marlon", "marlonImage"),
+                    new Player(45, "Vincent", "vincentImage"),
+                    new Player(85, "Jas", "jasImage"),
+                    new Player(75, "Pierre", "pierreImage"),
+                    new Player(43, "Maru", "maruImage"),
+                    new Player(45, "Emily", "emilyImage"),
+                    new Player(25, "Leah", "leahImage"),
+                    new Player(22, "Gus", "gusImage"),
+                    new Player(71, "Clint", "clintImage"),
+                    new Player(99, "Sebastian", "sebastianImage")
+                ),
+            };
+
+            // Create two managers differents, one has data and not the other.
+            yield return new object[] {
+                false,
+                new PlayerManager(
+                    new Player(12, "Marlon", "marlonImage")
+                ),
+                new PlayerManager(
+
+                ),
+            };
+
+            // Create two managers differents, one has data and not the other.
+            yield return new object[] {
+                false,
+                new PlayerManager(
+                    
+                ),
+                new PlayerManager(
+                    new Player(22, "Gus", "gusImage"),
+                    new Player(71, "Clint", "clintImage"),
+                    new Player(99, "Sebastian", "sebastianImage")
+                ),
+            };
+
+            // Create two managers differents, same amount of data but one has different data from the other.
+            yield return new object[] {
+                false,
+                new PlayerManager(
+                    new Player(22, "Gus", "gusImage"),
+                    new Player(71, "Clint", "clintImage"),
+                    new Player(99, "Sebastian", "sebastianImage")
+                ),
+                new PlayerManager(
+                    new Player(43, "Maru", "maruImage"),
+                    new Player(45, "Emily", "emilyImage"),
+                    new Player(25, "Leah", "leahImage")
+                ),
+            };
+
+            // Create two managers differents, same amount of data but one player is different.
+            yield return new object[] {
+                false,
+                new PlayerManager(
+                    new Player(43, "Maru", "maruImage"),
+                    new Player(45, "Emily", "emilyImage"),
+                    new Player(22, "Leah", "leahImage") //the id is not the same
+                ),
+                new PlayerManager(
+                    new Player(43, "Maru", "maruImage"),
+                    new Player(45, "Emily", "emilyImage"),
+                    new Player(25, "Leah", "leahImage")
+                ),
+            };
+        }
     }
 }
