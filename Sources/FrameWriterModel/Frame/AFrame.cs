@@ -4,8 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FrameWriterModel.Frame.ThrowResults;
 
-namespace Model.Score.Frame
+namespace FrameWriterModel.Frame
 {
     /// <summary>
     /// Represents a Frame
@@ -83,7 +84,7 @@ namespace Model.Score.Frame
         /// </summary>
         /// <param name="index"></param>
         /// <param name="throwResult"></param>
-        protected void WriteThrow(int index, ThrowResult throwResult)
+        internal void WriteThrow(int index, ThrowResult throwResult)
         {
             throwResults[index] = throwResult;
         }

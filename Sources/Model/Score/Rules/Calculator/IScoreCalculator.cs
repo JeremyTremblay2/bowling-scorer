@@ -1,11 +1,11 @@
-﻿using Model.Score.Frame;
+﻿using FrameWriterModel.Frame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.Score
+namespace Model.Score.Rules.Calculator
 {
     /// <summary>
     /// ScoreCalculator is used to compute the results in frames
