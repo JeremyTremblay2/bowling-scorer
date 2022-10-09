@@ -28,7 +28,7 @@ namespace Model.Players
         public PlayerManager(params Player[] players)
         {
             this.players = new List<Player>();
-            Players = new ReadOnlyCollection<Player>(players);
+            Players = new ReadOnlyCollection<Player>(this.players);
             AddPlayers(players);
         }
 
@@ -132,7 +132,7 @@ namespace Model.Players
         /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
         public bool Equals(PlayerManager other)
         {
-            return other.players.Equals(players);
+            return other != null && other.players.Equals(players);
         }
 
         /// <summary>

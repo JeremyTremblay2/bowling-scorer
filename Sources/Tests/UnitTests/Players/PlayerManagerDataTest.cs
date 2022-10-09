@@ -9,7 +9,7 @@ namespace UnitTests.Players
 {
     public class PlayerManagerDataTest
     {
-        public static IEnumerable<object[]> Data_AddPlayersToManager()
+        public static IEnumerable<object[]> Data_AddPlayerToManager()
         {
             yield return new object[] {
                 true,
@@ -74,16 +74,16 @@ namespace UnitTests.Players
                     new Player(45, "Vincent", "vincentImage"),
                     new Player(85, "Jas", "jasImage"),
                     new Player(75, "Pierre", "pierreImage"),
+                    new Player(43, "Maru", "maruImage"),
                 },
                 new PlayerManager(
                     new Player(12, "Marlon", "marlonImage"),
                     new Player(45, "Vincent", "vincentImage"),
                     new Player(85, "Jas", "jasImage"),
                     new Player(75, "Pierre", "pierreImage"),
-                    new Player(41, "Demetrius", "demetriusImage"),
                     new Player(43, "Maru", "maruImage")
                 ),
-                new Player(45, "Vincent", "vincentImage"),
+                null,
             };
         }
     }

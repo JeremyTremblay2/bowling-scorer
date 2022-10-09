@@ -85,7 +85,7 @@ namespace Model.Players
         /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
         public bool Equals(Player other)
         {
-            return ID.Equals(other.ID);
+            return other != null && ID.Equals(other.ID);
         }
 
         /// <summary>
