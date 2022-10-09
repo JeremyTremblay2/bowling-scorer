@@ -12,7 +12,7 @@ using FrameWriterModel.Frame;
 using FrameWriterModel.Writer;
 using FrameWriterModel.Exceptions;
 
-namespace UnitTests.Score.Rules
+namespace UnitTests.score.Rules.Writers
 {
     public class ClassicFrameWriter_UT
     {
