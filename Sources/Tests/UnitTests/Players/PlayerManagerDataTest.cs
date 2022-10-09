@@ -368,7 +368,7 @@ namespace UnitTests.Players
             yield return new object[] {
                 false,
                 new PlayerManager(
-                    
+
                 ),
                 new PlayerManager(
                     new Player(22, "Gus", "gusImage"),
@@ -405,6 +405,100 @@ namespace UnitTests.Players
                     new Player(45, "Emily", "emilyImage"),
                     new Player(25, "Leah", "leahImage")
                 ),
+            };
+        }
+
+        public static IEnumerable<object[]> Data_RemovePlayers()
+        {
+            // Should remove the player.
+            yield return new object[] {
+                true,
+                new PlayerManager(
+                    new Player(22, "Gus", "gusImage"),
+                    new Player(71, "Clint", "clintImage"),
+                    new Player(99, "Sebastian", "sebastianImage")
+                ),
+                new Player(99, "Sebastian", "sebastianImage")
+            };
+
+            // Should remove the player.
+            yield return new object[] {
+                true,
+                new PlayerManager(
+                    new Player(22, "Gus", "gusImage"),
+                    new Player(71, "Clint", "clintImage"),
+                    new Player(99, "Sebastian", "sebastianImage")
+                ),
+                new Player(71, "Clint", "clintImage"),
+            };
+
+            // Should not remove the null value provided.
+            yield return new object[] {
+                false,
+                new PlayerManager(
+                    new Player(22, "Gus", "gusImage"),
+                    new Player(71, "Clint", "clintImage"),
+                    new Player(99, "Sebastian", "sebastianImage")
+                ),
+                null
+            };
+
+            // Should not remove the inexisting player provided.
+            yield return new object[] {
+                false,
+                new PlayerManager(
+                    new Player(22, "Gus", "gusImage"),
+                    new Player(71, "Clint", "clintImage"),
+                    new Player(99, "Sebastian", "sebastianImage")
+                ),
+                new Player(45, "Emily", "emilyImage"),
+            };
+
+            // Should remove the player with the same ID.
+            yield return new object[] {
+                true,
+                new PlayerManager(
+                    new Player(22, "Gus", "gusImage"),
+                    new Player(71, "Clint", "clintImage"),
+                    new Player(99, "Sebastian", "sebastianImage")
+                ),
+                new Player(71, "Emily", "emilyImage"), // She has the same ID as Clint.
+            };
+        }
+
+        public static IEnumerable<object[]> Data_FindPlayersFromID()
+        {
+            // Should retrieve the player.
+            yield return new object[] {
+                new Player(99, "Sebastian", "sebastianImage"),
+                new PlayerManager(
+                    new Player(22, "Gus", "gusImage"),
+                    new Player(71, "Clint", "clintImage"),
+                    new Player(99, "Sebastian", "sebastianImage")
+                ),
+                99,
+            };
+
+            // Should retrieve the player.
+            yield return new object[] {
+                new Player(71, "Clint", "clintImage"),
+                new PlayerManager(
+                    new Player(22, "Gus", "gusImage"),
+                    new Player(71, "Clint", "clintImage"),
+                    new Player(99, "Sebastian", "sebastianImage")
+                ),
+                71,
+            };
+
+            // Should not retrieve a non-existing player.
+            yield return new object[] {
+                null,
+                new PlayerManager(
+                    new Player(22, "Gus", "gusImage"),
+                    new Player(71, "Clint", "clintImage"),
+                    new Player(99, "Sebastian", "sebastianImage")
+                ),
+                23, //does not exists.
             };
         }
     }
