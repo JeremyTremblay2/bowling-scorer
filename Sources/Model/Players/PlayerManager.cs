@@ -104,6 +104,11 @@ namespace Model.Players
         public bool RemovePlayer(int id)
             => RemovePlayer(GetPlayerFromID(id));
 
+        /// <summary>
+        /// Remove a player from the manager.
+        /// </summary>
+        /// <param name="player">The player to remove.</param>
+        /// <returns>A boolean indicating if the player as removed.</returns>
         public bool RemovePlayer(Player player)
             => players.Remove(player);
         
