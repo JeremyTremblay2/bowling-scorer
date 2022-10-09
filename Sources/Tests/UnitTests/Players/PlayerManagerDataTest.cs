@@ -11,6 +11,7 @@ namespace UnitTests.Players
     {
         public static IEnumerable<object[]> Data_AddPlayerToManager()
         {
+            // Add a player non existing in the manager.
             yield return new object[] {
                 true,
                 new Player[]
@@ -29,6 +30,8 @@ namespace UnitTests.Players
                 ),
                 new Player(4, "Harvey", "harveyImage"),
             };
+
+            // Add a player non existing in the manager.
             yield return new object[] {
                 true,
                 new Player[]
@@ -47,6 +50,8 @@ namespace UnitTests.Players
                 ),
                 new Player(9, "Franck", "franckImage"),
             };
+
+            // Add a player existing in the manager.
             yield return new object[] {
                 false,
                 new Player[]
@@ -66,6 +71,8 @@ namespace UnitTests.Players
                 ),
                 new Player(22, "Gus", "gusImage"),
             };
+
+            // Add a null value.
             yield return new object[] {
                 false,
                 new Player[]
@@ -84,6 +91,194 @@ namespace UnitTests.Players
                     new Player(43, "Maru", "maruImage")
                 ),
                 null,
+            };
+
+            // Add a non existing player with same ID as an other player already existing.
+            yield return new object[] {
+                false,
+                new Player[]
+                {
+                    new Player(12, "Marlon", "marlonImage"),
+                    new Player(45, "Vincent", "vincentImage"),
+                    new Player(85, "Jas", "jasImage"),
+                    new Player(75, "Pierre", "pierreImage"),
+                    new Player(43, "Maru", "maruImage"),
+                },
+                new PlayerManager(
+                    new Player(12, "Marlon", "marlonImage"),
+                    new Player(45, "Vincent", "vincentImage"),
+                    new Player(85, "Jas", "jasImage"),
+                    new Player(75, "Pierre", "pierreImage"),
+                    new Player(43, "Maru", "maruImage")
+                ),
+                new Player(85, "SpiderMan", "spiderManImage")
+            };
+        }
+
+        public static IEnumerable<object[]> Data_AddMultiplePlayersToManager()
+        {
+            // Add one player, not present in the manager.
+            yield return new object[] {
+                1,
+                new Player[]
+                {
+                    new Player(1, "Baptiste", "baptisteImage"),
+                    new Player(2, "Elliot", "elliotImage"),
+                    new Player(4, "Harvey", "harveyImage"),
+                    new Player(7, "Lewis", "lewisImage"),
+                    new Player(9, "Haley", "haleyImage"),
+                    new Player(8, "Franck", "franckImage"),
+                    new Player(10, "Leo", "leoImage"),
+                    new Player(11, "Marnie", "marnieImage"),
+                    new Player(15, "Willy", "willyImage"),
+                    new Player(50, "Elvis", "elvisImage"),
+                },
+                new Player[]
+                {
+                    new Player(7, "Lewis", "lewisImage"),
+                },
+                new PlayerManager(
+                    new Player(1, "Baptiste", "baptisteImage"),
+                    new Player(2, "Elliot", "elliotImage"),
+                    new Player(4, "Harvey", "harveyImage"),
+                    new Player(9, "Haley", "haleyImage"),
+                    new Player(8, "Franck", "franckImage"),
+                    new Player(10, "Leo", "leoImage"),
+                    new Player(11, "Marnie", "marnieImage"),
+                    new Player(50, "Elvis", "elvisImage"),
+                    new Player(15, "Willy", "willyImage")
+                ),
+                new Player[]
+                {
+                    new Player(7, "Lewis", "lewisImage"),
+                }
+            };
+
+            //Add null values and two players not present in the manager.
+            yield return new object[] {
+                2,
+                new Player[]
+                {
+                    new Player(1, "Baptiste", "baptisteImage"),
+                    new Player(2, "Elliot", "elliotImage"),
+                    new Player(4, "Harvey", "harveyImage"),
+                    new Player(7, "Lewis", "lewisImage"),
+                    new Player(9, "Haley", "haleyImage"),
+                    new Player(8, "Franck", "franckImage"),
+                    new Player(10, "Leo", "leoImage"),
+                    new Player(11, "Marnie", "marnieImage"),
+                    new Player(15, "Willy", "willyImage"),
+                    new Player(50, "Elvis", "elvisImage"),
+                },
+                new Player[]
+                {
+                    new Player(15, "Willy", "willyImage"),
+                    new Player(7, "Lewis", "lewisImage"),
+                },
+                new PlayerManager(
+                    new Player(1, "Baptiste", "baptisteImage"),
+                    new Player(2, "Elliot", "elliotImage"),
+                    new Player(4, "Harvey", "harveyImage"),
+                    new Player(9, "Haley", "haleyImage"),
+                    new Player(8, "Franck", "franckImage"),
+                    new Player(10, "Leo", "leoImage"),
+                    new Player(11, "Marnie", "marnieImage"),
+                    new Player(50, "Elvis", "elvisImage")
+                ),
+                new Player[]
+                {
+                    new Player(15, "Willy", "willyImage"),
+                    null,
+                    new Player(7, "Lewis", "lewisImage"),
+                    null,
+                    null
+                }
+            };
+
+            // Add players in multiple copies, and three new players.
+            yield return new object[] {
+                3,
+                new Player[]
+                {
+                    new Player(1, "Baptiste", "baptisteImage"),
+                    new Player(2, "Elliot", "elliotImage"),
+                    new Player(4, "Harvey", "harveyImage"),
+                    new Player(7, "Lewis", "lewisImage"),
+                    new Player(9, "Haley", "haleyImage"),
+                    new Player(8, "Franck", "franckImage"),
+                    new Player(10, "Leo", "leoImage"),
+                    new Player(11, "Marnie", "marnieImage"),
+                    new Player(15, "Willy", "willyImage"),
+                    new Player(50, "Elvis", "elvisImage"),
+                },
+                new Player[]
+                {
+                    new Player(15, "Willy", "willyImage"),
+                    new Player(7, "Lewis", "lewisImage"),
+                    new Player(9, "Haley", "haleyImage"),
+                },
+                new PlayerManager(
+                    new Player(1, "Baptiste", "baptisteImage"),
+                    new Player(2, "Elliot", "elliotImage"),
+                    new Player(4, "Harvey", "harveyImage"),
+                    new Player(8, "Franck", "franckImage"),
+                    new Player(10, "Leo", "leoImage"),
+                    new Player(11, "Marnie", "marnieImage"),
+                    new Player(50, "Elvis", "elvisImage")
+                ),
+                new Player[]
+                {
+                    new Player(15, "Willy", "willyImage"),
+                    new Player(15, "Willy", "willyImage"),
+                    new Player(7, "Lewis", "lewisImage"),
+                    new Player(2, "Elliot", "elliotImage"),
+                    new Player(2, "Elliot", "elliotImage"),
+                    new Player(9, "Haley", "haleyImage"),
+                }
+            };
+
+            // Add multiple null values, multiple player copies and differents players but with same ID.
+            yield return new object[] {
+                4,
+                new Player[]
+                {
+                    new Player(12, "Marlon", "marlonImage"),
+                    new Player(45, "Vincent", "vincentImage"),
+                    new Player(85, "Jas", "jasImage"),
+                    new Player(75, "Pierre", "pierreImage"),
+                    new Player(43, "Maru", "maruImage"),
+                    new Player(45, "Emily", "emilyImage"),
+                    new Player(25, "Leah", "leahImage"),
+                    new Player(22, "Gus", "gusImage"),
+                    new Player(71, "Clint", "clintImage"),
+                    new Player(99, "Sebastian", "sebastianImage"),
+                },
+                new Player[]
+                {
+                    new Player(25, "Leah", "leahImage"),
+                    new Player(43, "Maru", "maruImage"),
+                    new Player(75, "Pierre", "pierreImage"),
+                    new Player(12, "Marlon", "marlonImage"),
+                },
+                new PlayerManager(
+                    new Player(45, "Vincent", "vincentImage"),
+                    new Player(85, "Jas", "jasImage"),
+                    new Player(45, "Emily", "emilyImage"),
+                    new Player(22, "Gus", "gusImage"),
+                    new Player(71, "Clint", "clintImage"),
+                    new Player(99, "Sebastian", "sebastianImage")
+                ),
+                new Player[]
+                {
+                    new Player(25, "Leah", "leahImage"),
+                    new Player(43, "Maru", "maruImage"),
+                    null,
+                    new Player(43, "Maru", "maruImage"), // Same ID as previous.
+                    new Player(75, "Pierre", "pierreImage"),
+                    new Player(22, "Other person", "randomImage"), // Same ID as Gus
+                    new Player(12, "Marlon", "marlonImage"),
+                    null
+                }
             };
         }
     }
