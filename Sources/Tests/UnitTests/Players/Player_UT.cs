@@ -16,7 +16,7 @@ namespace UnitTests.Players
         [Fact]
         public void CreatePlayerShouldInitializeProperties()
         {
-            Player player = new(Guid.NewGuid(), "Jean", "linkToImage");
+            Player player = new(10, "Jean", "linkToImage");
             Assert.NotNull(player.Name);
             Assert.NotNull(player.Image);
             Assert.NotNull(player.Statistics);
@@ -25,11 +25,10 @@ namespace UnitTests.Players
         [Fact]
         public void CreatePlayerShouldSetPropertyValues()
         {
-            Guid guid = Guid.NewGuid();
-            Player player = new(guid, "Jean", "linkToImage");
+            Player player = new(10, "Jean", "linkToImage");
             Assert.Equal("Jean", player.Name);
             Assert.Equal("linkToImage", player.Image);
-            Assert.Equal(guid, player.ID);
+            Assert.Equal(10, player.ID);
         }
 
         [Theory]
@@ -104,9 +103,9 @@ namespace UnitTests.Players
         [Fact]
         public void ComparisonOpeartorsShouldReturnLogicValues()
         {
-            Player player1 = new(Guid.NewGuid(), "Jean", "linkToImage");
-            Player player2 = new(Guid.NewGuid(), "Adrien", "linkToImage");
-            Player player3 = new(Guid.NewGuid(), "Maxime", "linkToImage");
+            Player player1 = new(1, "Jean", "linkToImage");
+            Player player2 = new(1, "Adrien", "linkToImage");
+            Player player3 = new(2, "Maxime", "linkToImage");
             Assert.True(player1 > player2);
             Assert.True(player2 < player1);
             Assert.True(player3 > player2);
