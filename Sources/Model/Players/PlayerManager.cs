@@ -62,13 +62,9 @@ namespace Model.Players
         {
             List<Player> result = new();
             if (players == null) return result;
-            foreach (Player player in players)
-            {
-                if (AddPlayer(player))
-                {
-                    result.Add(player);
-                }
-            }
+            result.AddRange(from Player player in players
+                            where AddPlayer(player)
+                            select player);
             return result;
         }
 
@@ -142,7 +138,7 @@ namespace Model.Players
         {
             players.Sort();
             other.players.Sort();
-            return other != null && other.players.SequenceEqual(players);
+            return other.players.SequenceEqual(players);
         }
 
         /// <summary>
