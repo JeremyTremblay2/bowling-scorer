@@ -15,17 +15,17 @@ namespace Model.Players
         /// <summary>
         /// A unique identifier for the player.
         /// </summary>
-        public Guid ID { get; private set; }
+        public int ID { get; private set; }
 
         /// <summary>
         /// The name of the player.
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; internal set; }
 
         /// <summary>
         /// The profil picture of the player.
         /// </summary>
-        public string Image { get; private set; }
+        public string Image { get; internal set; }
 
         /// <summary>
         /// The player's statistics.
@@ -39,7 +39,7 @@ namespace Model.Players
         /// <param name="name">The name of the player.</param>
         /// <param name="image">The image of the player.</param>
         /// <exception cref="ArgumentNullException">If the player's name or image is null or empty.</exception>
-        public Player(Guid ID, string name, string image)
+        public Player(int ID, string name, string image)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -56,7 +56,7 @@ namespace Model.Players
         /// </summary>
         /// <param name="name">The name of the player.</param>
         /// <param name="image">The image of the player.</param>
-        public Player(string name, string image) : this(Guid.Empty, name, image) { }
+        public Player(string name, string image) : this(0, name, image) { }
 
         /// <summary>
         /// Serves as the default hash function.
@@ -85,7 +85,7 @@ namespace Model.Players
         /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
         public bool Equals(Player other)
         {
-            return ID.Equals(other.ID);
+            return other != null && ID.Equals(other.ID);
         }
 
         /// <summary>
