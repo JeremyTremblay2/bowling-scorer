@@ -12,11 +12,33 @@
 [![Vulnerabilities](https://codefirst.ddns.net/sonar/api/project_badges/measure?project=bowling-scorer&metric=vulnerabilities)](https://codefirst.ddns.net/sonar/dashboard?id=bowling-scorer)  
 
 
-# bowling-scorer  
+# Bowling Scorer
 
 Welcome on the bowling-scorer project!  
 
 The objective of this project is to create a mobile app to save the scores of bowling games. Players and scores can be entered in the application so as to provide statistics on the games played, winners, and thus allow players to follow their progress.  
 
-_Generated with a_ **Code#0** _template_  
-<img src="Documentation/doc_images/CodeFirst.png" height=40/>   
+## Features
+
+* Players can choose their name, their profile picture
+* Game allow you to play with an unlimited amount of players
+* Consult the statistics of every player registered in the App
+* Write scores in interactive scorebord (auto calculation)
+
+## Installation Instructions *(In progress)*
+
+
+## Usage instructions
+* Clone the repository
+* Double click on Solution.sln
+
+## API Reference
+* [.Net 6](https://learn.microsoft.com/en-us/dotnet/fundamentals/)
+* [Entity Framework](https://learn.microsoft.com/en-us/ef/)
+
+## Authors
+* Mickaël DUBOIS - Mickael.DUBOIS@etu.uca.fr - [GitLab here](https://gitlab.com/omega2028)
+* Jéremy TREMBLAY - Jeremy.TREMBLAY@etu.uca.fr - [GitLab here]()
+
+## Licence
+* [MIT](https://fr.wikipedia.org/wiki/Licence_MIT)
