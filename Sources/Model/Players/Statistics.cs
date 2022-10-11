@@ -127,7 +127,7 @@ namespace Model.Players
             if (obj == null) return false;
             if (obj == this) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((ThrowResult) obj);
+            return Equals((ThrowResult)obj);
         }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace Model.Players
             {
                 throw new ArgumentException("The argument is not a statistic.", nameof(obj));
             }
-            return CompareTo((Statistics) obj);
+            return CompareTo((Statistics)obj);
         }
 
         /// <summary>

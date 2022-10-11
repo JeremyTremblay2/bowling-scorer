@@ -20,10 +20,12 @@ namespace Model.Players
         /// <summary>
         /// The name of the player.
         /// </summary>
+        public string Name { get; internal set; }
 
         /// <summary>
         /// The profil picture of the player.
         /// </summary>
+        public string Image { get; internal set; }
 
         /// <summary>
         /// The player's statistics.
@@ -37,6 +39,7 @@ namespace Model.Players
         /// <param name="name">The name of the player.</param>
         /// <param name="image">The image of the player.</param>
         /// <exception cref="ArgumentNullException">If the player's name or image is null or empty.</exception>
+        public Player(int ID, string name, string image)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -53,6 +56,7 @@ namespace Model.Players
         /// </summary>
         /// <param name="name">The name of the player.</param>
         /// <param name="image">The image of the player.</param>
+        public Player(string name, string image) : this(0, name, image) { }
 
         /// <summary>
         /// Serves as the default hash function.
@@ -81,13 +85,14 @@ namespace Model.Players
         /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
         public bool Equals(Player other)
         {
+            return other != null && ID.Equals(other.ID);
         }
 
         /// <summary>
         /// Returns a string representing a player.
         /// </summary>
         /// <returns>A string representing a player.</returns>
-        public override string ToString() =>  $"{ID} - {Name}";
+        public override string ToString() => $"{ID} - {Name}";
 
         /// <summary>
         /// Compares the current instance with another object of the same type and returns an integer that indicates 

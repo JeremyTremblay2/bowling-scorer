@@ -7,21 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Model.Score.Rules;
-<<<<<<<< HEAD:Sources/Tests/UnitTests/score/Rules/Writers/ClassicFrameWriter_UT.cs
-using FrameWriterModel.Frame.ThrowResults;
-using FrameWriterModel.Frame;
-using FrameWriterModel.Writer;
-using FrameWriterModel.Exceptions;
-
-namespace UnitTests.score.Rules.Writers
-========
 using FrameWriterModel.Frame.ThrowResults;
 using FrameWriterModel.Frame;
 using FrameWriterModel.Writer;
 using FrameWriterModel.Exceptions;
 
 namespace UnitTests.Score.Rules
->>>>>>>> master:Sources/Tests/UnitTests/Score/Rules/ClassicFrameWriter_UT.cs
 {
     public class ClassicFrameWriter_UT
     {
