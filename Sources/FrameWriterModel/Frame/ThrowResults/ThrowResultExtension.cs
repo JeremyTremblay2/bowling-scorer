@@ -11,6 +11,12 @@ namespace FrameWriterModel.Frame.ThrowResults
     /// </summary>
     public static class ThrowResultExtension
     {
+        /// <summary>
+        /// Transform a ThrowResult to an integer.
+        /// </summary>
+        /// <param name="throwResult">The ThrowResult to convert.</param>
+        /// <returns>An integer describing the ThrowResult.</returns>
+        /// <exception cref="ArgumentException">If the ThrowResult cannot be convert.</exception>
         public static int ToInt(this ThrowResult throwResult)
         {
             return throwResult switch
@@ -32,6 +38,13 @@ namespace FrameWriterModel.Frame.ThrowResults
             };
         }
 
+        /// <summary>
+        /// Transform an integer to a ThrowResult.
+        /// </summary>
+        /// <param name="throwResult">The integer to convert.</param>
+        /// <param name="isStrike">If the result was a strike (use only to differenciate the strike and the spare).</param>
+        /// <returns>A ThrowResult describing the integer.</returns>
+        /// <exception cref="ArgumentException">If the ThrowResult cannot be convert.</exception>
         public static ThrowResult ToThrowResult(this int throwResult, bool isStrike)
         {
             return throwResult switch
@@ -51,6 +64,12 @@ namespace FrameWriterModel.Frame.ThrowResults
             };
         }
 
+        /// <summary>
+        /// Transform a ThrowResult to a char.
+        /// </summary>
+        /// <param name="throwResult">The ThrowResult to convert.</param>
+        /// <returns>A char describing the ThrowResult.</returns>
+        /// <exception cref="ArgumentException">If the ThrowResult cannot be convert.</exception>
         public static char ToChar(this ThrowResult throwResult)
         {
             return throwResult switch
