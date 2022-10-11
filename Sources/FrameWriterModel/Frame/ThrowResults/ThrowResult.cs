@@ -14,7 +14,7 @@ namespace FrameWriterModel.Frame.ThrowResults
         ZERO,
         ONE,
         TWO,
-        TREE,
+        THREE,
         FOUR,
         FIVE,
         SIX,
