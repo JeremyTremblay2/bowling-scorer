@@ -38,8 +38,8 @@ namespace UnitTests.Score.Rules
         {
             ClassicLastFrame classic = new ClassicLastFrame(1);
             AFrameWriter writer = new ClassicLastFrameWriter();
-            writer.WriteValue(classic, 1, ThrowResult.TREE);
-            Assert.Equal(ThrowResult.TREE, classic.ThrowResults[1]);
+            writer.WriteValue(classic, 1, ThrowResult.THREE);
+            Assert.Equal(ThrowResult.THREE, classic.ThrowResults[1]);
         }
 
 
