@@ -20,22 +20,8 @@ namespace Model.Score.Rules
         /// </summary>
         protected IScoreCalculator scoreCalculator;
 
-        public List<AFrame> GenerateClassicScoreTable()
-        {
-            return new List<AFrame>()
-            { 
-                new ClassicFrame(1),
-                new ClassicFrame(2),
-                new ClassicFrame(3),
-                new ClassicFrame(4),
-                new ClassicFrame(5),
-                new ClassicFrame(6),
-                new ClassicFrame(7),
-                new ClassicFrame(8),
-                new ClassicFrame(9),
-                new ClassicLastFrame(10)
-            };
-        }
+        public abstract List<AFrame> GenerateClassicScoreTable();
+       
 
         /// <summary>
         /// Writers, this is a list because it is possible to have different writing rules depending of the given AFrame.
