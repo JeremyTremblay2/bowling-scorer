@@ -54,7 +54,7 @@ namespace UnitTests.Players
                     new("Samuel", "waleImage"),
                     new("Mathéo", "frogImage"),
                 },
-                
+
             };
             yield return new object[] {
                 new Player[] {

@@ -85,7 +85,7 @@ namespace UnitTests.Players
             for (int i = 0; i < expectedPlayers.Length - 1; i++)
             {
                 Assert.True(expectedPlayers[i] <= expectedPlayers[i + 1]);
-                Assert.True(expectedPlayers[i+1] >= expectedPlayers[i]);
+                Assert.True(expectedPlayers[i + 1] >= expectedPlayers[i]);
             }
 
             var sortedPlayers = givenPlayers.ToList();

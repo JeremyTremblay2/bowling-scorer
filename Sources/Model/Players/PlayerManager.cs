@@ -107,7 +107,7 @@ namespace Model.Players
         /// <returns>A boolean indicating if the player as removed.</returns>
         public bool RemovePlayer(Player player)
             => players.Remove(player);
-        
+
         /// <summary>
         /// Get a player from his ID or null if no player has been founded.
         /// </summary>
@@ -126,7 +126,7 @@ namespace Model.Players
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != typeof(PlayerManager)) return false;
-            return Equals((PlayerManager) obj);
+            return Equals((PlayerManager)obj);
         }
 
         /// <summary>
