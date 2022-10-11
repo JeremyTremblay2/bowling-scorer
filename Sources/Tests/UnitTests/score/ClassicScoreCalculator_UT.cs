@@ -1,16 +1,14 @@
 ﻿using Model.Exceptions;
-using Model.Score.Rules;
+using Model.Score;
+using Model.Score.Frame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using Model.Score.Rules.Calculator;
-using FrameWriterModel.Frame;
-using FrameWriterModel.Frame.ThrowResults;
 
-namespace UnitTests.score.Rules.Calculator
+namespace UnitTests.score
 {
     public class ClassicScoreCalculator_UT
     {
@@ -263,7 +261,7 @@ namespace UnitTests.score.Rules.Calculator
                 return;
             }
             calculator.UpdateFromFrame(indexToBeUpdated, scoreBoard);
-            for (int i = 0; i < exceptedScoresValue.Count - 1; i++)
+            for(int i = 0; i < exceptedScoresValue.Count - 1; i++)
             {
                 Assert.Equal(exceptedScoresValue[i], scoreBoard[i].ScoreValue);
             }
@@ -565,7 +563,7 @@ namespace UnitTests.score.Rules.Calculator
         {
             List<AFrame> scoreBoard = new List<AFrame>();
             IScoreCalculator calculator = new ClassicScoreCalculator();
-            Assert.Throws<ArgumentException>(() => calculator.UpdateFromFrame(0, scoreBoard));
+            Assert.Throws<ArgumentException>(() =>  calculator.UpdateFromFrame(0, scoreBoard));
         }
 
         [Fact]
