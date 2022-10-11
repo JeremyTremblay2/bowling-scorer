@@ -64,3 +64,4 @@ namespace UnitTests.Score.Rules
         }
     }
 }
+

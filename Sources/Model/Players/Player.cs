@@ -92,7 +92,7 @@ namespace Model.Players
         /// Returns a string representing a player.
         /// </summary>
         /// <returns>A string representing a player.</returns>
-        public override string ToString() =>  $"{ID} - {Name}";
+        public override string ToString() => $"{ID} - {Name}";
 
         /// <summary>
         /// Compares the current instance with another object of the same type and returns an integer that indicates 

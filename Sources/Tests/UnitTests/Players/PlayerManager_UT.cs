@@ -66,7 +66,7 @@ namespace UnitTests.Players
 
         [Theory]
         [MemberData(nameof(PlayerManagerDataTest.Data_AddPlayerToManager), MemberType = typeof(PlayerManagerDataTest))]
-        public void AddPlayerToExistingManagerShouldUpdateCollections(bool expectedResult, 
+        public void AddPlayerToExistingManagerShouldUpdateCollections(bool expectedResult,
                                                                       IEnumerable<Player> expectedPlayers,
                                                                       PlayerManager playerManager,
                                                                       Player playerToBeAdded)
@@ -158,12 +158,12 @@ namespace UnitTests.Players
 
         [Theory]
         [MemberData(nameof(PlayerManagerDataTest.Data_EqualsManagers), MemberType = typeof(PlayerManagerDataTest))]
-        public void EqualsShouldReturnsLogicalValue(bool expectedResult, 
+        public void EqualsShouldReturnsLogicalValue(bool expectedResult,
                                                     PlayerManager playerManager1,
                                                     PlayerManager playerManager2)
         {
-            Assert.Equal(expectedResult, playerManager1.Equals((object) playerManager2));
-            Assert.Equal(expectedResult, playerManager2.Equals((object) playerManager1));
+            Assert.Equal(expectedResult, playerManager1.Equals((object)playerManager2));
+            Assert.Equal(expectedResult, playerManager2.Equals((object)playerManager1));
             if (expectedResult)
             {
                 Assert.Equal(playerManager1.GetHashCode(), playerManager2.GetHashCode());

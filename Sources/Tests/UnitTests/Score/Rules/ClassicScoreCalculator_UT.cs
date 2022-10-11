@@ -1,4 +1,4 @@
-﻿using Model.Exceptions;
+using Model.Exceptions;
 using Model.Score.Rules;
 using System;
 using System.Collections.Generic;
@@ -263,7 +263,7 @@ namespace UnitTests.Score.Rules
                 return;
             }
             calculator.UpdateFromFrame(indexToBeUpdated, scoreBoard);
-            for(int i = 0; i < exceptedScoresValue.Count - 1; i++)
+            for (int i = 0; i < exceptedScoresValue.Count - 1; i++)
             {
                 Assert.Equal(exceptedScoresValue[i], scoreBoard[i].ScoreValue);
             }
@@ -565,7 +565,7 @@ namespace UnitTests.Score.Rules
         {
             List<AFrame> scoreBoard = new List<AFrame>();
             IScoreCalculator calculator = new ClassicScoreCalculator();
-            Assert.Throws<ArgumentException>(() =>  calculator.UpdateFromFrame(0, scoreBoard));
+            Assert.Throws<ArgumentException>(() => calculator.UpdateFromFrame(0, scoreBoard));
         }
 
         [Fact]
