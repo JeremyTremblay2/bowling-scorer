@@ -2,6 +2,7 @@
 using FrameWriterModel.Frame.ThrowResults;
 using FrameWriterModel.Writer;
 using Model.Score.Rules.Calculator;
+using Model.Score.Rules.Retriever;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,12 @@ namespace Model.Score.Rules
         /// Choosen calculator
         /// </summary>
         protected IScoreCalculator scoreCalculator;
+
+        /// <summary>
+        /// This retriever allow the project to precise which ThrowResult can be added to a specific frame and index.
+        /// </summary>
+        protected IPossibleThrowResultsRetriever throwResultsRetriever;
+
         /// <summary>
         /// Writers, this is a list because it is possible to have different writing rules depending of the given AFrame.
         /// </summary>
@@ -29,9 +36,10 @@ namespace Model.Score.Rules
         /// </summary>
         /// <param name="scoreCalculator"></param>
         /// <param name="writers"></param>
-        protected ARules(IScoreCalculator scoreCalculator, List<AFrameWriter> writers)
+        protected ARules(IScoreCalculator scoreCalculator, IPossibleThrowResultsRetriever throwResultsRetriever, List<AFrameWriter> writers)
         {
             this.scoreCalculator = scoreCalculator;
+            this.throwResultsRetriever = throwResultsRetriever;
             this.writers = new List<AFrameWriter>(writers);
         }
 
@@ -71,6 +79,15 @@ namespace Model.Score.Rules
         public void UpdateFromFrame(int index, List<AFrame> scoreBoard)
         {
             scoreCalculator.UpdateFromFrame(index, scoreBoard);
+        }
+
+        /// <summary>
+        /// Returns a collection of the ThrowResult that can be added to a specific frame and index.
+        /// </summary>
+        /// <param name="frameToAdd">The frame to add a throw result.</param>
+        /// <param name="indexToAdd">The index of theframe to add the throw result.</param>
+        public IEnumerable<ThrowResult> GetPossibleThrowResults(AFrame frameToAdd, int indexToAdd) {
+            return throwResultsRetriever.GetPossibleThrowResults(frameToAdd, indexToAdd);
         }
     }
 }
