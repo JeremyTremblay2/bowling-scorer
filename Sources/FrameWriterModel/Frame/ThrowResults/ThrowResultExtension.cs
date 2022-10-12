@@ -90,5 +90,26 @@ namespace FrameWriterModel.Frame.ThrowResults
                 _ => throw new ArgumentException($"Cannot convert this ThrowResult to char : {throwResult}")
             };
         }
+
+        /// <summary>
+        /// Takes two integers as bounds in parameters and returns a collection of ThrowResult corresponding to the 
+        /// interval of these two bounds, bounds included. This method doesn't manage the strikes and spares.
+        /// </summary>
+        /// <param name="start">The start bound.</param>
+        /// <param name="end">The end bound.</param>
+        /// <returns>A collection of Throwresults between these two bounds.</returns>
+        public static IEnumerable<ThrowResult> ToThrowResults(this int start, int end)
+        {
+            if (end > start) return Enumerable.Empty<ThrowResult>();
+            List<ThrowResult> results = new List<ThrowResult>();
+            for (int i = start; i <= end; i++)
+            {
+                results.Add(i.ToThrowResult(false));
+            }
+            return results;
+        }
+
+        public static bool IsThrowResultBetween(this ThrowResult result, int start, int end)
+            => result.ToInt() >= start && result.ToInt() <= end;
     }
 }
