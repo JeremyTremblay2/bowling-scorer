@@ -100,7 +100,7 @@ namespace FrameWriterModel.Frame.ThrowResults
         /// <returns>A collection of Throwresults between these two bounds.</returns>
         public static IEnumerable<ThrowResult> ToThrowResults(this int start, int end)
         {
-            if (end > start) return Enumerable.Empty<ThrowResult>();
+            if (start > end) return Enumerable.Empty<ThrowResult>();
             List<ThrowResult> results = new List<ThrowResult>();
             for (int i = start; i <= end; i++)
             {
