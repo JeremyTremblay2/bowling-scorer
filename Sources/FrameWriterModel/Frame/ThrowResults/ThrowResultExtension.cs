@@ -109,6 +109,13 @@ namespace FrameWriterModel.Frame.ThrowResults
             return results;
         }
 
+        /// <summary>
+        /// Returns a boolean indicating is a throw result is present between two numbers.
+        /// </summary>
+        /// <param name="result">The ThrowResult to compare.</param>
+        /// <param name="start">The first bound (included) of the comparison.</param>
+        /// <param name="end">The second bound (included) of the comparison.</param>
+        /// <returns>A boolean if the ThrowResult value was between the bounds.</returns>
         public static bool IsThrowResultBetween(this ThrowResult result, int start, int end)
             => result.ToInt() >= start && result.ToInt() <= end;
     }
