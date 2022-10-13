@@ -19,6 +19,7 @@ namespace UnitTests.Players
         {
             var playerManager = new PlayerManager();
             Assert.NotNull(playerManager.Players);
+            Assert.NotNull(playerManager.SelectedPlayers);
         }
 
         [Fact]
@@ -26,6 +27,7 @@ namespace UnitTests.Players
         {
             var playerManager = new PlayerManager();
             Assert.Empty(playerManager.Players);
+            Assert.Empty(playerManager.SelectedPlayers);
         }
 
         [Fact]
@@ -33,6 +35,13 @@ namespace UnitTests.Players
         {
             var playerManager = new PlayerManager();
             Assert.Equal(typeof(ReadOnlyCollection<Player>), playerManager.Players.GetType());
+        }
+
+        [Fact]
+        public void PublicSelectedPlayerCollectionShouldBeReadOnly()
+        {
+            var playerManager = new PlayerManager();
+            Assert.Equal(typeof(ReadOnlyCollection<Player>), playerManager.SelectedPlayers.GetType());
         }
 
         [Fact]
@@ -144,6 +153,77 @@ namespace UnitTests.Players
             }
             Assert.Equal(expectedResult, result);
             Assert.Equal(sizeBeforeRemoving - (expectedResult ? 1 : 0), manager.Players.Count);
+        }
+
+        [Theory]
+        [InlineData(12, "Jean", "imageJean")]
+        [InlineData(4, "Theo", "imageTheo")]
+        [InlineData(2, "Elliott", "insectPicture")]
+        [InlineData(0, "Thomas", "defaultImage")]
+        [InlineData(9, "Mickael", "bigImage")]
+        [InlineData(7, "Robin", "imageRobin")]
+        public void AddSelectedPlayerToManagerShouldUpdateCollections(int ID, string name, string image)
+        {
+            Player player = new(ID, name, image);
+            PlayerManager playerManager = new(player);
+            playerManager.AddSelectedPlayer(player);
+            Assert.Single(playerManager.SelectedPlayers);
+            Assert.Equal(player.ID, playerManager.SelectedPlayers.First().ID);
+            Assert.Equal(player.Name, playerManager.SelectedPlayers.First().Name);
+            Assert.Equal(player.Image, playerManager.SelectedPlayers.First().Image);
+        }
+
+        [Theory]
+        [MemberData(nameof(PlayerManagerDataTest.Data_AddSelectedPlayerToManager), MemberType = typeof(PlayerManagerDataTest))]
+        public void AddSelectedPlayerToExistingManagerShouldUpdateCollections(bool expectedResult,
+                                                                      IEnumerable<Player> expectedPlayers,
+                                                                      PlayerManager playerManager,
+                                                                      Player playerToBeAdded)
+        {
+            bool result = playerManager.AddSelectedPlayer(playerToBeAdded);
+            Assert.Equal(expectedResult, result);
+            Assert.Equal(expectedPlayers.Count(), playerManager.SelectedPlayers.Count);
+            Assert.All(expectedPlayers, action: p => playerManager.SelectedPlayers.Contains(p));
+        }
+
+        [Theory]
+        [MemberData(nameof(PlayerManagerDataTest.Data_AddMultipleSelectedPlayersToManager), MemberType = typeof(PlayerManagerDataTest))]
+        public void AddMultipleSelectedPlayersShouldUpdateCollection(int expectedResult,
+                                                    IEnumerable<Player> expectedPlayers,
+                                                    IEnumerable<Player> expectedAddedPlayers,
+                                                    PlayerManager playerManager,
+                                                    params Player[] playersToAdd)
+        {
+            var addedPlayers = playerManager.AddSelectedPlayers(playersToAdd);
+            Assert.Equal(expectedResult, addedPlayers.Count());
+            Assert.All(expectedAddedPlayers, p => addedPlayers.Contains(p));
+
+            Assert.All(expectedPlayers.Except(expectedAddedPlayers), p => addedPlayers.Contains(p));
+            Assert.All(expectedPlayers, p => playerManager.SelectedPlayers.Contains(p));
+        }
+
+        [Theory]
+        [MemberData(nameof(PlayerManagerDataTest.Data_RemoveSelectedPlayers), MemberType = typeof(PlayerManagerDataTest))]
+        public void RemoveSelectedPlayerShouldRemovePlayerFromCollections(bool expectedResult,
+                                                                  PlayerManager manager,
+                                                                  Player playerToRemove)
+        {
+            int sizeBeforeRemoving = manager.SelectedPlayers.Count;
+            bool result = manager.RemoveSelectedPlayer(playerToRemove);
+            Assert.Equal(expectedResult, result);
+            Assert.Equal(sizeBeforeRemoving - (expectedResult ? 1 : 0), manager.SelectedPlayers.Count);
+        }
+
+        [Fact]
+        public void ClearSelectedPlayersShouldRemoveAllPlayers()
+        {
+            Player player1 = new Player(2, "Adrien", "adrienImage");
+            Player player2 = new Player(3, "Laurent", "laurentImage");
+            PlayerManager playerManager = new(player1, player2);
+            playerManager.AddSelectedPlayers(player1, player2);
+            Assert.Equal(2, playerManager.SelectedPlayers.Count);
+            playerManager.ClearSelectedPlayers();
+            Assert.Empty(playerManager.SelectedPlayers);
         }
 
         [Theory]
