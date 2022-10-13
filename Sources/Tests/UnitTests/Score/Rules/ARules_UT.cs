@@ -42,6 +42,11 @@ namespace UnitTests.Score.Rules
             {
                 return scoreCalculator;
             }
+
+            public override List<AFrame> GenerateScoreTable()
+            {
+                throw new NotImplementedException();
+            }
         }
         [Fact]
         public void Test_ARulesConstructor()
