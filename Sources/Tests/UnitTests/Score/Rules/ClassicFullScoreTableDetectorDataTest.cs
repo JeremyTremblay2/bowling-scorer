@@ -16,6 +16,12 @@ namespace UnitTests.Score.Rules
     {
         public static IEnumerable<object[]> Data_ScoreTables()
         {
+            // Create a null score table.
+            yield return new object[] {
+                false,
+                null,
+            };
+
             // Insert a correct score table.
             yield return new object[] {
                 true,
@@ -543,6 +549,65 @@ namespace UnitTests.Score.Rules
                         ThrowResult.THREE,
                         ThrowResult.SPARE,
                         ThrowResult.FIVE,
+                    },
+                }),
+            };
+
+            // An incorrect configuration with a strike at first throw but with the second box empty.
+            yield return new object[] {
+                false,
+                ToScoreTable(new ThrowResult[][]
+                {
+                    new ThrowResult[]
+                    {
+                        ThrowResult.TWO,
+                        ThrowResult.ONE,
+                    },
+                    new ThrowResult[]
+                    {
+                        ThrowResult.ZERO,
+                        ThrowResult.EIGHT,
+                    },
+                    new ThrowResult[]
+                    {
+                        ThrowResult.FOUR,
+                        ThrowResult.TWO,
+                    },
+                    new ThrowResult[]
+                    {
+                        ThrowResult.NONE,
+                        ThrowResult.STRIKE,
+                    },
+                    new ThrowResult[]
+                    {
+                        ThrowResult.TWO,
+                        ThrowResult.SEVEN,
+                    },
+                    new ThrowResult[]
+                    {
+                        ThrowResult.NINE,
+                        ThrowResult.SPARE,
+                    },
+                    new ThrowResult[]
+                    {
+                        ThrowResult.FOUR,
+                        ThrowResult.THREE,
+                    },
+                    new ThrowResult[]
+                    {
+                        ThrowResult.SEVEN,
+                        ThrowResult.ONE,
+                    },
+                    new ThrowResult[]
+                    {
+                        ThrowResult.EIGHT,
+                        ThrowResult.ZERO,
+                    },
+                    new ThrowResult[]
+                    {
+                        ThrowResult.STRIKE,
+                        ThrowResult.TWO,
+                        ThrowResult.NONE,
                     },
                 }),
             };

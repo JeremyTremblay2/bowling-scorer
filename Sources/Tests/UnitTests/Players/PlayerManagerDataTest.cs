@@ -117,6 +117,43 @@ namespace UnitTests.Players
 
         public static IEnumerable<object[]> Data_AddMultiplePlayersToManager()
         {
+            // Add a null collection, 0 players to the manager.
+            yield return new object[] {
+                0,
+                new Player[]
+                {
+                    new Player(1, "Baptiste", "baptisteImage"),
+                    new Player(2, "Elliot", "elliotImage"),
+                    new Player(4, "Harvey", "harveyImage"),
+                    new Player(7, "Lewis", "lewisImage"),
+                    new Player(9, "Haley", "haleyImage"),
+                    new Player(8, "Franck", "franckImage"),
+                    new Player(10, "Leo", "leoImage"),
+                    new Player(11, "Marnie", "marnieImage"),
+                    new Player(15, "Willy", "willyImage"),
+                    new Player(50, "Elvis", "elvisImage"),
+                },
+                new Player[]
+                {
+                },
+                new PlayerManager(
+                    new Player(1, "Baptiste", "baptisteImage"),
+                    new Player(2, "Elliot", "elliotImage"),
+                    new Player(4, "Harvey", "harveyImage"),
+                    new Player(9, "Haley", "haleyImage"),
+                    new Player(8, "Franck", "franckImage"),
+                    new Player(10, "Leo", "leoImage"),
+                    new Player(11, "Marnie", "marnieImage"),
+                    new Player(50, "Elvis", "elvisImage"),
+                    new Player(15, "Willy", "willyImage")
+                ),
+                new Player[]
+                {
+                    null
+                }
+            };
+
+
             // Add one player, not present in the manager.
             yield return new object[] {
                 1,
@@ -284,6 +321,32 @@ namespace UnitTests.Players
 
         public static IEnumerable<object[]> Data_EqualsManagers()
         {
+            // Create two managers of the same instance
+            PlayerManager manager = new PlayerManager(
+                new Player(22, "Gus", "gusImage"),
+                new Player(71, "Clint", "clintImage"),
+                new Player(99, "Sebastian", "sebastianImage")
+            );
+            yield return new object[] {
+                true,
+                manager,
+                manager,
+            };
+
+            // Create a null manager
+            yield return new object[] {
+                false,
+                manager,
+                null,
+            };
+
+            // Create an object
+            yield return new object[] {
+                false,
+                manager,
+                new object(),
+            };
+
             // Create two managers identicals and empty.
             yield return new object[] {
                 true,
