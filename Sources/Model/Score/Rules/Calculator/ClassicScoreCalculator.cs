@@ -16,7 +16,7 @@ namespace Model.Score.Rules.Calculator
     /// </summary>
     public class ClassicScoreCalculator : IScoreCalculator
     {
-        public int CalculateScore(List<AFrame> frames)
+        public int CalculateScore(IList<AFrame> frames)
         {
             int total = 0;
             foreach (AFrame frame in frames)
@@ -27,7 +27,7 @@ namespace Model.Score.Rules.Calculator
             return total;
         }
 
-        public void UpdateFromFrame(int index, List<AFrame> frames)
+        public void UpdateFromFrame(int index, IList<AFrame> frames)
         {
             AFrame frame0;
             ClassicFrame classic0;
@@ -49,7 +49,7 @@ namespace Model.Score.Rules.Calculator
             }
         }
 
-        public void UpdateLastFrame(List<AFrame> frames)
+        public void UpdateLastFrame(IList<AFrame> frames)
         {
             UpdateFromFrame(frames.Count - 1, frames);
         }
@@ -60,7 +60,7 @@ namespace Model.Score.Rules.Calculator
         /// <param name="classic0">Frame to compute</param>
         /// <param name="scoreBoard">The scoreboard</param>
         /// <exception cref="ArgumentException"></exception>
-        private void ComputeClassicFrame(ClassicFrame classic0, List<AFrame> scoreBoard)
+        private void ComputeClassicFrame(ClassicFrame classic0, IList<AFrame> scoreBoard)
         {
             int calculatedScore = 0;
             int selectedFrameIdx;
@@ -91,7 +91,8 @@ namespace Model.Score.Rules.Calculator
         /// <param name="selectedFrameIdx"></param>
         /// <param name="nextFrame"></param>
         /// <returns></returns>
-        private int Frame1IsNormalOrLast(ClassicFrame classic0, List<AFrame> scoreBoard, int calculatedScore, int selectedFrameIdx, AFrame nextFrame)
+        private int Frame1IsNormalOrLast(ClassicFrame classic0, IList<AFrame> scoreBoard, 
+                                         int calculatedScore, int selectedFrameIdx, AFrame nextFrame)
         {
             ClassicLastFrame classicLast1;
             ClassicFrame classic1;
@@ -152,7 +153,8 @@ namespace Model.Score.Rules.Calculator
         /// <param name="calculatedScore"></param>
         /// <param name="selectedFrameIdx"></param>
         /// <returns></returns>
-        private int FirstIsClassicFrame(AFrame nextFrame, ClassicFrame classic0, ClassicFrame classic1, List<AFrame> scoreBoard, int calculatedScore, int selectedFrameIdx)
+        private int FirstIsClassicFrame(AFrame nextFrame, ClassicFrame classic0, ClassicFrame classic1, 
+                                        IList<AFrame> scoreBoard, int calculatedScore, int selectedFrameIdx)
         {
             if (classic0.IsStrike)
             {
@@ -192,7 +194,7 @@ namespace Model.Score.Rules.Calculator
         /// <param name="calculatedScore"></param>
         /// <returns></returns>
         /// <exception cref="MissingFrameException"></exception>
-        private int Classic1IsStrike(List<AFrame> scoreBoard, int selectedFrameIdx, int calculatedScore)
+        private int Classic1IsStrike(IList<AFrame> scoreBoard, int selectedFrameIdx, int calculatedScore)
         {
             AFrame nextNextFrame;
             ClassicLastFrame classicLast2;

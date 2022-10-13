@@ -21,7 +21,8 @@ namespace FrameWriterModel.Writer
         /// <exception cref="ForbiddenThrowResultException">If you can't write this ThrowResult in this slot</exception>
         public override void WriteValue(AFrame frame, int index, ThrowResult throwResult)
         {
-            if (index >= 3 || index < 0) throw new ArgumentOutOfRangeException("The given index is out of range, the classic last frame has only 3 slots. (index 0, 1 and 2)");
+            if (index >= 3 || index < 0) throw new ArgumentOutOfRangeException(nameof(index),
+                "The given index is out of range, the classic last frame has only 3 slots. (index 0, 1 and 2)");
             if (index == 0)
             {
                 if (throwResult == ThrowResult.SPARE)

@@ -122,12 +122,12 @@ namespace Model.Players
         /// </summary>
         /// <param name="obj">The object to compare with the actual object.</param>
         /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
-        public override bool Equals(Object obj)
+        public override bool Equals(object obj)
         {
             if (obj == null) return false;
-            if (obj == this) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((ThrowResult)obj);
+            if (ReferenceEquals(obj, this)) return true;
+            if (obj.GetType() != typeof(Statistics)) return false;
+            return Equals((Statistics) obj);
         }
 
         /// <summary>

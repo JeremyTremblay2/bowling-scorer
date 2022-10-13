@@ -19,58 +19,68 @@ namespace Model.Score
         /// <summary>
         /// The ScoreTable content
         /// </summary>
-        private readonly List<AFrame> _scoreTable;
-        /// <summary>
-        /// The ScoreTable content
-        /// </summary>
-        public ReadOnlyCollection<AFrame> FrameScoreTable;
+        private readonly IList<AFrame> _frames;
+
         /// <summary>
         /// Rules used in this class
         /// </summary>
         private readonly ARules rules;
 
         /// <summary>
-        /// Total score of the table, computed with the give, rules
+        /// The ScoreTable content
         /// </summary>
-        public int TotalScore => rules.CalculateScore(_scoreTable);
+        public ReadOnlyCollection<AFrame> Frames { get; private set; }
 
         /// <summary>
-        /// A table of score, the content and rules applied are defined by the given Rules
+        /// Total score of the table, computed with the given rules
         /// </summary>
-        /// <param name="rules"></param>
+        public int TotalScore => rules.CalculateScore(_frames);
+
+        /// <summary>
+        /// Create a new ScoreTble with the rules specified.
+        /// </summary>
+        /// <param name="rules">The bowling rules.</param>
         public ScoreTable(ARules rules)
         {
             this.rules = rules;
-            _scoreTable = rules.GenerateScoreTable();
-            FrameScoreTable = new ReadOnlyCollection<AFrame>(_scoreTable);
+            _frames = rules.GenerateScoreTable();
+            Frames = new ReadOnlyCollection<AFrame>(_frames);
         }
 
         /// <summary>
         /// Write a value in a frame at the given index by using given rules at the constructor
         /// </summary>
-        /// <param name="frame"></param>
-        /// <param name="index"></param>
-        /// <param name="throwResult"></param>
+        /// <param name="frame">The frame which will be write into.</param>
+        /// <param name="index">The index of the box inside the frame.</param>
+        /// <param name="throwResult">The result to write.</param>
         public void WriteValue(AFrame frame, int index, ThrowResult throwResult)
-        {
-            rules.WriteValue(frame, index, throwResult);
-        }
+            => rules.WriteValue(frame, index, throwResult);
+
+        /// <summary>
+        /// Write a value in a frame at the given index by using given rules at the constructor.
+        /// </summary>
+        /// <param name="frameIndex">The index of the frame which will be write into.</param>
+        /// <param name="index">The index of the box inside the frame.</param>
+        /// <param name="throwResult">The result to write.</param>
+        public void WriteValue(int frameIndex, int index, ThrowResult throwResult)
+            => rules.WriteValue(Frames[frameIndex], index, throwResult);
 
         /// <summary>
         /// Update the last frame of the ScoreBoard by using the rules
         /// </summary>
-        public void UpdateLastFrame()
-        {
-            rules.UpdateLastFrame(_scoreTable);
-        }
+        public void UpdateLastFrame() => rules.UpdateLastFrame(_frames);
 
         /// <summary>
-        /// Update the given frame in the ScoreBoard by using the rules
+        /// Update the given frame in the ScoreBoard by using the rules.
         /// </summary>
-        /// <param name="index"></param>
-        public void UpdateFromFrame(int index)
-        {
-            rules.UpdateFromFrame(index, _scoreTable);
-        }
+        /// <param name="index">The index of the frame to update.</param>
+        public void UpdateFromFrame(int index) => rules.UpdateFromFrame(index, _frames);
+
+        /// <summary>
+        /// Returns a boolean indicating whether the scoreboard is complete according to established bowling rules.
+        /// </summary>
+        /// <param name="scoreTable">The score table to inspect.</param>
+        /// <returns>A boolean indicating whether the scoreboard is complete or not.</returns>
+        public bool IsScoreTableComplete() => rules.IsScoreTableComplete(this);
     }
 }

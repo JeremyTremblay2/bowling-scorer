@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace UnitTests.Score.Rules
 {
     /// <summary>
-    /// Represent data fro unit testing the ClassicPossibleThrowResultsRetriever class.
+    /// Represent data for unit testing the ClassicPossibleThrowResultsRetriever class.
     /// </summary>
     public class ClassicPossibleThrowResultsRetrieverDataTest
     {
@@ -18,28 +18,21 @@ namespace UnitTests.Score.Rules
         {
             // Insert in the first box, in an null frame.
             yield return new object[] {
-                new ThrowResult[]
-                {
-                    
-                },
+                Array.Empty<ThrowResult>(),
                 null,
                 0
             };
 
             // Insert in the first box, in an empty frame at wrong index.
             yield return new object[] {
-                new ThrowResult[]
-                {
-                },
+                Array.Empty<ThrowResult>(),
                 new ClassicFrame(2, ThrowResult.NONE, ThrowResult.NONE),
                 -1
             };
 
             // Insert in the first box, in an empty frame at wrong index.
             yield return new object[] {
-                new ThrowResult[]
-                {
-                },
+                Array.Empty<ThrowResult>(),
                 new ClassicFrame(2, ThrowResult.NONE, ThrowResult.NONE),
                 4
             };
@@ -228,18 +221,14 @@ namespace UnitTests.Score.Rules
 
             // Insert in the first box, in a frame with wrong index.
             yield return new object[] {
-                new ThrowResult[]
-                {
-                },
+                Array.Empty<ThrowResult>(),
                 new ClassicLastFrame(2, ThrowResult.NONE, ThrowResult.NONE, ThrowResult.NONE),
                 -1
             };
 
             // Insert in the first box, in a frame with wrong index.
             yield return new object[] {
-                new ThrowResult[]
-                {
-                },
+                Array.Empty<ThrowResult>(),
                 new ClassicLastFrame(2, ThrowResult.NONE, ThrowResult.NONE, ThrowResult.NONE),
                 3
             };

@@ -17,18 +17,18 @@ namespace Model.Score.Rules.Calculator
         /// </summary>
         /// <param name="frames">List of frames</param>
         /// <returns>The total score calculated</returns>
-        public int CalculateScore(List<AFrame> frames);
+        public int CalculateScore(IList<AFrame> frames);
 
         /// <summary>
         /// Update the score of the last Frame
         /// </summary>
         /// <param name="frames">List of frames</param>
-        public void UpdateLastFrame(List<AFrame> frames);
+        public void UpdateLastFrame(IList<AFrame> frames);
         /// <summary>
         /// Update the score from a specific Frame
         /// </summary>
         /// <param name="index">Index of the frame to update</param>
         /// <param name="frames">List of frames</param>
-        public void UpdateFromFrame(int index, List<AFrame> frames);
+        public void UpdateFromFrame(int index, IList<AFrame> frames);
     }
 }

@@ -3,6 +3,7 @@ using FrameWriterModel.Frame.ThrowResults;
 using FrameWriterModel.Writer;
 using Model.Score.Rules;
 using Model.Score.Rules.Calculator;
+using Model.Score.Rules.Detector;
 using Model.Score.Rules.Retriever;
 using System;
 using System.Collections.Generic;
@@ -20,8 +21,9 @@ namespace UnitTests.Score.Rules
     {
         private class ARuleTester : ARules
         {
-            public ARuleTester(IScoreCalculator scoreCalculator, IPossibleThrowResultsRetriever throwResultsRetriever, 
-                List<AFrameWriter> writers) : base(scoreCalculator, throwResultsRetriever, writers)
+            public ARuleTester(IScoreCalculator scoreCalculator, IPossibleThrowResultsRetriever throwResultsRetriever,
+                IFullScoreTableDetector scoreTableDetector, IList<AFrameWriter> writers)
+                : base(scoreCalculator, throwResultsRetriever, scoreTableDetector, writers)
             {
             }
 
@@ -34,7 +36,7 @@ namespace UnitTests.Score.Rules
             /// Used only for test
             /// </summary>
             /// <returns></returns>
-            public List<AFrameWriter> GetWriters()
+            public IList<AFrameWriter> GetWriters()
             {
                 return writers;
             }
@@ -48,7 +50,7 @@ namespace UnitTests.Score.Rules
                 return scoreCalculator;
             }
 
-            public override List<AFrame> GenerateScoreTable()
+            public override IList<AFrame> GenerateScoreTable()
             {
                 throw new NotImplementedException();
             }
@@ -64,9 +66,10 @@ namespace UnitTests.Score.Rules
         {
             IScoreCalculator scoreCalculator = new ClassicScoreCalculator();
             IPossibleThrowResultsRetriever throwResultsRetriever = new ClassicPossibleThrowResultsRetriever();
+            IFullScoreTableDetector scoreTableDetector = new ClassicFullScoreTableDetector();
             AFrameWriter classicFrameWriter = new ClassicFrameWriter();
             AFrameWriter classicLastFrameWriter = new ClassicLastFrameWriter();
-            ARules aRules = new ARuleTester(scoreCalculator, throwResultsRetriever, 
+            ARules aRules = new ARuleTester(scoreCalculator, throwResultsRetriever, scoreTableDetector,
                 new List<AFrameWriter> { classicFrameWriter, classicLastFrameWriter});
             ARuleTester aRuleTester = aRules as ARuleTester;
             Assert.NotNull(aRuleTester);

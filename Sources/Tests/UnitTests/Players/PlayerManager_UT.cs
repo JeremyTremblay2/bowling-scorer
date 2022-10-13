@@ -239,11 +239,18 @@ namespace UnitTests.Players
         [Theory]
         [MemberData(nameof(PlayerManagerDataTest.Data_EqualsManagers), MemberType = typeof(PlayerManagerDataTest))]
         public void EqualsShouldReturnsLogicalValue(bool expectedResult,
-                                                    PlayerManager playerManager1,
-                                                    PlayerManager playerManager2)
+                                                    object playerManager1,
+                                                    object playerManager2)
         {
-            Assert.Equal(expectedResult, playerManager1.Equals((object)playerManager2));
-            Assert.Equal(expectedResult, playerManager2.Equals((object)playerManager1));
+            if (playerManager1 != null)
+            {
+                Assert.Equal(expectedResult, playerManager1.Equals(playerManager2));
+            }
+            if (playerManager2 != null)
+            {
+                Assert.Equal(expectedResult, playerManager2.Equals(playerManager1));
+            }
+            if (playerManager1 == null || playerManager2 == null) return;
             if (expectedResult)
             {
                 Assert.Equal(playerManager1.GetHashCode(), playerManager2.GetHashCode());

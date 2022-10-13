@@ -59,7 +59,7 @@ namespace FrameWriterModel.Frame.ThrowResults
                 7 => ThrowResult.SEVEN,
                 8 => ThrowResult.EIGHT,
                 9 => ThrowResult.NINE,
-                10 => isStrike == true ? ThrowResult.STRIKE : ThrowResult.SPARE,
+                10 => isStrike ? ThrowResult.STRIKE : ThrowResult.SPARE,
                 _ => throw new ArgumentException($"Cannot convert this int to ThrowResult : {throwResult}")
             };
         }

@@ -113,10 +113,10 @@ namespace FrameWriterModel.Frame
         /// </summary>
         /// <param name="obj">other</param>
         /// <returns>equality</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == null) return false;
-            if (ReferenceEquals(obj, this)) return true;
+            if (obj == this) return true;
             if (!obj.GetType().Equals(GetType())) return false;
             return Equals(obj as AFrame);
         }
