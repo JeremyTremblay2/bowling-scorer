@@ -11,7 +11,7 @@ namespace FrameWriterModel.Frame
     /// <summary>
     /// Represents a Frame
     /// </summary>
-    public abstract class AFrame
+    public abstract class AFrame : IEquatable<AFrame>
     {
         /// <summary>
         /// The name of the Frame
@@ -62,6 +62,14 @@ namespace FrameWriterModel.Frame
         private int cumulativeScore;
 
         /// <summary>
+        /// Property returning a boolean indicating if the Frame is empty.
+        /// </summary>
+        public bool IsEmpty
+        {
+            get => throwResults.All(t => t == ThrowResult.NONE);
+        }
+
+        /// <summary>
         /// Build a Frame with the specified label and the specified number of slots
         /// </summary>
         /// <param name="frameNumberLabel">Name of the Frame</param>
@@ -108,9 +116,14 @@ namespace FrameWriterModel.Frame
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
-            if (!(obj is AFrame)) return false;
-            AFrame other = (AFrame)obj;
-            return frameNumberLabel == other.FrameNumberLabel;
+            if (ReferenceEquals(obj, this)) return true;
+            if (!obj.GetType().Equals(GetType())) return false;
+            return Equals(obj as AFrame);
+        }
+
+        public bool Equals(AFrame? other)
+        {
+            return other != null && FrameNumberLabel.Equals(other.FrameNumberLabel);
         }
 
         /// <summary>
@@ -120,6 +133,11 @@ namespace FrameWriterModel.Frame
         public override int GetHashCode()
         {
             return FrameNumberLabel;
+        }
+
+        public override string ToString()
+        {
+            return $"[{FrameNumberLabel}] - Score: {ScoreValue} / Total: {CumulativeScore}";
         }
     }
 }
