@@ -2,6 +2,7 @@ using FrameWriterModel.Frame;
 using FrameWriterModel.Frame.ThrowResults;
 using FrameWriterModel.Writer;
 using Model.Score.Rules.Calculator;
+using Model.Score.Rules.Detector;
 using Model.Score.Rules.Retriever;
 using System;
 using System.Collections.Generic;
@@ -26,27 +27,33 @@ namespace Model.Score.Rules
         /// </summary>
         protected IPossibleThrowResultsRetriever throwResultsRetriever;
 
+        protected IFullScoreTableDetector scoreTableDetector;
+
         /// <summary>
         /// Generate a Score table according to the defined rules
         /// </summary>
         /// <returns></returns>
-        public abstract List<AFrame> GenerateScoreTable();
+        public abstract IList<AFrame> GenerateScoreTable();
        
 
         /// <summary>
         /// Writers, this is a list because it is possible to have different writing rules depending of the given AFrame.
         /// </summary>
-        protected List<AFrameWriter> writers;
+        protected IList<AFrameWriter> writers;
 
         /// <summary>
         /// Use the given writer and calculator to apply specified rules
         /// </summary>
         /// <param name="scoreCalculator"></param>
         /// <param name="writers"></param>
-        protected ARules(IScoreCalculator scoreCalculator, IPossibleThrowResultsRetriever throwResultsRetriever, List<AFrameWriter> writers)
+        protected ARules(IScoreCalculator scoreCalculator, 
+                         IPossibleThrowResultsRetriever throwResultsRetriever,
+                         IFullScoreTableDetector scoreTableDetector,
+                         IList<AFrameWriter> writers)
         {
             this.scoreCalculator = scoreCalculator;
             this.throwResultsRetriever = throwResultsRetriever;
+            this.scoreTableDetector = scoreTableDetector;
             this.writers = new List<AFrameWriter>(writers);
         }
 
@@ -63,7 +70,7 @@ namespace Model.Score.Rules
         /// </summary>
         /// <param name="scoreBoard"></param>
         /// <returns></returns>
-        public int CalculateScore(List<AFrame> scoreBoard)
+        public int CalculateScore(IList<AFrame> scoreBoard)
         {
             return scoreCalculator.CalculateScore(scoreBoard);
         }
@@ -73,7 +80,7 @@ namespace Model.Score.Rules
         /// </summary>
         /// <param name="scoreBoard"></param>
         /// <returns></returns>
-        public void UpdateLastFrame(List<AFrame> scoreBoard)
+        public void UpdateLastFrame(IList<AFrame> scoreBoard)
         {
             scoreCalculator.UpdateLastFrame(scoreBoard);
         }
@@ -83,7 +90,7 @@ namespace Model.Score.Rules
         /// </summary>
         /// <param name="index"></param>
         /// <param name="scoreBoard"></param>
-        public void UpdateFromFrame(int index, List<AFrame> scoreBoard)
+        public void UpdateFromFrame(int index, IList<AFrame> scoreBoard)
         {
             scoreCalculator.UpdateFromFrame(index, scoreBoard);
         }
@@ -96,6 +103,16 @@ namespace Model.Score.Rules
         public IEnumerable<ThrowResult> GetPossibleThrowResults(AFrame frameToAdd, int indexToAdd)
         {
             return throwResultsRetriever.GetPossibleThrowResults(frameToAdd, indexToAdd);
+        }
+
+        /// <summary>
+        /// Returns a boolean indicating whether the scoreboard is complete according to established bowling rules.
+        /// </summary>
+        /// <param name="scoreTable">The score table to inspect.</param>
+        /// <returns>A boolean indicating whether the scoreboard is complete or not.</returns>
+        public bool IsScoreTableComplete(ScoreTable scoreTable)
+        {
+            return scoreTableDetector.IsScoreTableComplete(scoreTable);
         }
     }
 }

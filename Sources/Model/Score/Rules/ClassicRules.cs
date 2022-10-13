@@ -2,6 +2,7 @@
 using FrameWriterModel.Frame.ThrowResults;
 using FrameWriterModel.Writer;
 using Model.Score.Rules.Calculator;
+using Model.Score.Rules.Detector;
 using Model.Score.Rules.Retriever;
 using System.Collections.Generic;
 
@@ -16,7 +17,7 @@ namespace Model.Score.Rules
         /// Use a classic calculator and classicWriters to apply classic game rules
         /// </summary>
         public ClassicRules() : base(new ClassicScoreCalculator(), new ClassicPossibleThrowResultsRetriever(),
-            new List<AFrameWriter> { new ClassicFrameWriter(), new ClassicLastFrameWriter()})
+            new ClassicFullScoreTableDetector(), new List<AFrameWriter> { new ClassicFrameWriter(), new ClassicLastFrameWriter()})
         {
         }
 
