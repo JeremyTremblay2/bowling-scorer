@@ -22,14 +22,14 @@ namespace Model.Score
         private readonly IList<AFrame> _frames;
 
         /// <summary>
-        /// The ScoreTable content
-        /// </summary>
-        public ReadOnlyCollection<AFrame> Frames;
-
-        /// <summary>
         /// Rules used in this class
         /// </summary>
         private readonly ARules rules;
+
+        /// <summary>
+        /// The ScoreTable content
+        /// </summary>
+        public ReadOnlyCollection<AFrame> Frames { get; private set; }
 
         /// <summary>
         /// Total score of the table, computed with the given rules

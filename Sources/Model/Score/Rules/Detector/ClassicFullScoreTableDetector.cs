@@ -29,10 +29,8 @@ namespace Model.Score.Rules.Detector
                 {
                     if (!IsClassicFrameComplete(classicFrame)) return false;
                 }
-                else if (frame is ClassicLastFrame lastFrame)
-                {
-                    if (!IsClassicLastFrameComplete(lastFrame)) return false;
-                }
+                else if (frame is ClassicLastFrame lastFrame && !IsClassicLastFrameComplete(lastFrame))
+                    return false;
             }
             return true;
         }
