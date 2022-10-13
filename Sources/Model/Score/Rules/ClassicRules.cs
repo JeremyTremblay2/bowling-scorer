@@ -21,7 +21,7 @@ namespace Model.Score.Rules
         {
         }
 
-        public override List<AFrame> GenerateClassicScoreTable()
+        public override List<AFrame> GenerateScoreTable()
         {
             return new List<AFrame>()
             {

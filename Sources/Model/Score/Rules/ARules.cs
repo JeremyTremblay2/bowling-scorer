@@ -16,11 +16,15 @@ namespace Model.Score.Rules
     public abstract class ARules
     {
         /// <summary>
-        /// Choosen calculator
+        /// Choosen calculator, used to compute scores
         /// </summary>
         protected IScoreCalculator scoreCalculator;
 
-        public abstract List<AFrame> GenerateClassicScoreTable();
+        /// <summary>
+        /// Generate a Score table according to the defined rules
+        /// </summary>
+        /// <returns></returns>
+        public abstract List<AFrame> GenerateScoreTable();
        
 
         /// <summary>

@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 
 namespace Model.Score
 {
+    /// <summary>
+    /// A Score table contains Frames, she represents the grid score table that we can see in bowling
+    /// This score table apply the given injected rules (in constructor) to compute score, write scores...
+    /// </summary>
     public class ScoreTable
     {
         /// <summary>
@@ -37,7 +41,7 @@ namespace Model.Score
         public ScoreTable(ARules rules)
         {
             this.rules = rules;
-            _scoreTable = rules.GenerateClassicScoreTable();
+            _scoreTable = rules.GenerateScoreTable();
             FrameScoreTable = new ReadOnlyCollection<AFrame>(_scoreTable);
         }
 
