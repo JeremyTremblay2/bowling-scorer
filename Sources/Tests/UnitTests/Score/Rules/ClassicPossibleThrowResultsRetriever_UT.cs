@@ -11,6 +11,9 @@ using Xunit;
 
 namespace UnitTests.Score.Rules
 {
+    /// <summary>
+    /// Unit test class for the testing of the ClassicPossibleThrowResultsRetriever class.
+    /// </summary>
     public class ClassicPossibleThrowResultsRetriever_UT
     {
         [Theory]

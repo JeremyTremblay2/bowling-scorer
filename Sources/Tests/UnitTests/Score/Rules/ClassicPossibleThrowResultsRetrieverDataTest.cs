@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace UnitTests.Score.Rules
 {
     /// <summary>
-    /// Represent data fro unit testing the ClassicPossibleThrowResultsRetriever class.
+    /// Represent data for unit testing the ClassicPossibleThrowResultsRetriever class.
     /// </summary>
     public class ClassicPossibleThrowResultsRetrieverDataTest
     {

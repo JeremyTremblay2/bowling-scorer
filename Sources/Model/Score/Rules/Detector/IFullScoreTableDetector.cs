@@ -17,6 +17,6 @@ namespace Model.Score.Rules.Detector
         /// </summary>
         /// <param name="scoreTable">The score table to inspect.</param>
         /// <returns>A boolean indicating whether the scoreboard is complete or not.</returns>
-        bool IsGameFinished(ScoreTable scoreTable);
+        bool IsScoreTableComplete(ScoreTable scoreTable);
     }
 }
