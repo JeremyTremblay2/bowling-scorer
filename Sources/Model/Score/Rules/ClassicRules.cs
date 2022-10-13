@@ -20,6 +20,23 @@ namespace Model.Score.Rules
         {
         }
 
+        public override List<AFrame> GenerateScoreTable()
+        {
+            return new List<AFrame>()
+            {
+                new ClassicFrame(1),
+                new ClassicFrame(2),
+                new ClassicFrame(3),
+                new ClassicFrame(4),
+                new ClassicFrame(5),
+                new ClassicFrame(6),
+                new ClassicFrame(7),
+                new ClassicFrame(8),
+                new ClassicFrame(9),
+                new ClassicLastFrame(10)
+            };
+        }
+
         /// <summary>
         /// Write a value in the given AFrame by using the writers.
         /// Here if a ClassicFrame is given, a ClassicFrameWriter will be used to write the result

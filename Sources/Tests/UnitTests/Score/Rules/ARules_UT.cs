@@ -48,6 +48,11 @@ namespace UnitTests.Score.Rules
                 return scoreCalculator;
             }
 
+            public override List<AFrame> GenerateScoreTable()
+            {
+                throw new NotImplementedException();
+            }
+
             public IPossibleThrowResultsRetriever GetThrowResultsRetriever()
             {
                 return throwResultsRetriever;
