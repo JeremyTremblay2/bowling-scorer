@@ -1,4 +1,4 @@
-﻿using FrameWriterModel.Frame;
+using FrameWriterModel.Frame;
 using FrameWriterModel.Frame.ThrowResults;
 using FrameWriterModel.Writer;
 using Model.Score.Rules.Calculator;
@@ -17,7 +17,7 @@ namespace Model.Score.Rules
     public abstract class ARules
     {
         /// <summary>
-        /// Choosen calculator
+        /// Choosen calculator, used to compute scores
         /// </summary>
         protected IScoreCalculator scoreCalculator;
 
@@ -25,6 +25,13 @@ namespace Model.Score.Rules
         /// This retriever allow the project to precise which ThrowResult can be added to a specific frame and index.
         /// </summary>
         protected IPossibleThrowResultsRetriever throwResultsRetriever;
+
+        /// <summary>
+        /// Generate a Score table according to the defined rules
+        /// </summary>
+        /// <returns></returns>
+        public abstract List<AFrame> GenerateScoreTable();
+       
 
         /// <summary>
         /// Writers, this is a list because it is possible to have different writing rules depending of the given AFrame.
@@ -86,7 +93,8 @@ namespace Model.Score.Rules
         /// </summary>
         /// <param name="frameToAdd">The frame to add a throw result.</param>
         /// <param name="indexToAdd">The index of theframe to add the throw result.</param>
-        public IEnumerable<ThrowResult> GetPossibleThrowResults(AFrame frameToAdd, int indexToAdd) {
+        public IEnumerable<ThrowResult> GetPossibleThrowResults(AFrame frameToAdd, int indexToAdd)
+        {
             return throwResultsRetriever.GetPossibleThrowResults(frameToAdd, indexToAdd);
         }
     }
