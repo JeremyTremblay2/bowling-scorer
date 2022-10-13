@@ -40,8 +40,6 @@ namespace FrameWriterModel.Exceptions
         /// <param name="info">A serialization information.</param>
         /// <param name="context">A streaming context of the exception.</param>
         protected ForbiddenThrowResultException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
+            : base(info, context) { }
     }
 }

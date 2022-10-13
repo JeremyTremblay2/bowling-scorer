@@ -40,8 +40,6 @@ namespace Model.Exceptions
         /// <param name="info">A serialization information.</param>
         /// <param name="context">A streaming context of the exception.</param>
         protected MissingFrameException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
+            : base(info, context) { }
     }
 }
