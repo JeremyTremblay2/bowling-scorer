@@ -13,14 +13,24 @@ namespace Model.Players
     public class PlayerManager : IEquatable<PlayerManager>
     {
         /// <summary>
-        /// The private read-only collection of player.
+        /// The private read-only collection of players.
         /// </summary>
         private readonly List<Player> players;
+
+        /// <summary>
+        /// The private read-only collection of selected players.
+        /// </summary>
+        private readonly List<Player> selectedPlayers;
 
         /// <summary>
         /// Property containing a read-only collection of players.
         /// </summary>
         public ReadOnlyCollection<Player> Players { get; private set; }
+
+        /// <summary>
+        /// Property containing a read-only collection of selected players.
+        /// </summary>
+        public ReadOnlyCollection<Player> SelectedPlayers { get; private set; }
 
         /// <summary>
         /// Create a new PlayerManager.
@@ -29,8 +39,50 @@ namespace Model.Players
         {
             this.players = new List<Player>();
             Players = new ReadOnlyCollection<Player>(this.players);
+            selectedPlayers = new List<Player>();
+            SelectedPlayers = new ReadOnlyCollection<Player>(selectedPlayers);
             AddPlayers(players);
         }
+
+        /// <summary>
+        /// Add a player to the selected player collection.
+        /// </summary>
+        /// <param name="player">The player to be added.</param>
+        /// <returns>A boolean indicating if the player was added.</returns>
+        public bool AddSelectedPlayer(Player player)
+        {
+            if (player == null || selectedPlayers.Contains(player) || !players.Contains(player)) return false;
+            selectedPlayers.Add(player);
+            return true;
+        }
+
+        /// <summary>
+        /// Add a collection of players into the selected player collection, and return the players added.
+        /// </summary>
+        /// <param name="players">The players to be added.</param>
+        /// <returns>A collecion of the players that have been added to the collection.</returns>
+        public IEnumerable<Player> AddSelectedPlayers(params Player[] players)
+        {
+            List<Player> result = new();
+            if (players == null) return result;
+            result.AddRange(from Player player in players
+                            where AddSelectedPlayer(player)
+                            select player);
+            return result;
+        }
+
+        /// <summary>
+        /// Remove a specific player from the selected Players collection.
+        /// </summary>
+        /// <param name="player">The player to be removed.</param>
+        /// <returns>A boolean indicating if the player was removed.</returns>
+        public bool RemoveSelectedPlayer(Player player)
+            => selectedPlayers.Remove(player);
+
+        /// <summary>
+        /// Clear the collection of selected players.
+        /// </summary>
+        public void ClearSelectedPlayers() => selectedPlayers.Clear();
 
         /// <summary>
         /// Create and add a new player to this manager.
