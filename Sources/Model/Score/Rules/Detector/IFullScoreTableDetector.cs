@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrameWriterModel.Frame;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,5 +19,12 @@ namespace Model.Score.Rules.Detector
         /// <param name="scoreTable">The score table to inspect.</param>
         /// <returns>A boolean indicating whether the scoreboard is complete or not.</returns>
         bool IsScoreTableComplete(ScoreTable scoreTable);
+
+        /// <summary>
+        /// Returns a boolean indicating whether the frame is complete according to established bowling rules.
+        /// </summary>
+        /// <param name="frame">The frame to inspect.</param>
+        /// <returns>A boolean indicating whether the frame is complete or not.</returns>
+        bool IsFrameComplete(AFrame frame);
     }
 }
