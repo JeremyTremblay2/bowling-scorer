@@ -13,6 +13,14 @@ using System.Threading.Tasks;
 
 namespace Model.Games
 {
+    /// <summary>
+    /// A Game represent a Bowling Game. It contains data about the current turn, the creation date of the game, if this one is finished or not...
+    /// It contains also a dictionnary linking the players and their results (ScoreTables). 
+    /// Once a game is created, it is impossible to add or remove another player.
+    /// A Game is a unique cycle: it is possible to change the turn once a frame is correctly fill in, but it is impossible to go back.
+    /// However, it is possible to edit a frame already fill in by a player.
+    /// This class also makes available methods to get possible results for a special configuration, and other stuff.
+    /// </summary>
     public class Game : IEquatable<Game>
     {
 
@@ -25,18 +33,42 @@ namespace Model.Games
         /// </summary>
         public int ID { get; private set; }
 
+        /// <summary>
+        /// A boolean indicating if the game is finished or not. Once a game is finished, it CANNOT be edited.
+        /// </summary>
         public bool IsFinished { get; private set; }
 
+        /// <summary>
+        /// The creation date of the game.
+        /// </summary>
         public DateTime CreationDate { get; private set; }
 
+        /// <summary>
+        /// The current turn (which also represent the current frame in the score table). Starts at 0.
+        /// </summary>
         public int CurrentTurn { get; private set; }
 
+        /// <summary>
+        /// The player who is currently filling in his Frame.
+        /// </summary>
         public Player CurrentPlayer { get; private set; }
 
+        /// <summary>
+        /// A dictionnary that links the player to their scores.
+        /// </summary>
         public ReadOnlyDictionary<Player, ScoreTable> Scores { get; private set; }
 
+        /// <summary>
+        /// The players who participate to the game.
+        /// </summary>
         public ReadOnlyCollection<Player> Players { get; private set; }
 
+        /// <summary>
+        /// Create a new instance of Game.
+        /// </summary>
+        /// <param name="rules">The rules used by the game.</param>
+        /// <param name="ID">The ID of the Game.</param>
+        /// <param name="players">The players that will participate to the game.</param>
         public Game(ARules rules, int ID, IEnumerable<Player> players)
         {
             if (players == null)
@@ -66,10 +98,22 @@ namespace Model.Games
             IsFinished = false;
         }
 
+        /// <summary>
+        /// Create a new instance of Game with a default ID.
+        /// </summary>
+        /// <param name="rules">The rules used by the game.</param>
+        /// <param name="players">The players that will participate to the game.</param>
         public Game(ARules rules, IEnumerable<Player> players) : this(rules, 0, players)
         {
         }
 
+        /// <summary>
+        /// Change the current turn to allow another player to fill in his result frame.
+        /// It is possile to change the turn until the game will be considered as finished, when the score tables will be full.
+        /// Throw an exception if the game is finished or if the last player has not complete his frame before.
+        /// </summary>
+        /// <returns>A boolean indicating if the turn was changed.</returns>
+        /// <exception cref="InvalidOperationException">If the game is finished or if the last player has not complete his frame before.</exception>
         public bool NextTurn()
         {
             if (IsFinished) throw new InvalidOperationException("The game is finished, impossible to pass to the next turn.");
@@ -150,6 +194,13 @@ namespace Model.Games
             return false;
         }
 
+        /// <summary>
+        /// Add a result throw result in the score table of the current player of the game.
+        /// </summary>
+        /// <param name="index">The frame index where to write the score.</param>
+        /// <param name="throwResult">The result to write into.</param>
+        /// <returns>A boolean indicating if the throw result was added to the score table.</returns>
+        /// <exception cref="InvalidOperationException">If the game is finished or if the throw result was not allowed to be putted here.</exception>
         public bool AddResultToCurrentPlayer(int index, ThrowResult throwResult)
         {
             if (IsFinished) throw new InvalidOperationException("Impossible to add a result to the game because the game is finished.");
@@ -168,6 +219,10 @@ namespace Model.Games
             return true;
         }
 
+        /// <summary>
+        /// Finish the game if all score tables are complete, and make it unmodifiable.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">If not all the score tables are complete.</exception>
         public void Finish()
         {
             IEnumerable<KeyValuePair<Player, ScoreTable>> invalidScoreTables = Scores.Where(s => !s.Value.IsScoreTableComplete());
@@ -188,11 +243,20 @@ namespace Model.Games
             }
         }
 
+        /// <summary>
+        /// Serves as the default hash function.
+        /// </summary>
+        /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
             return HashCode.Combine(ID);
         }
 
+        /// <summary>
+        /// Determines whether the two object instances are equal.
+        /// </summary>
+        /// <param name="obj">The object to compare with the actual object.</param>
+        /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
@@ -201,11 +265,20 @@ namespace Model.Games
             return Equals(obj as Game);
         }
 
+        /// <summary>
+        /// Determines whether the two object instances are equal.
+        /// </summary>
+        /// <param name="other">The other game to compare with the actual game.</param>
+        /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
         public bool Equals(Game other)
         {
             return other != null && other.ID.Equals(ID);
         }
 
+        /// <summary>
+        /// Returns a string representing a game.
+        /// </summary>
+        /// <returns>A string representing a game.</returns>
         public override string ToString()
         {
             StringBuilder builder = new("[Game ");
@@ -220,6 +293,11 @@ namespace Model.Games
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Add a collection of players into the dictionnary and the list.
+        /// </summary>
+        /// <param name="players">The players to be added.</param>
+        /// <param name="rules">The rules of the game.</param>
         private void AddPlayers(IEnumerable<Player> players, ARules rules)
         {
             foreach (Player p in players)
@@ -228,6 +306,11 @@ namespace Model.Games
             }
         }
 
+        /// <summary>
+        /// Add a player into the dictionnary and the list.
+        /// </summary>
+        /// <param name="player">The player to be added.</param>
+        /// <param name="rules">The rules of the game.</param>
         private void AddPlayer(Player player, ARules rules)
         {
             if (player != null && !_scores.ContainsKey(player))
@@ -237,16 +320,18 @@ namespace Model.Games
             }
         }
 
+        /// <summary>
+        /// Check if a frame is correct, it means if a frame respect the Bowling rules defined when the game is created.
+        /// </summary>
+        /// <param name="frame">The frame to check if it is correct.</param>
+        /// <returns>A boolean indicating if the frame is correct.</returns>
         private bool IsFrameCorrect(AFrame frame)
         {
             if (frame == null) return false;
             object copy = frame.Clone();
             if (copy == null || copy is not AFrame) return false;
             AFrame emptyFrame = (AFrame) copy;
-            for (int i = 0; i < emptyFrame.ThrowResults.Count; i++)
-            {
-                Scores[Players.First()].WriteValue(emptyFrame, i, ThrowResult.NONE);
-            }
+            emptyFrame.CleanFrame();
 
             for (int i = 0; i < emptyFrame.ThrowResults.Count; i++)
             {
