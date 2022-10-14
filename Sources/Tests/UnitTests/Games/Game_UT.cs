@@ -91,5 +91,7 @@ namespace UnitTests.Games
         {
             Assert.Throws<ArgumentException>(() => new Game(new ClassicRules(), 0, new List<Player>()));
         }
+
+
     }
 }

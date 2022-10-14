@@ -74,8 +74,8 @@ namespace UnitTests.Exceptions
         [Fact]
         public void ThrowMissingFrameExceptionWithStreamingContextShouldThrowForbiddenThrowResultException()
         {
-            Exception exception = new AnotherException(new SerializationInfo(GetType(), new FormatterConverter()), new StreamingContext());
-            Assert.ThrowsAsync<ForbiddenThrowResultException>(() => throw exception);
+            Assert.ThrowsAsync<AnotherException>(
+                () => throw new AnotherException(new SerializationInfo(GetType(), new FormatterConverter()), new StreamingContext()));
         }
     }
 }
