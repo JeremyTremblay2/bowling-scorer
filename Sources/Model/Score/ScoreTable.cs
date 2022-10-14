@@ -105,5 +105,12 @@ namespace Model.Score
         /// <param name="frame">The frame to inspect.</param>
         /// <returns>A boolean indicating whether the frame is complete or not.</returns>
         public bool IsFrameComplete(AFrame frame) => rules.IsFrameComplete(frame);
+
+        /// <summary>
+        /// Returns a boolean indicating whether the rules are equals to rules defined for this ScoreTable.
+        /// </summary>
+        /// <param name="rules">The Rules to compare.</param>
+        /// <returns>A boolean indicating whether the rules are equals or not.</returns>
+        public bool AreRulesEquals(ARules rules) => this.rules.Equals(rules);
     }
 }

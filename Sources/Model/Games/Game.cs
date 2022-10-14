@@ -26,7 +26,7 @@ namespace Model.Games
 
         private readonly IList<Player> _players;
 
-        private readonly Dictionary<Player, ScoreTable> _scores;
+        private readonly IDictionary<Player, ScoreTable> _scores;
 
         /// <summary>
         /// A unique identifier for the game.
@@ -104,7 +104,43 @@ namespace Model.Games
         /// <param name="rules">The rules used by the game.</param>
         /// <param name="players">The players that will participate to the game.</param>
         public Game(ARules rules, IEnumerable<Player> players) : this(rules, 0, players)
+        { }
+
+        /// <summary>
+        /// Create a new instance of Game.
+        /// This Game will be already fill with scores from players and table scores. It is also possible to mark it as finished.
+        /// </summary>
+        /// <param name="rules">The rules of the game. It must be the same as the rules of the table scores or the couple of data will be ignored.</param>
+        /// <param name="scores">A dictionnary of players and table scores.</param>
+        /// <param name="isFinished">Preise if you want the game already finished or not. Be sure the game is really finished, 
+        /// because an InvalidOperationException will be throw if it is not the case.
+        /// </param>
+        /// <exception cref="ArgumentException">If the collection does not contains at least one player and score table valids.</exception>
+        public Game(ARules rules, IDictionary<Player, ScoreTable> scores, bool isFinished) : this(rules, scores.Keys)
         {
+            _scores.Clear();
+            _players.Clear();
+            var validScores = scores.Where(s => s.Key != null && s.Value != null);
+            foreach (KeyValuePair<Player, ScoreTable> score in validScores)
+            {
+                if (score.Value.AreRulesEquals(rules)) // be sure we are manipulating score tables with same rules.
+                {
+                    _scores.Add(score);
+                    _players.Add(score.Key);
+                }
+            }
+            if (_scores.Any())
+            {
+                throw new ArgumentException("Impossible to create a game because the collection "
+                    + "must contains at least one player and score table.", nameof(scores));
+            }
+            // If the game is finished, initialize the game like it should be at the end, when score tables are complete.
+            if (isFinished)
+            {
+                CurrentPlayer = null;
+                CurrentTurn = _scores[_players.First()].Frames.Count - 1;
+                Finish(); // Call this to ensure the score tables given are valid.
+            }
         }
 
         /// <summary>

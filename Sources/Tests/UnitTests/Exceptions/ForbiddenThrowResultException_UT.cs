@@ -43,8 +43,7 @@ namespace UnitTests.Exceptions
             /// <param name="context">A streaming context of the exception.</param>
             public AnotherException(SerializationInfo info, StreamingContext context)
                 : base(info, context)
-            {
-            }
+            { }
 
         }
 
@@ -69,8 +68,8 @@ namespace UnitTests.Exceptions
         [Fact]
         public void ThrowForbiddenThrowResultExceptionWithStreamingContextShouldThrowForbiddenThrowResultException()
         {
-            Assert.ThrowsAsync<ForbiddenThrowResultException>(() 
-                => throw new AnotherException(new SerializationInfo(GetType(), new FormatterConverter()), new StreamingContext()));
+            Exception exception = new AnotherException(new SerializationInfo(GetType(), new FormatterConverter()), new StreamingContext());
+            Assert.ThrowsAsync<ForbiddenThrowResultException>(() => throw exception);
         }
     }
 }
