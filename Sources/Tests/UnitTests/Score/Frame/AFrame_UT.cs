@@ -20,6 +20,11 @@ namespace UnitTests.Score.Frame
             public BadFrame(int frameNumberLabel, int nbThrows) : base(frameNumberLabel, nbThrows)
             {
             }
+
+            public override object Clone()
+            {
+                throw new NotImplementedException();
+            }
         }
         [Fact]
         public void Test_Constructor()
@@ -87,12 +92,13 @@ namespace UnitTests.Score.Frame
         }
 
         [Theory]
-        [InlineData(1, 1)]
-        [InlineData(2, 2)]
-        public void Test_GetHashCode(int labelNumber, int hashResult)
+        [InlineData(1)]
+        [InlineData(2)]
+        public void Test_GetHashCode(int labelNumber)
         {
             AFrame frame = new BadFrame(labelNumber, 2);
-            Assert.Equal(hashResult, frame.GetHashCode());
+            AFrame anotherFrame = new BadFrame(labelNumber, 20);
+            Assert.Equal(anotherFrame.GetHashCode(), frame.GetHashCode());
         }
     }
 }

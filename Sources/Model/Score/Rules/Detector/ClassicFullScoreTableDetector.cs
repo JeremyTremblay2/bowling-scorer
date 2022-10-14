@@ -25,12 +25,7 @@ namespace Model.Score.Rules.Detector
             if (scoreTable == null) return false;
             foreach (var frame in scoreTable.Frames)
             {
-                if (frame is ClassicFrame classicFrame)
-                {
-                    if (!IsClassicFrameComplete(classicFrame)) return false;
-                }
-                else if (frame is ClassicLastFrame lastFrame && !IsClassicLastFrameComplete(lastFrame))
-                    return false;
+                if (!IsFrameComplete(frame)) return false;
             }
             return true;
         }
