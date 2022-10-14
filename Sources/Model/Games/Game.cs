@@ -93,7 +93,7 @@ namespace Model.Games
             }
             this.ID = ID;
             CreationDate = DateTime.Now;
-            CurrentTurn = 0;
+            CurrentTurn = 1;
             CurrentPlayer = Players.First();
             IsFinished = false;
         }
@@ -111,7 +111,7 @@ namespace Model.Games
         /// This Game will be already fill with scores from players and table scores. It is also possible to mark it as finished.
         /// </summary>
         /// <param name="rules">The rules of the game. It must be the same as the rules of the table scores or the couple of data will be ignored.</param>
-        /// <param name="scores">A dictionnary of players and table scores.</param>
+        /// <param name="scores">A dictionnary of players and table scores (the table scores must be full).</param>
         /// <param name="isFinished">Preise if you want the game already finished or not. Be sure the game is really finished, 
         /// because an InvalidOperationException will be throw if it is not the case.
         /// </param>
@@ -123,22 +123,24 @@ namespace Model.Games
             var validScores = scores.Where(s => s.Key != null && s.Value != null);
             foreach (KeyValuePair<Player, ScoreTable> score in validScores)
             {
-                if (score.Value.AreRulesEquals(rules)) // be sure we are manipulating score tables with same rules.
+                // be sure we are manipulating score tables full with same rules.
+                if (score.Value.AreRulesEquals(rules) && score.Value.IsScoreTableComplete()) 
                 {
-                    _scores.Add(score);
-                    _players.Add(score.Key);
+                    AddPlayer(score.Key, score.Value);
                 }
             }
-            if (_scores.Any())
+            if (_scores.Count == 0)
             {
                 throw new ArgumentException("Impossible to create a game because the collection "
                     + "must contains at least one player and score table.", nameof(scores));
             }
+
+            CurrentPlayer = null;
+            CurrentTurn = _scores[_players.First()].Frames.Count;
+
             // If the game is finished, initialize the game like it should be at the end, when score tables are complete.
             if (isFinished)
             {
-                CurrentPlayer = null;
-                CurrentTurn = _scores[_players.First()].Frames.Count - 1;
                 Finish(); // Call this to ensure the score tables given are valid.
             }
         }
@@ -154,11 +156,11 @@ namespace Model.Games
         {
             if (IsFinished) throw new InvalidOperationException("The game is finished, impossible to pass to the next turn.");
             if (CurrentPlayer == null) return false;
-            if (!IsFrameCorrect(Scores[CurrentPlayer].Frames[CurrentTurn]))
+            if (!Scores[CurrentPlayer].IsFrameComplete(Scores[CurrentPlayer].Frames[CurrentTurn - 1]))
                 throw new InvalidOperationException($"The last frame of {CurrentPlayer} is not complete, impossible to change the turn.");
 
             // Game is considered as "Finished" but edition is always possible.
-            if (CurrentTurn == Scores[CurrentPlayer].Frames.Count - 1
+            if (CurrentTurn == Scores[CurrentPlayer].Frames.Count
                 && Players.Last().Equals(CurrentPlayer))
             {
                 CurrentPlayer = null;
@@ -203,16 +205,17 @@ namespace Model.Games
         /// <param name="frameToReplace">The new frame to add. </param>
         /// <param name="frameIndex">The index of the frame to replace.</param>
         /// <returns>A boolean indicating if the edition has worked.</returns>
-        /// <exception cref="InvalidOperationException">If the game is marked over and an editing attempt takes place.</exception>
+        /// <exception cref="ArgumentException">If the game is marked over and an editing attempt takes place.</exception>
         public bool EditResult(Player affectedPlayer, AFrame frameToReplace)
         {
-            if (IsFinished) throw new InvalidOperationException("Impossible to edit a result of the game because the game is finished.");
             if (affectedPlayer == null || !_players.Contains(affectedPlayer) 
                 || frameToReplace == null || frameToReplace.FrameNumberLabel < 0
-                || frameToReplace.FrameNumberLabel > Scores[affectedPlayer].Frames.Count) return false;
+                || frameToReplace.FrameNumberLabel > Scores[affectedPlayer].Frames.Count) 
+                throw new ArgumentException("One of the argument given is not or not valid. "
+                    + $"affectedPlayer: {affectedPlayer}, frameToReplace: {frameToReplace}.");
 
             ScoreTable scoreTable = Scores[affectedPlayer];
-            AFrame actualFrame = Scores[affectedPlayer].Frames[frameToReplace.FrameNumberLabel];
+            AFrame actualFrame = Scores[affectedPlayer].Frames[frameToReplace.FrameNumberLabel - 1];
 
             if (frameToReplace.ThrowResults.Count != actualFrame.ThrowResults.Count) return false;
             if (!scoreTable.IsFrameComplete(frameToReplace)) return false;
@@ -220,11 +223,12 @@ namespace Model.Games
 
             // If the player has already added a result to his score at this specific frame before edit it.
             if (frameToReplace.FrameNumberLabel < CurrentTurn
-                || (frameToReplace.FrameNumberLabel == CurrentTurn && affectedPlayer < CurrentPlayer)) {
+                || (frameToReplace.FrameNumberLabel == CurrentTurn && 
+                (CurrentPlayer == null || affectedPlayer < CurrentPlayer))) {
                 for (int i = 0; i < actualFrame.ThrowResults.Count; i++) {
                     scoreTable.WriteValue(actualFrame, i, frameToReplace.ThrowResults[i]);
                 }
-                scoreTable.UpdateFromFrame(frameToReplace.FrameNumberLabel);
+                scoreTable.UpdateFromFrame(frameToReplace.FrameNumberLabel - 1);
                 return true;
             }
             return false;
@@ -244,14 +248,14 @@ namespace Model.Games
 
             ScoreTable scoreTable = Scores[CurrentPlayer];
 
-            if (!GetPossibleThrowResults(CurrentPlayer, CurrentTurn, index).Contains(throwResult))
+            if (!GetPossibleThrowResults(CurrentPlayer, CurrentTurn - 1, index).Contains(throwResult))
             {
                 throw new InvalidOperationException($"Impossible to add the result {throwResult.ToChar()} to the score table of the current player, "
                     + "because the it is not a valid value.");
             }
 
-            scoreTable.WriteValue(CurrentTurn, index, throwResult);
-            scoreTable.UpdateFromFrame(CurrentTurn);
+            scoreTable.WriteValue(CurrentTurn - 1, index, throwResult);
+            scoreTable.UpdateFromFrame(CurrentTurn - 1);
             return true;
         }
 
@@ -266,6 +270,7 @@ namespace Model.Games
             {
                 IsFinished = true;
             }
+            // Sould NEVER appened in the actual configuration.
             else
             {
                 StringBuilder builder = new("Impossible to finish the game because ");
@@ -338,7 +343,7 @@ namespace Model.Games
         {
             foreach (Player p in players)
             {
-                AddPlayer(p, rules);
+                AddPlayer(p, new ScoreTable(rules));
             }
         }
 
@@ -347,11 +352,11 @@ namespace Model.Games
         /// </summary>
         /// <param name="player">The player to be added.</param>
         /// <param name="rules">The rules of the game.</param>
-        private void AddPlayer(Player player, ARules rules)
+        private void AddPlayer(Player player, ScoreTable scoreTable)
         {
             if (player != null && !_scores.ContainsKey(player))
             {
-                _scores.Add(player, new ScoreTable(rules));
+                _scores.Add(player, scoreTable);
                 _players.Add(player);
             }
         }
@@ -363,7 +368,6 @@ namespace Model.Games
         /// <returns>A boolean indicating if the frame is correct.</returns>
         private bool IsFrameCorrect(AFrame frame)
         {
-            if (frame == null) return false;
             object copy = frame.Clone();
             if (copy == null || copy is not AFrame) return false;
             AFrame emptyFrame = (AFrame) copy;
@@ -374,6 +378,10 @@ namespace Model.Games
                 if (!Scores[Players.First()].GetPossibleThrowResults(emptyFrame, i).Contains(frame.ThrowResults[i]))
                 {
                     return false;
+                }
+                else
+                {
+                    Scores[Players.First()].WriteValue(emptyFrame, i, frame.ThrowResults[i]);
                 }
             }
             return true;

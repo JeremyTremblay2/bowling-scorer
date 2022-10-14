@@ -104,7 +104,7 @@ namespace FrameWriterModel.Frame
         {
             for (int i = 0; i < throwResults.Length; i++)
             {
-                throwResults[0] = ThrowResult.NONE;
+                throwResults[i] = ThrowResult.NONE;
             }
         }
 
