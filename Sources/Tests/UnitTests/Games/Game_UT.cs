@@ -113,8 +113,8 @@ namespace UnitTests.Games
                                                                         Player[] playersToAdd)
         {
             Game game = new Game(new ClassicRules(), playersToAdd);
-            Assert.Equal(expectedPlayers.Count(), game.Players.Count);
-            Assert.Equal(expectedPlayers.Count(), game.Scores.Count);
+            Assert.Equal(expectedPlayers.Length, game.Players.Count);
+            Assert.Equal(expectedPlayers.Length, game.Scores.Count);
             Assert.All(game.Players, p => expectedPlayers.Contains(p));
             Assert.All(game.Scores.Keys, p => expectedPlayers.Contains(p));
         }
@@ -139,7 +139,7 @@ namespace UnitTests.Games
             {
                 Game game = new Game(rulesToAdd, scoresToAdd, false);
                 Assert.Equal(expectedNumberOfPlayers, game.Players.Count);
-                Assert.All(game.Scores.Keys, p => scoresToAdd.Keys.Contains(p));
+                Assert.All(game.Scores.Keys, p => scoresToAdd.ContainsKey(p));
                 Assert.All(game.Scores.Values, p => scoresToAdd.Values.Contains(p));
                 Assert.Null(game.CurrentPlayer);
                 Assert.Equal(10, game.CurrentTurn);

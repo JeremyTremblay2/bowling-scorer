@@ -324,7 +324,7 @@ namespace Model.Games
         {
             StringBuilder builder = new("[Game ");
             builder.Append(ID).Append("] ");
-            _ = IsFinished == true ? builder.Append("Finished at ") : builder.Append("In progress since at ");
+            _ = IsFinished ? builder.Append("Finished at ") : builder.Append("In progress since at ");
             builder.AppendLine(CreationDate.ToString());
             foreach (KeyValuePair<Player, ScoreTable> scores in Scores)
             {
@@ -369,7 +369,7 @@ namespace Model.Games
         private bool IsFrameCorrect(AFrame frame)
         {
             object copy = frame.Clone();
-            if (copy == null || copy is not AFrame) return false;
+            if (copy is not AFrame) return false;
             AFrame emptyFrame = (AFrame) copy;
             emptyFrame.CleanFrame();
 
