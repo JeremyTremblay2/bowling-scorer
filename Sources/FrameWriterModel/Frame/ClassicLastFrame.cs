@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace FrameWriterModel.Frame
 {
     /// <summary>
-    /// The last ClassiFrame in the ScoreBoard in bowling
+    /// The ClassicLastFrame represent a classic frame with 3 boxes.
     /// </summary>
     public class ClassicLastFrame : AFrame
     {
@@ -33,6 +33,16 @@ namespace FrameWriterModel.Frame
             frameWriter.WriteValue(this, 0, throwResult1);
             frameWriter.WriteValue(this, 1, throwResult2);
             frameWriter.WriteValue(this, 2, throwResult3);
+        }
+
+        /// <summary>
+        /// Create a new instace of ClassicLastFrame.
+        /// </summary>
+        /// <returns>A copy of this.</returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public override object Clone()
+        {
+            throw new NotImplementedException();
         }
     }
 }

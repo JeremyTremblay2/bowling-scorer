@@ -11,7 +11,7 @@ namespace FrameWriterModel.Frame
     /// <summary>
     /// Represents a Frame
     /// </summary>
-    public abstract class AFrame : IEquatable<AFrame>
+    public abstract class AFrame : IEquatable<AFrame>, ICloneable
     {
         /// <summary>
         /// The name of the Frame
@@ -107,6 +107,12 @@ namespace FrameWriterModel.Frame
                 throwResults[0] = ThrowResult.NONE;
             }
         }
+
+        /// <summary>
+        /// Create a new instance of AFram by cloning the current object.
+        /// </summary>
+        /// <returns>A copy of this.</returns>
+        public abstract object Clone();
 
         /// <summary>
         /// Two frames are equals if they have the same FrameLabelNumber
