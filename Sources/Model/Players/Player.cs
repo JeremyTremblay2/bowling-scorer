@@ -68,7 +68,7 @@ namespace Model.Players
         /// <summary>
         /// Determines whether the two object instances are equal.
         /// </summary>
-        /// <param name="other">The object to compare with the actual object.</param>
+        /// <param name="obj">The object to compare with the actual object.</param>
         /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
         public override bool Equals(object obj)
         {

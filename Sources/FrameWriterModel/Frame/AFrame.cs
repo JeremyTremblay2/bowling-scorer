@@ -115,10 +115,10 @@ namespace FrameWriterModel.Frame
         public abstract object Clone();
 
         /// <summary>
-        /// Two frames are equals if they have the same FrameLabelNumber
+        /// Determines whether the two object instances are equal.
         /// </summary>
-        /// <param name="obj">other</param>
-        /// <returns>equality</returns>
+        /// <param name="obj">The object to compare with the actual object.</param>
+        /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
         public override bool Equals(object? obj)
         {
             if (obj == null) return false;
@@ -127,20 +127,29 @@ namespace FrameWriterModel.Frame
             return Equals(obj as AFrame);
         }
 
+        /// <summary>
+        /// Determines whether the two object instances are equal.
+        /// </summary>
+        /// <param name="other">The frame to compare with the actual frame.</param>
+        /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
         public bool Equals(AFrame? other)
         {
             return other != null && FrameNumberLabel.Equals(other.FrameNumberLabel);
         }
 
         /// <summary>
-        /// TO DO MOST CORRECTLY
+        /// Serves as the default hash function.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
-            return FrameNumberLabel;
+            return HashCode.Combine(FrameNumberLabel);
         }
 
+        /// <summary>
+        /// Returns a string representing a frame.
+        /// </summary>
+        /// <returns>A string representing a frame.</returns>
         public override string ToString()
         {
             return $"[{FrameNumberLabel}] - Score: {ScoreValue} / Total: {CumulativeScore}";
