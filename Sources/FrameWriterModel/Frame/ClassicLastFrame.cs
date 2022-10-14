@@ -42,7 +42,7 @@ namespace FrameWriterModel.Frame
         /// <exception cref="NotImplementedException"></exception>
         public override object Clone()
         {
-            throw new NotImplementedException();
+            return new ClassicLastFrame(FrameNumberLabel, ThrowResults[0], ThrowResults[1], ThrowResults[2]);
         }
     }
 }
