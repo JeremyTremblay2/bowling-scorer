@@ -82,5 +82,28 @@ namespace Model.Score
         /// <param name="scoreTable">The score table to inspect.</param>
         /// <returns>A boolean indicating whether the scoreboard is complete or not.</returns>
         public bool IsScoreTableComplete() => rules.IsScoreTableComplete(this);
+
+        /// <summary>
+        /// Returns a collection of the ThrowResult that can be added to a specific frame and index.
+        /// </summary>
+        /// <param name="frameToAdd">The frame to add a throw result.</param>
+        /// <param name="indexToAdd">The index of the box of the frame to add the throw result.</param>
+        public IEnumerable<ThrowResult> GetPossibleThrowResults(AFrame frameToAdd, int indexToAdd)
+            => rules.GetPossibleThrowResults(frameToAdd, indexToAdd);
+
+        /// <summary>
+        /// Returns a collection of the ThrowResult that can be added to a specific frame and index.
+        /// </summary>
+        /// <param name="indexFrameToAdd">The index of the frame to add a throw result.</param>
+        /// <param name="indexToAdd">The index of the box of the frame to add the throw result.</param>
+        public IEnumerable<ThrowResult> GetPossibleThrowResults(int indexFrameToAdd, int indexToAdd)
+            => rules.GetPossibleThrowResults(Frames[indexFrameToAdd], indexToAdd);
+
+        /// <summary>
+        /// Returns a boolean indicating whether the frame is complete according to established bowling rules.
+        /// </summary>
+        /// <param name="frame">The frame to inspect.</param>
+        /// <returns>A boolean indicating whether the frame is complete or not.</returns>
+        public bool IsFrameComplete(AFrame frame) => rules.IsFrameComplete(frame);
     }
 }
