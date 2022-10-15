@@ -147,8 +147,9 @@ namespace Model.Games
         /// <param name="isFinished">Preise if you want the game already finished or not. Be sure the game is really finished, 
         /// because an InvalidOperationException will be throw if it is not the case.
         /// </param>
+        /// <param name="ID">The ID of the game (facultative).</param>
         /// <exception cref="ArgumentException">If the collection does not contains at least one player and score table valids.</exception>
-        public Game(ARules rules, IDictionary<Player, ScoreTable> scores, bool isFinished) : this(rules, scores.Keys)
+        public Game(ARules rules, IDictionary<Player, ScoreTable> scores, bool isFinished, int ID = 0) : this(rules, ID, scores.Keys)
         {
             _scores.Clear();
             _players.Clear();

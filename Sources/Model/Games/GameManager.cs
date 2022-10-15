@@ -76,7 +76,7 @@ namespace Model.Games
 
         public bool RemoveGame(int ID)
         {
-            if (CurrentGame.ID == ID)
+            if (CurrentGame != null && CurrentGame.ID == ID)
             {
                 CurrentGame = null;
             }
@@ -97,7 +97,7 @@ namespace Model.Games
         /// <param name="e">The arguments of the event.</param>
         private void CurrentGameStatusUpdated(object sender, GameStatusChangedEventArgs e)
         {
-            if (e.GameIsFinished)
+            if (e.GameIsFinished && CurrentGame != null)
             {
                 CurrentGame.GameStatusChanged -= CurrentGameStatusUpdated;
                 CurrentGame = null;
@@ -110,7 +110,12 @@ namespace Model.Games
         /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
-            return HashCode.Combine(_games);
+            int hash = 19;
+            foreach (Game game in _games)
+            {
+                hash = hash * 31 + game.GetHashCode();
+            }
+            return hash;
         }
 
         /// <summary>
@@ -134,7 +139,7 @@ namespace Model.Games
         /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
         public bool Equals(GameManager other)
         {
-            return other != null && EqualityComparer<IList<Game>>.Default.Equals(_games, other._games);
+            return other != null && other._games.SequenceEqual(_games);
         }
 
         /// <summary>
