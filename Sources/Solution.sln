@@ -14,13 +14,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Model\Model.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrameModel", "FrameWriterModel\FrameModel.csproj", "{9C49E554-227A-4FBE-AAFC-CC4455DE8D7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{768B2A67-408E-47D3-AE92-066C69042077}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{768B2A67-408E-47D3-AE92-066C69042077}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entity2Model", "Entity2Model\Entity2Model.csproj", "{5517AEA8-07CC-43D8-96F5-3DD9521C45F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entity2Model", "Entity2Model\Entity2Model.csproj", "{5517AEA8-07CC-43D8-96F5-3DD9521C45F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BowlingScorer", "BowlingScorer\BowlingScorer.csproj", "{68335A75-2D17-42DA-8EC1-3AFE14743F1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BowlingScorer", "BowlingScorer\BowlingScorer.csproj", "{68335A75-2D17-42DA-8EC1-3AFE14743F1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{8CBE3B78-229F-4323-99D3-5EC4F4C561FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{8CBE3B78-229F-4323-99D3-5EC4F4C561FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stub", "Stub\Stub.csproj", "{5707EB9E-3F6A-4EF9-929F-E5E661BB618A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,10 @@ Global
 		{8CBE3B78-229F-4323-99D3-5EC4F4C561FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CBE3B78-229F-4323-99D3-5EC4F4C561FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CBE3B78-229F-4323-99D3-5EC4F4C561FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5707EB9E-3F6A-4EF9-929F-E5E661BB618A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5707EB9E-3F6A-4EF9-929F-E5E661BB618A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5707EB9E-3F6A-4EF9-929F-E5E661BB618A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5707EB9E-3F6A-4EF9-929F-E5E661BB618A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +69,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{9F9EFCBF-57D6-4412-9E6A-D416872D949E} = {C75DF644-C41F-4A08-8B69-C8554204AC72}
 		{68335A75-2D17-42DA-8EC1-3AFE14743F1C} = {C75DF644-C41F-4A08-8B69-C8554204AC72}
+		{5707EB9E-3F6A-4EF9-929F-E5E661BB618A} = {C75DF644-C41F-4A08-8B69-C8554204AC72}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D47853B-D1A3-49A5-84BA-CD2DC65FD105}
