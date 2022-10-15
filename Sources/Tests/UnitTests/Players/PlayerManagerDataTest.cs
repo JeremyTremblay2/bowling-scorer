@@ -133,9 +133,7 @@ namespace UnitTests.Players
                     new Player(15, "Willy", "willyImage"),
                     new Player(50, "Elvis", "elvisImage"),
                 },
-                new Player[]
-                {
-                },
+                Array.Empty<Player>(),
                 new PlayerManager(
                     new Player(1, "Baptiste", "baptisteImage"),
                     new Player(2, "Elliot", "elliotImage"),
@@ -997,9 +995,7 @@ namespace UnitTests.Players
                     new Player(43, "Maru", "maruImage"),
                     new Player(45, "Emily", "emilyImage"),
                 },
-                new Player[]
-                {
-                },
+                Array.Empty<Player>(),
                 manager,
                 new Player[]
                 {

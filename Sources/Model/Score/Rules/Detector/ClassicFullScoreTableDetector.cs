@@ -16,7 +16,7 @@ namespace Model.Score.Rules.Detector
     public class ClassicFullScoreTableDetector : IFullScoreTableDetector
     {
         /// <summary>
-        /// Returns a boolean indicating whether the scoreboard is complete according to established bowling rules.
+        /// Returns a boolean indicating whether the scoreboard is complete according to established classic bowling rules.
         /// </summary>
         /// <param name="scoreTable">The score table to inspect.</param>
         /// <returns>A boolean indicating whether the scoreboard is complete or not.</returns>
@@ -25,14 +25,23 @@ namespace Model.Score.Rules.Detector
             if (scoreTable == null) return false;
             foreach (var frame in scoreTable.Frames)
             {
-                if (frame is ClassicFrame classicFrame)
-                {
-                    if (!IsClassicFrameComplete(classicFrame)) return false;
-                }
-                else if (frame is ClassicLastFrame lastFrame && !IsClassicLastFrameComplete(lastFrame))
-                    return false;
+                if (!IsFrameComplete(frame)) return false;
             }
             return true;
+        }
+
+        /// <summary>
+        /// Returns a boolean indicating whether the frame is complete according to established classic bowling rules.
+        /// </summary>
+        /// <param name="frame">The frame to inspect.</param>
+        /// <returns>A boolean indicating whether the frame is complete or not.</returns>
+        public bool IsFrameComplete(AFrame frame)
+        {
+            if (frame is ClassicFrame classicFrame)
+                return IsClassicFrameComplete(classicFrame);
+            else if (frame is ClassicLastFrame lastFrame)
+                return IsClassicLastFrameComplete(lastFrame);
+            else return false;
         }
 
         /// <summary>

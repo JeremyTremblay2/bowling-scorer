@@ -35,5 +35,14 @@ namespace FrameWriterModel.Frame
             frameWriter.WriteValue(this, 0, throwResult1);
             frameWriter.WriteValue(this, 1, throwResult2);
         }
+
+        /// <summary>
+        /// Create a new instance of ClassicFrame.
+        /// </summary>
+        /// <returns>A copy of this.</returns>
+        public override object Clone()
+        {
+            return new ClassicFrame(FrameNumberLabel, ThrowResults[0], ThrowResults[1]);
+        }
     }
 }

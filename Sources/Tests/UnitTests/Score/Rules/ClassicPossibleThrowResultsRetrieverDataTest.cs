@@ -92,16 +92,16 @@ namespace UnitTests.Score.Rules
                 new ThrowResult[]
                 {
                     ThrowResult.NONE,
-                },
-                new ClassicFrame(2, ThrowResult.NONE, ThrowResult.SPARE),
-                0
-            };
-
-            // Insert in the first box, in a frame with the second throw as a spare.
-            yield return new object[] {
-                new ThrowResult[]
-                {
-                    ThrowResult.NONE,
+                    ThrowResult.ZERO,
+                    ThrowResult.ONE,
+                    ThrowResult.TWO,
+                    ThrowResult.THREE,
+                    ThrowResult.FOUR,
+                    ThrowResult.FIVE,
+                    ThrowResult.SIX,
+                    ThrowResult.SEVEN,
+                    ThrowResult.EIGHT,
+                    ThrowResult.NINE,
                 },
                 new ClassicFrame(2, ThrowResult.NONE, ThrowResult.SPARE),
                 0

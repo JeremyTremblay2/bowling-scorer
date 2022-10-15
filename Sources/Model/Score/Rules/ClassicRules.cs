@@ -1,9 +1,11 @@
 ﻿using FrameWriterModel.Frame;
 using FrameWriterModel.Frame.ThrowResults;
 using FrameWriterModel.Writer;
+using Model.Games;
 using Model.Score.Rules.Calculator;
 using Model.Score.Rules.Detector;
 using Model.Score.Rules.Retriever;
+using System;
 using System.Collections.Generic;
 
 namespace Model.Score.Rules
@@ -11,7 +13,7 @@ namespace Model.Score.Rules
     /// <summary>
     /// Represents the classic rules of a traditionnal bowling game.
     /// </summary>
-    public class ClassicRules : ARules
+    public class ClassicRules : ARules, IEquatable<ClassicRules>
     {
         /// <summary>
         /// Use a classic calculator and classicWriters to apply classic game rules
@@ -59,6 +61,38 @@ namespace Model.Score.Rules
             {
                 writers[1].WriteValue(frame, index, throwResult);
             }
+        }
+
+        /// <summary>
+        /// Determines whether the two object instances are equal.
+        /// </summary>
+        /// <param name="obj">The object to compare with the actual object.</param>
+        /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            if (ReferenceEquals(obj, this)) return true;
+            if (obj.GetType() != typeof(ClassicRules)) return false;
+            return Equals(obj as ClassicRules);
+        }
+
+        /// <summary>
+        /// Determines whether the two object instances are equal.
+        /// </summary>
+        /// <param name="other">The other classic rules to compare with the actual classic rules.</param>
+        /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
+        public bool Equals(ClassicRules other)
+        {
+            return true; // Two classic rules are identicals.
+        }
+
+        /// <summary>
+        /// Serves as the default hash function.
+        /// </summary>
+        /// <returns>A hash code for the current object.</returns>
+        public override int GetHashCode()
+        {
+            return 13;
         }
     }
 }

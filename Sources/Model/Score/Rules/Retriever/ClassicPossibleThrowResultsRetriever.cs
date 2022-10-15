@@ -43,7 +43,8 @@ namespace Model.Score.Rules.Retriever
             if (indexToAdd == 0)
             {
                 if (frame.ThrowResults[1] == ThrowResult.NONE 
-                    || frame.ThrowResults[1] == ThrowResult.ZERO)
+                    || frame.ThrowResults[1] == ThrowResult.ZERO
+                    || frame.ThrowResults[1] == ThrowResult.SPARE)
                 {
                     throwResults.AddRange(0.ToThrowResults(9));
                 }

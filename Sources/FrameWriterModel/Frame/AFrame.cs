@@ -11,7 +11,7 @@ namespace FrameWriterModel.Frame
     /// <summary>
     /// Represents a Frame
     /// </summary>
-    public abstract class AFrame : IEquatable<AFrame>
+    public abstract class AFrame : IEquatable<AFrame>, ICloneable
     {
         /// <summary>
         /// The name of the Frame
@@ -104,15 +104,21 @@ namespace FrameWriterModel.Frame
         {
             for (int i = 0; i < throwResults.Length; i++)
             {
-                throwResults[0] = ThrowResult.NONE;
+                throwResults[i] = ThrowResult.NONE;
             }
         }
 
         /// <summary>
-        /// Two frames are equals if they have the same FrameLabelNumber
+        /// Create a new instance of AFram by cloning the current object.
         /// </summary>
-        /// <param name="obj">other</param>
-        /// <returns>equality</returns>
+        /// <returns>A copy of this.</returns>
+        public abstract object Clone();
+
+        /// <summary>
+        /// Determines whether the two object instances are equal.
+        /// </summary>
+        /// <param name="obj">The object to compare with the actual object.</param>
+        /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
         public override bool Equals(object? obj)
         {
             if (obj == null) return false;
@@ -121,20 +127,29 @@ namespace FrameWriterModel.Frame
             return Equals(obj as AFrame);
         }
 
+        /// <summary>
+        /// Determines whether the two object instances are equal.
+        /// </summary>
+        /// <param name="other">The frame to compare with the actual frame.</param>
+        /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
         public bool Equals(AFrame? other)
         {
             return other != null && FrameNumberLabel.Equals(other.FrameNumberLabel);
         }
 
         /// <summary>
-        /// TO DO MOST CORRECTLY
+        /// Serves as the default hash function.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
-            return FrameNumberLabel;
+            return HashCode.Combine(FrameNumberLabel);
         }
 
+        /// <summary>
+        /// Returns a string representing a frame.
+        /// </summary>
+        /// <returns>A string representing a frame.</returns>
         public override string ToString()
         {
             return $"[{FrameNumberLabel}] - Score: {ScoreValue} / Total: {CumulativeScore}";

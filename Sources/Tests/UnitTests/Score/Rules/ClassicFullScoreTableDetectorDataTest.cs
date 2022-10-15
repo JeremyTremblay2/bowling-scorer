@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Model;
 using System.Threading.Tasks;
 
 namespace UnitTests.Score.Rules
@@ -25,7 +26,7 @@ namespace UnitTests.Score.Rules
             // Insert a correct score table.
             yield return new object[] {
                 true,
-                ToScoreTable(new ThrowResult[][]
+                new ScoreTable(new ClassicRules()).ToScoreTable(new ThrowResult[][]
                 {
                     new ThrowResult[]
                     {
@@ -84,7 +85,7 @@ namespace UnitTests.Score.Rules
             // Incorrect because of the second frame which is empty.
             yield return new object[] {
                 false,
-                ToScoreTable(new ThrowResult[][]
+                new ScoreTable(new ClassicRules()).ToScoreTable(new ThrowResult[][]
                 {
                     new ThrowResult[]
                     {
@@ -143,7 +144,7 @@ namespace UnitTests.Score.Rules
             // Incorrect because of the third frame which has a NONE value in the first box.
             yield return new object[] {
                 false,
-                ToScoreTable(new ThrowResult[][]
+                new ScoreTable(new ClassicRules()).ToScoreTable(new ThrowResult[][]
                 {
                     new ThrowResult[]
                     {
@@ -202,7 +203,7 @@ namespace UnitTests.Score.Rules
             // Incorrect because of the third frame which has a NONE value in the second box.
             yield return new object[] {
                 false,
-                ToScoreTable(new ThrowResult[][]
+                new ScoreTable(new ClassicRules()).ToScoreTable(new ThrowResult[][]
                 {
                     new ThrowResult[]
                     {
@@ -261,7 +262,7 @@ namespace UnitTests.Score.Rules
             // Incorrect because of the last frame which is empty.
             yield return new object[] {
                 false,
-                ToScoreTable(new ThrowResult[][]
+                new ScoreTable(new ClassicRules()).ToScoreTable(new ThrowResult[][]
                 {
                     new ThrowResult[]
                     {
@@ -320,7 +321,7 @@ namespace UnitTests.Score.Rules
             // Incorrect because of the last frame which has first box at NONE.
             yield return new object[] {
                 false,
-                ToScoreTable(new ThrowResult[][]
+                new ScoreTable(new ClassicRules()).ToScoreTable(new ThrowResult[][]
                 {
                     new ThrowResult[]
                     {
@@ -379,7 +380,7 @@ namespace UnitTests.Score.Rules
             // Incorrect because of the last frame which has second box at NONE.
             yield return new object[] {
                 false,
-                ToScoreTable(new ThrowResult[][]
+                new ScoreTable(new ClassicRules()).ToScoreTable(new ThrowResult[][]
                 {
                     new ThrowResult[]
                     {
@@ -438,7 +439,7 @@ namespace UnitTests.Score.Rules
             // Incorrect because of the last frame which has third box at NONE but it has a STRIKE.
             yield return new object[] {
                 false,
-                ToScoreTable(new ThrowResult[][]
+                new ScoreTable(new ClassicRules()).ToScoreTable(new ThrowResult[][]
                 {
                     new ThrowResult[]
                     {
@@ -497,7 +498,7 @@ namespace UnitTests.Score.Rules
             // A correct configuration with a spare at the last frame.
             yield return new object[] {
                 true,
-                ToScoreTable(new ThrowResult[][]
+                new ScoreTable(new ClassicRules()).ToScoreTable(new ThrowResult[][]
                 {
                     new ThrowResult[]
                     {
@@ -556,7 +557,7 @@ namespace UnitTests.Score.Rules
             // An incorrect configuration with a strike at first throw but with the second box empty.
             yield return new object[] {
                 false,
-                ToScoreTable(new ThrowResult[][]
+                new ScoreTable(new ClassicRules()).ToScoreTable(new ThrowResult[][]
                 {
                     new ThrowResult[]
                     {
@@ -611,20 +612,6 @@ namespace UnitTests.Score.Rules
                     },
                 }),
             };
-        }
-
-        private static ScoreTable ToScoreTable(ThrowResult[][] throwResults)
-        {
-            ScoreTable scoreTable = new(new ClassicRules());
-            for (int i = 0; i < throwResults.Length; i++)
-            {
-                var currentFrame = throwResults[i];
-                for (int j = 0; j < currentFrame.Length; j++)
-                {
-                    scoreTable.WriteValue(i, j, throwResults[i][j]);
-                }
-            }
-            return scoreTable;
         }
     }
 }

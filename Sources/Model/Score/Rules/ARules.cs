@@ -99,7 +99,7 @@ namespace Model.Score.Rules
         /// Returns a collection of the ThrowResult that can be added to a specific frame and index.
         /// </summary>
         /// <param name="frameToAdd">The frame to add a throw result.</param>
-        /// <param name="indexToAdd">The index of theframe to add the throw result.</param>
+        /// <param name="indexToAdd">The index of the box of the frame to add the throw result.</param>
         public IEnumerable<ThrowResult> GetPossibleThrowResults(AFrame frameToAdd, int indexToAdd)
         {
             return throwResultsRetriever.GetPossibleThrowResults(frameToAdd, indexToAdd);
@@ -113,6 +113,16 @@ namespace Model.Score.Rules
         public bool IsScoreTableComplete(ScoreTable scoreTable)
         {
             return scoreTableDetector.IsScoreTableComplete(scoreTable);
+        }
+
+        /// <summary>
+        /// Returns a boolean indicating whether the frame is complete according to established bowling rules.
+        /// </summary>
+        /// <param name="frame">The frame to inspect.</param>
+        /// <returns>A boolean indicating whether the frame is complete or not.</returns>
+        public bool IsFrameComplete(AFrame frame)
+        {
+            return scoreTableDetector.IsFrameComplete(frame);
         }
     }
 }
