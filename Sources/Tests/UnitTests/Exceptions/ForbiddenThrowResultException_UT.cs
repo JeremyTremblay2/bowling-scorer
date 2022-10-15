@@ -66,7 +66,7 @@ namespace UnitTests.Exceptions
         }
 
         [Fact]
-        public void ThrowForbiddenThrowResultExceptionWithStreamingContextShouldThrowForbiddenThrowResultException()
+        public void ThrowForbiddenThrowResultExceptionWithStreamingContextShouldWorks()
         {
             Assert.ThrowsAsync<AnotherException>(
                 () => throw new AnotherException(new SerializationInfo(GetType(), new FormatterConverter()), new StreamingContext()));
