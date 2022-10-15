@@ -33,11 +33,11 @@ namespace Stub
         public IEnumerable<Game> GetGames()
         {
             IList<Game> games = new List<Game>();
-            Player p1 = new Player("Jeremy", "jeremy.png");
-            Player p2 = new Player("Mickaël", "mickael.png");
-            Player p3 = new Player("Jaques", "jaques.png");
-            Player p4 = new Player("luckas", "luckas.png");
-            Player p5 = new Player("Mathis", "mathis.png");
+            Player p1 = new Player(0, "Jeremy", "jeremy.png");
+            Player p2 = new Player(1, "Mickaël", "mickael.png");
+            Player p3 = new Player(2, "Jaques", "jaques.png");
+            Player p4 = new Player(3, "luckas", "luckas.png");
+            Player p5 = new Player(4, "Mathis", "mathis.png");
             Game game1 = new Game(new ClassicRules(), new List<Player>() { p1, p2 });
             Game game2 = new Game(new ClassicRules(), new List<Player>() { p2, p3, p4 });
             Game game3 = new Game(new ClassicRules(), new List<Player>() { p2, p3, p4, p5 });
