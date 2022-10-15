@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\FrameWriterModel\FrameWriterModel.csproj" />
+    <ProjectReference Include="..\..\FrameWriterModel\FrameModel.csproj" />
     <ProjectReference Include="..\..\Model\Model.csproj" />
   </ItemGroup>
 
