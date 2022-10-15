@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace UnitTests.Games
 {
+    /// <summary>
+    /// Unit test data used to test the GameManager class.
+    /// </summary>
     public class GameManagerDataTest
     {
         public static Game gameFinished = new Game(new ClassicRules(), new Dictionary<Player, ScoreTable>

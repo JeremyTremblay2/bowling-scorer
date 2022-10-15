@@ -9,6 +9,9 @@ using Xunit;
 
 namespace UnitTests.Games
 {
+    /// <summary>
+    /// Unit test class used to test the GameManager class.
+    /// </summary>
     public class GameManager_UT
     {
         [Fact]
