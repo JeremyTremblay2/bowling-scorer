@@ -121,7 +121,7 @@ namespace Model.Score
         /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
-            return HashCode.Combine(Frames, TotalScore);
+            return HashCode.Combine(_frames, TotalScore);
         }
 
         /// <summary>
@@ -144,10 +144,10 @@ namespace Model.Score
         /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
         public bool Equals(ScoreTable other)
         {
-            if (other == null || other.Frames.Count != Frames.Count) return false;
-            for (int i = 0; i < other.Frames.Count; i++)
+            if (other == null || other._frames.Count != _frames.Count) return false;
+            for (int i = 0; i < other._frames.Count; i++)
             {
-                if (other.Frames[i] != Frames[i]) return false;
+                if (other._frames[i] != _frames[i]) return false;
             }
             return (TotalScore == other.TotalScore);
         }
