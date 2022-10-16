@@ -14,6 +14,8 @@ using ILogger = Microsoft.Extensions.Logging.ILogger;
 using System.Numerics;
 using System.Reflection;
 using System.Collections.ObjectModel;
+using static System.Net.Mime.MediaTypeNames;
+using System.Xml.Linq;
 
 namespace Business
 {
@@ -201,7 +203,6 @@ namespace Business
             {
                 logger.LogInformation("{x} players was added to the data manager. ", players.Length);
             }
-            
             return addedPlayers;
         }
 
@@ -214,7 +215,17 @@ namespace Business
         /// <returns>A boolean indicating if the player was succesfully updated.</returns>
         public async Task<bool> EditPlayer(Player player, string name, string image)
         {
-            return await dataManager.EditPlayer(player, name, image);
+            bool result = await dataManager.EditPlayer(player, name, image);
+            if (!result)
+            {
+                logger.LogWarning("Failed attempt to edit a player from the data manager. "
+                    + "Player attempted to edit: {player}, new name: {name}, new image: {image}", player, name, image);
+            }
+            else
+            {
+                logger.LogInformation("Player modified succesfully. New player: {player}", player);
+            }
+            return result;
         }
 
         /// <summary>
@@ -224,7 +235,17 @@ namespace Business
         /// <returns>A boolean indicating if the player was removed.</returns>
         public async Task<bool> RemovePlayer(Player player)
         {
-            return await dataManager.RemovePlayer(player);
+            bool result = await dataManager.RemovePlayer(player);
+            if (!result)
+            {
+                logger.LogWarning("Failed attempt to remove a player from the data manager. "
+                    + "Player attempted to be removed: {player}", player);
+            }
+            else
+            {
+                logger.LogInformation("Player {player} deleted succesfully from the DataManager.", player);
+            }
+            return result;
         }
 
         /// <summary>
@@ -235,7 +256,10 @@ namespace Business
         /// <returns>The collection of players retrieve.</returns>
         public async Task<IEnumerable<Player>> GetPlayers(int index, int count)
         {
-            return await dataManager.GetPlayers(index, count);
+            IEnumerable<Player> result = await dataManager.GetPlayers(index, count);
+            logger.LogInformation("Trying to get until {count} players from the data manager from the index {index}. "
+                + "Found {result.Count} players in total.", count, index, result);
+            return result;
         }
 
         /// <summary>
@@ -245,7 +269,17 @@ namespace Business
         /// <returns>The player retrieve from its ID.</returns>
         public async Task<Player> GetPlayerFromID(int id)
         {
-            return await dataManager.GetPlayerFromID(id);
+            Player result = await dataManager.GetPlayerFromID(id);
+            if (result == null)
+            {
+                logger.LogWarning("Failed attempt to get a player from the its ID from the data manager. "
+                    + "ID of the player attempted te retrieve: {id}", id);
+            }
+            else
+            {
+                logger.LogInformation("Player {player} retrieved succesfully from its ID {id}", result, id);
+            }
+            return result;
         }
 
         /// <summary>
@@ -258,7 +292,10 @@ namespace Business
         /// <returns>The collection of players retrieve.</returns>
         public async Task<IEnumerable<Player>> GetPlayerFromName(string substring, int index, int count)
         {
-            return await dataManager.GetPlayerFromName(substring, index, count);
+            IEnumerable<Player> result = await dataManager.GetPlayerFromName(substring, index, count);
+            logger.LogInformation("Trying to get until {count} players from the data manager from the index {index} with name containing {substring}. "
+                + "Found {result.Count} players in total.", count, index, substring, result);
+            return result;
         }
 
 
@@ -269,7 +306,16 @@ namespace Business
         /// <returns>A boolean indicating if the player was added.</returns>
         public async Task<bool> AddSelectedPlayer(Player player)
         {
-            return playerManager.AddSelectedPlayer(player);
+            bool result = await Task.Run(() => playerManager.AddSelectedPlayer(player));
+            if (!result)
+            {
+                logger.LogWarning("Failed attempt to add a selected player to the player manager. Player attempted to add: {player}", player);
+            }
+            else
+            {
+                logger.LogInformation("Selected player added to the player manager succesfully. Player added: {player}", player);
+            }
+            return result;
         }
 
         /// <summary>
@@ -279,7 +325,24 @@ namespace Business
         /// <returns>A collection of the player added to the selected players collection.</returns>
         public async Task<IEnumerable<Player>> AddSelectedPlayers(Player[] players)
         {
-            return playerManager.AddSelectedPlayers(players);
+            IEnumerable<Player> addedPlayers = await Task.Run(() => playerManager.AddSelectedPlayers(players));
+            if (addedPlayers.Count() != players.Length)
+            {
+                var notAddedPlayers = addedPlayers.Intersect(players);
+                StringBuilder builder = new();
+                foreach (Player player in notAddedPlayers)
+                {
+                    builder.AppendLine(player.ToString());
+                }
+                logger.LogWarning("Trying to add {count} selected players to the player manager. "
+                + "{x} players was added but {missingPlayers} are missing. Here are the missing players: ",
+                players.Length, addedPlayers.Count(), builder.ToString());
+            }
+            else
+            {
+                logger.LogInformation("{x} selected players was added to the player manager. ", players.Length);
+            }
+            return addedPlayers;
         }
 
         /// <summary>
@@ -289,7 +352,17 @@ namespace Business
         /// <returns>A boolean indicating if the player was removed.</returns>
         public async Task<bool> RemoveSelectedPlayer(Player player)
         {
-            return playerManager.RemoveSelectedPlayer(player);
+            bool result = await Task.Run(() => playerManager.RemoveSelectedPlayer(player));
+            if (!result)
+            {
+                logger.LogWarning("Failed attempt to remove a selected player from the player manager. "
+                    + "Player attempted to be removed: {player}", player);
+            }
+            else
+            {
+                logger.LogInformation("Selected player {player} deleted succesfully from the player manager..", player);
+            }
+            return result;
         }
 
         /// <summary>
