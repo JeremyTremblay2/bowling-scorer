@@ -16,7 +16,7 @@ namespace Model.Games
     /// </summary>
     public class GameManager : IEquatable<GameManager>
     {
-        private IList<Game> _games;
+        private readonly IList<Game> _games;
 
         /// <summary>
         /// Contains all the game in the app, also the current game even if it is not finished.
