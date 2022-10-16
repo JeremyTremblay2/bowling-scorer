@@ -26,11 +26,27 @@ namespace Stub
             throw new NotImplementedException("This is a Stub, you can just use it to get fake data");
         }
 
-        /// <summary>
-        /// Return some game data, use it if you need to simulate a fake data loading
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<Game> GetGames()
+        public Task<bool> AddPlayer(Player player)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Player>> AddPlayers(Player[] players)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> EditPlayer(Player player, string name, string image)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Game> GetGameFromID(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Game>> GetGames(int index, int count)
         {
             IList<Game> games = new List<Game>();
             Player p1 = new Player(0, "Jeremy", "jeremy.png");
@@ -44,7 +60,42 @@ namespace Stub
             games.Add(game1);
             games.Add(game2);
             games.Add(game3);
-            return games;
+            return (Task<IEnumerable<Game>>) games;
+        }
+
+        public Task<IEnumerable<Game>> GetGamesFromPlayer(Player player, int index, int count)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Player> GetPlayerFromID(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Player>> GetPlayerFromName(string substring, int index, int count)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Player>> GetPlayers(int index, int count)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> RemoveGame(Game game)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> RemovePlayer(Player player)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IDataManager.AddGame(Game game)
+        {
+            throw new NotImplementedException();
         }
     }
 }

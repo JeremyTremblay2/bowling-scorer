@@ -8,7 +8,7 @@ namespace BowlingScorer
         static void Main(string[] args)
         {
             Stub.Stub stub = new();
-            IList<Game>? games = stub.GetGames() as IList<Game>;
+            IList<Game>? games = stub.GetGames(0, 20) as IList<Game>;
             
             foreach (Game game in games){
                 Console.WriteLine(game.ToString());
