@@ -19,21 +19,21 @@ namespace Business
         /// </summary>
         /// <param name="game">The game to add.</param>
         /// <returns>A boolean indicating if the game was added.</returns>
-        bool AddGame(Game game);
+        Task<bool> AddGame(Game game);
 
         /// <summary>
         /// Reove a game from the Data Manager.
         /// </summary>
         /// <param name="game">The game to remove</param>
         /// <returns>A boolean indicating if the game was removed.</returns>
-        IEnumerable<Game> RemoveGame(Game game);
-        
+        Task<bool> RemoveGame(Game game);
+
         /// <summary>
         /// Get a game from its ID.
         /// </summary>
         /// <param name="id"></param>
         /// <returns>The game found.</returns>
-        Game GetGameFromID(int id);
+        Task<Game> GetGameFromID(int id);
 
         /// <summary>
         /// Get the number of game specified, from the starting index given ordered by the ID.
@@ -41,7 +41,7 @@ namespace Business
         /// <param name="index">The index to start the recuperation of the game.</param>
         /// <param name="count">The number of games to get.</param>
         /// <returns>A collection of the games retrieved.</returns>
-        IEnumerable<Game> GetGames(int index, int count);
+        Task<IEnumerable<Game>> GetGames(int index, int count);
 
         /// <summary>
         /// Get a collection of games in which the specified player has participated, ordered by the creation date.
@@ -50,21 +50,21 @@ namespace Business
         /// <param name="index">The starting index of the receverd process.</param>
         /// <param name="count">The number of game to retrive after the index.</param>
         /// <returns>A collection of games in which the specified player has participated.</returns>
-        IEnumerable<Game> GetGamesFromPlayer(Player player, int index, int count);
+        Task<IEnumerable<Game>> GetGamesFromPlayer(Player player, int index, int count);
 
         /// <summary>
         /// Add a player to the DataManager.
         /// </summary>
         /// <param name="player">The player to add.</param>
         /// <returns>A boolean indicating if the player was added.</returns>
-        bool AddPlayer(Player player);
+        Task<bool> AddPlayer(Player player);
 
         /// <summary>
         /// Add a collection of player to the DataManager.
         /// </summary>
         /// <param name="players">The players to add.</param>
         /// <returns>A collection of the player added to the manager.</returns>
-        IEnumerable<Player> AddPlayers(Player[] players);
+        Task<IEnumerable<Player>> AddPlayers(Player[] players);
 
         /// <summary>
         /// Change the name and the image of the specified player.
@@ -73,14 +73,14 @@ namespace Business
         /// <param name="name">The name player's name.</param>
         /// <param name="image">The new player's image.</param>
         /// <returns>A boolean indicating if the player was succesfully updated.</returns>
-        bool EditPlayer(Player player, string name, string image);
+        Task<bool> EditPlayer(Player player, string name, string image);
 
         /// <summary>
         /// Remove a player from the manager.
         /// </summary>
         /// <param name="player">The player to remove.</param>
         /// <returns>A boolean indicating if the player was removed.</returns>
-        bool RemovePlayer(Player player);
+        Task<bool> RemovePlayer(Player player);
 
         /// <summary>
         /// Get the first players specified from the stated index ordered by the ID.
@@ -88,14 +88,14 @@ namespace Business
         /// <param name="index">The index to get the first players.</param>
         /// <param name="count">The number of players to get.</param>
         /// <returns>The collection of players retrieve.</returns>
-        IEnumerable<Player> GetPlayers(int index, int count);
+        Task<IEnumerable<Player>> GetPlayers(int index, int count);
         
         /// <summary>
         /// Get a plyer from its ID.
         /// </summary>
         /// <param name="id">The id of the player to get.</param>
         /// <returns>The player retrieve from its ID.</returns>
-        Player GetPlayerFromID(int id);
+        Task<Player> GetPlayerFromID(int id);
 
         /// <summary>
         /// Get the first players specified from the stated index with a name containing 
@@ -105,6 +105,6 @@ namespace Business
         /// <param name="count">The number of players to get.</param>
         /// <param name="substring">The substring contained in the name of the players.</param>
         /// <returns>The collection of players retrieve.</returns>
-        IEnumerable<Player> GetPlayerFromName(string substring, int index, int count);
+        Task<IEnumerable<Player>> GetPlayerFromName(string substring, int index, int count);
     }
 }
