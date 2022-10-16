@@ -14,6 +14,23 @@ using System.Threading.Tasks;
 namespace Model.Games
 {
     /// <summary>
+    /// Represent a event taking place when the status of the game change.
+    /// </summary>
+    public class GameStatusChangedEventArgs
+    {
+        /// <summary>
+        /// The new game status after the modification.
+        /// </summary>
+        public bool GameIsFinished { get; private set; }
+
+        /// <summary>
+        /// Change the status of the game by the new value.
+        /// </summary>
+        /// <param name="status">The new status to apply.</param>
+        public GameStatusChangedEventArgs(bool status) => GameIsFinished = status;
+    }
+
+    /// <summary>
     /// A Game represent a Bowling Game. It contains data about the current turn, the creation date of the game, if this one is finished or not...
     /// It contains also a dictionnary linking the players and their results (ScoreTables). 
     /// Once a game is created, it is impossible to add or remove another player.
@@ -28,6 +45,8 @@ namespace Model.Games
 
         private readonly IDictionary<Player, ScoreTable> _scores;
 
+        private bool isFinished;
+
         /// <summary>
         /// A unique identifier for the game.
         /// </summary>
@@ -36,7 +55,15 @@ namespace Model.Games
         /// <summary>
         /// A boolean indicating if the game is finished or not. Once a game is finished, it CANNOT be edited.
         /// </summary>
-        public bool IsFinished { get; private set; }
+        public bool IsFinished
+        {
+            get => isFinished;
+            private set
+            {
+                isFinished = value;
+                OnGameStatusChanged(isFinished);
+            }
+        }
 
         /// <summary>
         /// The creation date of the game.
@@ -62,6 +89,11 @@ namespace Model.Games
         /// The players who participate to the game.
         /// </summary>
         public ReadOnlyCollection<Player> Players { get; private set; }
+
+        /// <summary>
+        /// Event representing the modification of the status of the game (finished or not).
+        /// </summary>
+        public event EventHandler<GameStatusChangedEventArgs> GameStatusChanged;
 
         /// <summary>
         /// Create a new instance of Game.
@@ -115,8 +147,9 @@ namespace Model.Games
         /// <param name="isFinished">Preise if you want the game already finished or not. Be sure the game is really finished, 
         /// because an InvalidOperationException will be throw if it is not the case.
         /// </param>
+        /// <param name="ID">The ID of the game (facultative).</param>
         /// <exception cref="ArgumentException">If the collection does not contains at least one player and score table valids.</exception>
-        public Game(ARules rules, IDictionary<Player, ScoreTable> scores, bool isFinished) : this(rules, scores.Keys)
+        public Game(ARules rules, IDictionary<Player, ScoreTable> scores, bool isFinished, int ID = 0) : this(rules, ID, scores.Keys)
         {
             _scores.Clear();
             _players.Clear();
@@ -283,6 +316,20 @@ namespace Model.Games
                 throw new InvalidOperationException(builder.ToString());
             }
         }
+
+        /// <summary>
+        /// Invoke the event for the game status changed.
+        /// </summary>
+        /// <param name="args">The arguments of the game status changed event.</param>
+        private void OnGameStatusChanged(GameStatusChangedEventArgs args)
+            => GameStatusChanged?.Invoke(this, args);
+
+        /// <summary>
+        /// Invoke the event for the game status changed.
+        /// </summary>
+        /// <param name="status">The new status of the game.</param>
+        private void OnGameStatusChanged(bool status)
+            => GameStatusChanged?.Invoke(this, new GameStatusChangedEventArgs(status));
 
         /// <summary>
         /// Serves as the default hash function.
