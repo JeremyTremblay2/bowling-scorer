@@ -1,2 +1,18 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using Model.Games;
+using Stub;
+
+namespace BowlingScorer
+{
+    public class Program
+    {
+        static void Main(string[] args)
+        {
+            Stub.Stub stub = new();
+            IList<Game>? games = stub.GetGames() as IList<Game>;
+            
+            foreach (Game game in games){
+                Console.WriteLine(game.ToString());
+            }
+        }
+    }
+}
