@@ -1,4 +1,4 @@
-[![Build Status](https://codefirst.ddns.net/api/badges/jeremy.tremblay/bowling-scorer/status.svg)](https://codefirst.ddns.net/jeremy.tremblay/bowling-scorer)  
+[![Build Status](https://codefirst.ddns.net/api/badges/jeremy.tremblay/bowling-scorer/status.svg)](https://codefirst.ddns.net/jeremy.tremblay/bowling-scorer)   
 [![Quality Gate Status](https://codefirst.ddns.net/sonar/api/project_badges/measure?project=bowling-scorer&metric=alert_status)](https://codefirst.ddns.net/sonar/dashboard?id=bowling-scorer)
 [![Bugs](https://codefirst.ddns.net/sonar/api/project_badges/measure?project=bowling-scorer&metric=bugs)](https://codefirst.ddns.net/sonar/dashboard?id=bowling-scorer)
 [![Code Smells](https://codefirst.ddns.net/sonar/api/project_badges/measure?project=bowling-scorer&metric=code_smells)](https://codefirst.ddns.net/sonar/dashboard?id=bowling-scorer)
