@@ -6,6 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using NullLogger = Microsoft.Extensions.Logging.Abstractions.NullLogger;
+using NLog;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
+using System.Numerics;
+using System.Reflection;
+using System.Collections.ObjectModel;
 
 namespace Business
 {
@@ -16,17 +24,59 @@ namespace Business
     /// </summary>
     public class BowlingManager
     {
-        private IDataManager dataManager;
+        private readonly IDataManager dataManager;
 
-        private GameManager gameManager;
+        private readonly ILogger logger;
 
-        private PlayerManager playerManager;
+        private readonly GameManager gameManager;
 
-        public BowlingManager(IDataManager dataManager, ARules rules)
+        private readonly PlayerManager playerManager;
+
+        /// <summary>
+        /// Computed property simply returning the game collection containing in the game manager.
+        /// </summary>
+        public ReadOnlyCollection<Game> Games
+        {
+            get => gameManager.Games;
+        }
+
+        /// <summary>
+        /// Computed property simply returning the player collection containing in the player manager.
+        /// </summary>
+        public ReadOnlyCollection<Player> Players
+        {
+            get => playerManager.Players;
+        }
+
+        /// <summary>
+        /// Computed property simply returning the selected player collection containing in the player manager.
+        /// </summary>
+        public ReadOnlyCollection<Player> SelectedPlayers
+        {
+            get => playerManager.SelectedPlayers;
+        }
+
+        /// <summary>
+        /// Computed property simply returning the current game in the game manager.
+        /// </summary>
+        public Game CurrentGame
+        {
+            get => gameManager.CurrentGame;
+        }
+
+        /// <summary>
+        /// Create a new instance of a BowlingManager.
+        /// </summary>
+        /// <param name="dataManager">The persistance system use to save the players and games.</param>
+        /// <param name="logger">A faculative logeer used to trace the program.</param>
+        /// <exception cref="ArgumentNullException">If the DataManager given is null.</exception>
+        public BowlingManager(IDataManager dataManager, ILogger<BowlingManager>? logger = null)
         {
             this.dataManager = dataManager ?? throw new ArgumentNullException(nameof(dataManager), "The DataManager given to the manager cannot be null.");
+            this.logger = logger == null ? NullLogger.Instance : logger;
             gameManager = new GameManager();
             playerManager = new PlayerManager();
+            logger.LogDebug("New instance of the bowling manager created.");
         }
 
         /// <summary>
@@ -34,9 +84,18 @@ namespace Business
         /// </summary>
         /// <param name="game">The game to add.</param>
         /// <returns>A boolean indicating if the game was added.</returns>
-        public bool AddGame(Game game)
+        public async Task<bool> AddGame(Game game)
         {
-            return dataManager.AddGame(game);
+            bool result = await dataManager.AddGame(game);
+            if (!result)
+            {
+                logger.LogWarning("Failed attempt to add game from data manager. Game attempted to add: {game}", game);
+            }
+            else
+            {
+                logger.LogInformation("Game added to the data manager. Game added: {game}", game);
+            }
+            return result;
         }
 
         /// <summary>
@@ -44,9 +103,18 @@ namespace Business
         /// </summary>
         /// <param name="game">The game to remove</param>
         /// <returns>A boolean indicating if the game was removed.</returns>
-        public IEnumerable<Game> RemoveGame(Game game)
+        public async Task<bool> RemoveGame(Game game)
         {
-            return dataManager.RemoveGame(game);
+            bool result = await dataManager.RemoveGame(game);
+            if (!result)
+            {
+                logger.LogWarning("Failed attempt to remove game from data manager. Game attempted to remove: {game}", game);
+            }
+            else
+            {
+                logger.LogInformation("Game removed to the data manager. Game removed: {game}", game);
+            }
+            return result;
         }
 
         /// <summary>
@@ -54,9 +122,11 @@ namespace Business
         /// </summary>
         /// <param name="id"></param>
         /// <returns>The game found.</returns>
-        public Game GetGameFromID(int id)
+        public async Task<Game> GetGameFromID(int id)
         {
-            return dataManager.GetGameFromID(id);
+            Game result = await dataManager.GetGameFromID(id);
+            logger.LogInformation("Game retrieved from the data manager from its the ID {id}. Game retrieved: {game}", id, result);
+            return result;
         }
 
         /// <summary>
@@ -65,9 +135,12 @@ namespace Business
         /// <param name="index">The index to start the recuperation of the game.</param>
         /// <param name="count">The number of games to get.</param>
         /// <returns>A collection of the games retrieved.</returns>
-        public IEnumerable<Game> GetGames(int index, int count)
+        public async Task<IEnumerable<Game>> GetGames(int index, int count)
         {
-            return dataManager.GetGames(index, count);
+            IEnumerable<Game> result = await dataManager.GetGames(index, count);
+            logger.LogInformation("Trying to get until {count} game from the data manager from the index {index}. "
+                + "Found {result.Count} games in total.", count, index, result);
+            return result;
         }
 
         /// <summary>
@@ -77,9 +150,12 @@ namespace Business
         /// <param name="index">The starting index of the receverd process.</param>
         /// <param name="count">The number of game to retrive after the index.</param>
         /// <returns>A collection of games in which the specified player has participated.</returns>
-        public IEnumerable<Game> GetGamesFromPlayer(Player player, int index, int count)
+        public async Task<IEnumerable<Game>> GetGamesFromPlayer(Player player, int index, int count)
         {
-            return GetGamesFromPlayer(player, index, count);
+            IEnumerable<Game> result = await dataManager.GetGamesFromPlayer(player, index, count);
+            logger.LogInformation("Trying to get until {count} game from the data manager from the index {index}. "
+                + "Found {result.Count} games in total related to the player {player}.", count, index, result, player);
+            return result;
         }
 
         /// <summary>
@@ -87,9 +163,18 @@ namespace Business
         /// </summary>
         /// <param name="player">The player to add.</param>
         /// <returns>A boolean indicating if the player was added.</returns>
-        public bool AddPlayer(Player player)
+        public async Task<bool> AddPlayer(Player player)
         {
-            return dataManager.AddPlayer(player);
+            bool result = await dataManager.AddPlayer(player);
+            if (!result)
+            {
+                logger.LogWarning("Failed attempt to add a player to the data manager. Player attempted to add: {player}", player);
+            }
+            else
+            {
+                logger.LogInformation("Player added to the data manager succesfully. Player added: {player}", player);
+            }
+            return result;
         }
 
         /// <summary>
@@ -97,9 +182,27 @@ namespace Business
         /// </summary>
         /// <param name="players">The players to add.</param>
         /// <returns>A collection of the player added to the manager.</returns>
-        public IEnumerable<Player> AddPlayers(Player[] players)
+        public async Task<IEnumerable<Player>> AddPlayers(Player[] players)
         {
-            return dataManager.AddPlayers(players);
+            IEnumerable<Player> addedPlayers = await dataManager.AddPlayers(players);
+            if (addedPlayers.Count() != players.Length)
+            {
+                var notAddedPlayers = addedPlayers.Intersect(players);
+                StringBuilder builder = new();
+                foreach (Player player in notAddedPlayers)
+                {
+                    builder.AppendLine(player.ToString());
+                }
+                logger.LogWarning("Trying to add {count} players to the data manager. "
+                + "{x} players was added but {missingPlayers} are missing. Here are the missing players: ", 
+                players.Length, addedPlayers.Count(), builder.ToString());
+            }
+            else
+            {
+                logger.LogInformation("{x} players was added to the data manager. ", players.Length);
+            }
+            
+            return addedPlayers;
         }
 
         /// <summary>
@@ -109,9 +212,9 @@ namespace Business
         /// <param name="name">The name player's name.</param>
         /// <param name="image">The new player's image.</param>
         /// <returns>A boolean indicating if the player was succesfully updated.</returns>
-        public bool EditPlayer(Player player, string name, string image)
+        public async Task<bool> EditPlayer(Player player, string name, string image)
         {
-            return dataManager.EditPlayer(player, name, image);
+            return await dataManager.EditPlayer(player, name, image);
         }
 
         /// <summary>
@@ -119,9 +222,9 @@ namespace Business
         /// </summary>
         /// <param name="player">The player to remove.</param>
         /// <returns>A boolean indicating if the player was removed.</returns>
-        public bool RemovePlayer(Player player)
+        public async Task<bool> RemovePlayer(Player player)
         {
-            return dataManager.RemovePlayer(player);
+            return await dataManager.RemovePlayer(player);
         }
 
         /// <summary>
@@ -130,9 +233,9 @@ namespace Business
         /// <param name="index">The index to get the first players.</param>
         /// <param name="count">The number of players to get.</param>
         /// <returns>The collection of players retrieve.</returns>
-        public IEnumerable<Player> GetPlayers(int index, int count)
+        public async Task<IEnumerable<Player>> GetPlayers(int index, int count)
         {
-            return dataManager.GetPlayers(index, count);
+            return await dataManager.GetPlayers(index, count);
         }
 
         /// <summary>
@@ -140,9 +243,9 @@ namespace Business
         /// </summary>
         /// <param name="id">The id of the player to get.</param>
         /// <returns>The player retrieve from its ID.</returns>
-        public Player GetPlayerFromID(int id)
+        public async Task<Player> GetPlayerFromID(int id)
         {
-            return dataManager.GetPlayerFromID(id);
+            return await dataManager.GetPlayerFromID(id);
         }
 
         /// <summary>
@@ -153,9 +256,9 @@ namespace Business
         /// <param name="count">The number of players to get.</param>
         /// <param name="substring">The substring contained in the name of the players.</param>
         /// <returns>The collection of players retrieve.</returns>
-        public IEnumerable<Player> GetPlayerFromName(string substring, int index, int count)
+        public async Task<IEnumerable<Player>> GetPlayerFromName(string substring, int index, int count)
         {
-            return dataManager.GetPlayerFromName(substring, index, count);
+            return await dataManager.GetPlayerFromName(substring, index, count);
         }
 
 
@@ -164,7 +267,7 @@ namespace Business
         /// </summary>
         /// <param name="player">The player to add.</param>
         /// <returns>A boolean indicating if the player was added.</returns>
-        public bool AddSelectedPlayer(Player player)
+        public async Task<bool> AddSelectedPlayer(Player player)
         {
             return playerManager.AddSelectedPlayer(player);
         }
@@ -174,7 +277,7 @@ namespace Business
         /// </summary>
         /// <param name="players">The players to add.</param>
         /// <returns>A collection of the player added to the selected players collection.</returns>
-        public IEnumerable<Player> AddSelectedPlayers(Player[] players)
+        public async Task<IEnumerable<Player>> AddSelectedPlayers(Player[] players)
         {
             return playerManager.AddSelectedPlayers(players);
         }
@@ -184,7 +287,7 @@ namespace Business
         /// </summary>
         /// <param name="player">The player to remove.</param>
         /// <returns>A boolean indicating if the player was removed.</returns>
-        public bool RemoveSelectedPlayer(Player player)
+        public async Task<bool> RemoveSelectedPlayer(Player player)
         {
             return playerManager.RemoveSelectedPlayer(player);
         }
@@ -195,6 +298,7 @@ namespace Business
         public void ClearSelectedPlayers()
         {
             playerManager.ClearSelectedPlayers();
+            logger.LogInformation("All the selected players from the players manager were cleared.");
         }
     }
 }
