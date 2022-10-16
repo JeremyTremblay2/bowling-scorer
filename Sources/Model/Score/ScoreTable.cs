@@ -1,5 +1,6 @@
 ﻿using FrameWriterModel.Frame;
 using FrameWriterModel.Frame.ThrowResults;
+using Model.Players;
 using Model.Score.Rules;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace Model.Score
 {
@@ -14,7 +16,7 @@ namespace Model.Score
     /// A Score table contains Frames, she represents the grid score table that we can see in bowling
     /// This score table apply the given injected rules (in constructor) to compute score, write scores...
     /// </summary>
-    public class ScoreTable
+    public class ScoreTable : IEquatable<ScoreTable>
     {
         /// <summary>
         /// The ScoreTable content
@@ -113,9 +115,51 @@ namespace Model.Score
         /// <returns>A boolean indicating whether the rules are equals or not.</returns>
         public bool AreRulesEquals(ARules rules) => this.rules.Equals(rules);
 
+        /// <summary>
+        /// Serves as the default hash function.
+        /// </summary>
+        /// <returns>A hash code for the current object.</returns>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Frames, TotalScore);
+        }
+
+        /// <summary>
+        /// Determines whether the two object instances are equal.
+        /// </summary>
+        /// <param name="other">The object to compare with the actual object.</param>
+        /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is null) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof(ScoreTable)) return false;
+            return Equals((ScoreTable) obj);
+        }
+
+        /// <summary>
+        /// Determines whether the two object instances are equal.
+        /// </summary>
+        /// <param name="other">The ScoreTable to compare with the actual ScoreTable.</param>
+        /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
+        public bool Equals(ScoreTable other)
+        {
+            if (other == null || other.Frames.Count != Frames.Count) return false;
+            for (int i = 0; i < other.Frames.Count; i++)
+            {
+                if (other.Frames[i] != Frames[i]) return false;
+            }
+            return (TotalScore == other.TotalScore);
+        }
+
+        // <summary>
+        /// Returns a string representing a ScoreTable.
+        /// </summary>
+        /// <returns>A string representing a ScoreTable.</returns>
         public override string ToString()
         {
-            StringBuilder builder = new("[ScoreTable]\n");
+            StringBuilder builder = new("[ScoreTable] - Total: \n");
+            builder.AppendLine(TotalScore.ToString());
             foreach (AFrame aFrame in _frames)
             {
                 builder.AppendLine(aFrame.ToString());
