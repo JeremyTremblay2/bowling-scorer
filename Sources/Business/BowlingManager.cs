@@ -1,21 +1,10 @@
 ﻿using Model.Games;
 using Model.Players;
-using Model.Score.Rules;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using NullLogger = Microsoft.Extensions.Logging.Abstractions.NullLogger;
-using NLog;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
-using System.Numerics;
-using System.Reflection;
 using System.Collections.ObjectModel;
-using static System.Net.Mime.MediaTypeNames;
-using System.Xml.Linq;
 
 namespace Business
 {
@@ -340,7 +329,7 @@ namespace Business
             }
             else
             {
-                logger.LogInformation("{x} selected players was added to the player manager. ", players.Length);
+                logger.LogInformation("{x} selected players was added to the player manager.", players.Length);
             }
             return addedPlayers;
         }
@@ -360,7 +349,7 @@ namespace Business
             }
             else
             {
-                logger.LogInformation("Selected player {player} deleted succesfully from the player manager..", player);
+                logger.LogInformation("Selected player {player} deleted succesfully from the player manager.", player);
             }
             return result;
         }
