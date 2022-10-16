@@ -13,12 +13,12 @@ using System.Threading.Tasks;
 namespace Model.Score.Rules
 {
     /// <summary>
-    /// Define all the rules that will be applied during a game
+    /// Define all the rules that will be applied during a game.
     /// </summary>
     public abstract class ARules
     {
         /// <summary>
-        /// Choosen calculator, used to compute scores
+        /// Choosen calculator, used to compute scores.
         /// </summary>
         protected IScoreCalculator scoreCalculator;
 
@@ -30,7 +30,7 @@ namespace Model.Score.Rules
         protected IFullScoreTableDetector scoreTableDetector;
 
         /// <summary>
-        /// Generate a Score table according to the defined rules
+        /// Generate a Score table according to the defined rules.
         /// </summary>
         /// <returns></returns>
         public abstract IList<AFrame> GenerateScoreTable();
@@ -42,7 +42,7 @@ namespace Model.Score.Rules
         protected IList<AFrameWriter> writers;
 
         /// <summary>
-        /// Use the given writer and calculator to apply specified rules
+        /// Use the given writer and calculator to apply specified rules.
         /// </summary>
         /// <param name="scoreCalculator"></param>
         /// <param name="writers"></param>
