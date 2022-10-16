@@ -53,12 +53,10 @@ steps:
       - name: docs
         path: /docs
     commands:
-      #- cd Documentation/doxygen
-      #- doxygen Doxyfile
       - /entrypoint.sh
     when:
       branch:
-        - master
+        - main
     depends_on: [ build ]
 
 volumes:
