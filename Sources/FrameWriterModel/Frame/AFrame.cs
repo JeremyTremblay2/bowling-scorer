@@ -152,7 +152,19 @@ namespace FrameWriterModel.Frame
         /// <returns>A string representing a frame.</returns>
         public override string ToString()
         {
-            return $"[{FrameNumberLabel}] - Score: {ScoreValue} / Total: {CumulativeScore}";
+            StringBuilder builder = new($"[{FrameNumberLabel}] - Score: {ScoreValue} / Total: {CumulativeScore} - ");
+            for (int i = 0; i < throwResults.Length; i++)
+            {
+                if (i >= throwResults.Length - 1)
+                {
+                    builder.Append($" {throwResults[i]} ");
+                }
+                else
+                {
+                    builder.Append($" {throwResults[i]} |");
+                }
+            }
+            return builder.ToString();
         }
     }
 }

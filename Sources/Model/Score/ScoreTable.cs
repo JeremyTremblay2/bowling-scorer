@@ -112,5 +112,15 @@ namespace Model.Score
         /// <param name="rules">The Rules to compare.</param>
         /// <returns>A boolean indicating whether the rules are equals or not.</returns>
         public bool AreRulesEquals(ARules rules) => this.rules.Equals(rules);
+
+        public override string ToString()
+        {
+            StringBuilder builder = new("[ScoreTable]\n");
+            foreach (AFrame aFrame in _frames)
+            {
+                builder.AppendLine(aFrame.ToString());
+            }
+            return builder.ToString();
+        }
     }
 }

@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\FrameWriterModel\FrameModel.csproj" />
     <ProjectReference Include="..\..\Model\Model.csproj" />
+    <ProjectReference Include="..\..\Stub\Stub.csproj" />
   </ItemGroup>
 
 </Project>
