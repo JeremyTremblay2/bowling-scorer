@@ -56,7 +56,7 @@ steps:
       - /entrypoint.sh
     when:
       branch:
-        - main
+        - 86-Enable_Doxygen_CI
     depends_on: [ build ]
 
 volumes:
