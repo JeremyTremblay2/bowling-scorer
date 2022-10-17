@@ -16,7 +16,7 @@ namespace Model.Games
     /// </summary>
     public class GameManager : IEquatable<GameManager>
     {
-        private IList<Game> _games;
+        private readonly IList<Game> _games;
 
         /// <summary>
         /// Contains all the game in the app, also the current game even if it is not finished.
@@ -74,6 +74,11 @@ namespace Model.Games
         public bool AddGame(ARules rules, int ID, IEnumerable<Player> players)
             => AddGame(new Game(rules, ID, players));
 
+        /// <summary>
+        /// Remove a game from its ID.
+        /// </summary>
+        /// <param name="ID">The ID of the game to remove.</param>
+        /// <returns>A boolean indicating if the game was removed.</returns>
         public bool RemoveGame(int ID)
         {
             if (CurrentGame != null && CurrentGame.ID == ID)
