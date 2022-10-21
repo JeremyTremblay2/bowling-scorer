@@ -1,9 +1,11 @@
-﻿using FrameWriterModel.Frame.ThrowResults;
+﻿using FrameWriterModel.Frame;
+using FrameWriterModel.Frame.ThrowResults;
+using Model.Games;
+using Model.Score;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 
 namespace Model.Players
 {
@@ -14,9 +16,9 @@ namespace Model.Players
     /// </summary>
     public class Statistics : IEquatable<Statistics>, IComparable, IComparable<Statistics>
     {
-        private readonly IDictionary<ThrowResult, int> throwResults;
-        private readonly IList<int> gamesID;
-        private readonly IList<int> scores;
+        private readonly IDictionary<ThrowResult, int> _throwResults;
+        private readonly IList<Game> _games;
+        private readonly IList<int> _scores;
 
         /// <summary>
         /// Represents the number of total wins by a player.
@@ -51,14 +53,14 @@ namespace Model.Players
         /// <summary>
         /// Contains each game ID for each game played by the player.
         /// </summary>
-        public ReadOnlyCollection<int> GamesID { get; private set; }
+        public ReadOnlyCollection<Game> Games { get; private set; }
 
         /// <summary>
         /// Returns the number of average pins knocked down in a player's throw.
         /// </summary>
         public double MediumThrow
         {
-            get => throwResults.Values.Average();
+            get => _throwResults.Values.Average();
         }
 
         /// <summary>
@@ -70,51 +72,48 @@ namespace Model.Players
         }
 
         /// <summary>
-        /// Create some new statistics.
+        /// Create a new instance of statistics.
         /// </summary>
         public Statistics()
         {
             NumberOfVictory = NumberOfDefeat = BestScore = 0;
-            throwResults = new Dictionary<ThrowResult, int>();
-            ThrowResults = new ReadOnlyDictionary<ThrowResult, int>(throwResults);
-            gamesID = new List<int>();
-            GamesID = new ReadOnlyCollection<int>(gamesID);
-            scores = new List<int>();
-            Scores = new ReadOnlyCollection<int>(scores);
-        }
-
-        /// <summary>
-        /// Add a throw result to the player's statistics.
-        /// </summary>
-        /// <param name="throwResult">The throw result of the player.</param>
-        public void AddThrowResult(ThrowResult throwResult)
-        {
-            throwResults.Add(throwResult, 1);
+            _throwResults = new Dictionary<ThrowResult, int>();
+            ThrowResults = new ReadOnlyDictionary<ThrowResult, int>(_throwResults);
+            _games = new List<Game>();
+            Games = new ReadOnlyCollection<Game>(_games);
+            _scores = new List<int>();
+            Scores = new ReadOnlyCollection<int>(_scores);
         }
 
         /// <summary>
         /// Adds a game played by the player and adds his results.
         /// </summary>
-        /// <param name="gameID"></param>
-        public void AddGame(int gameID)
+        /// <param name="game">The game to be added.</param>
+        /// <returns>A boolean indicating if the game was added.</returns>
+        public bool AddGame(Player player, Game game)
         {
-            if (!gamesID.Contains(gameID))
-            {
-                gamesID.Add(gameID);
-            }
-            NumberOfGames++;
-            // Implements logic here to add scores and stats.
+            if (game == null || _games.Contains(game) || !game.IsFinished 
+                || player == null || !game.Players.Contains(player)) return false;
+            _games.Add(game);
+            AddScore(game.Scores[player].TotalScore);
+            UpdateNumberOfGames(game, player, +1);
+            UpdateThrowResults(game.Scores[player], true);
+            return true;
         }
 
         /// <summary>
         /// Deletes a game and all scores related to it.
         /// </summary>
         /// <param name="gameID"></param>
-        public void RemoveGame(int gameID)
+        public bool RemoveGame(Player player, Game game)
         {
-            gamesID.Remove(gameID);
-            NumberOfGames--;
-            // Implements logic here to remove scores and stats.
+            if (game == null || _games.Contains(game) || player == null 
+                || !game.Players.Contains(player)) return false;
+            _games.Remove(game);
+            RemoveScore(game.Scores[player].TotalScore);
+            UpdateNumberOfGames(game, player, -1);
+            UpdateThrowResults(game.Scores[player], false);
+            return true;
         }
 
         /// <summary>
@@ -127,7 +126,7 @@ namespace Model.Players
             if (obj == null) return false;
             if (ReferenceEquals(obj, this)) return true;
             if (obj.GetType() != typeof(Statistics)) return false;
-            return Equals((Statistics) obj);
+            return Equals(obj as Statistics);
         }
 
         /// <summary>
@@ -156,25 +155,8 @@ namespace Model.Players
         /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
-            StringBuilder builder = new();
-            _ = builder.Append("Statistics of ").Append(NumberOfGames).AppendLine(" games: ")
-                .Append("V: ").Append(NumberOfVictory).Append(", D: ").Append(NumberOfDefeat)
-                .Append(", Best Score: ").Append(BestScore).Append(", Medium Throw: ")
-                .Append(MediumThrow).Append(", Medium Score: ").Append(MediumScore);
-            return builder.ToString();
-        }
-
-        /// <summary>
-        /// Adds a score to the results.
-        /// </summary>
-        /// <param name="score">The score to be added.</param>
-        private void AddScore(int score)
-        {
-            if (score > BestScore)
-            {
-                BestScore = score;
-            }
-            scores.Add(score);
+            return string.Format("Statistics of {0} games. Victories: {1}. Defeats: {2}. \nBest Score: {3}. \nMedium Throw: {4}. \nMedium Score: {5} ", 
+                NumberOfGames, NumberOfVictory, NumberOfDefeat, BestScore, MediumThrow, MediumScore);
         }
 
         /// <summary>
@@ -262,5 +244,70 @@ namespace Model.Players
         /// <returns>A boolean indicating the result of the comparison.</returns>
         public static bool operator !=(Statistics left, Statistics right)
             => !(left == right);
+
+        /// <summary>
+        /// Adds a score to the results.
+        /// </summary>
+        /// <param name="score">The score to be added.</param>
+        private void AddScore(int score)
+        {
+            if (score > BestScore)
+            {
+                BestScore = score;
+            }
+            _scores.Add(score);
+        }
+
+        /// <summary>
+        /// Removes a score to the results.
+        /// </summary>
+        /// <param name="score">The score to be removed.</param>
+        private void RemoveScore(int score)
+        {
+            _scores.Remove(score);
+            BestScore = Scores.Max();
+        }
+
+        /// <summary>
+        /// Update the number of games depending if a game was added or removed.
+        /// </summary>
+        /// <param name="game">The game to be added.</param>
+        /// <param name="player">The player to be added.</param>
+        /// <param name="increment">The increment of the number of games (increasing or decreasing).</param>
+        private void UpdateNumberOfGames(Game game, Player player, int increment)
+        {
+            NumberOfGames += increment;
+            if (player.Equals(game.Winner))
+            {
+                NumberOfVictory += increment;
+            }
+            if (player.Equals(game.Loser))
+            {
+                NumberOfDefeat += increment;
+            }
+        }
+
+        /// <summary>
+        /// Update the Thorw results depending if the game was added or removed.
+        /// </summary>
+        /// <param name="scoreTable">The scoreboard containing the throw results.</param>
+        /// <param name="willBeAdded">A boolean indicating if the results will be incremented or not.</param>
+        private void UpdateThrowResults(ScoreTable scoreTable, bool willBeAdded)
+        {
+            foreach (AFrame frame in scoreTable.Frames)
+            {
+                foreach (ThrowResult throwResult in frame.ThrowResults)
+                {
+                    if (willBeAdded)
+                    {
+                        _throwResults[throwResult]++;
+                    }
+                    else
+                    {
+                        _throwResults[throwResult]--;
+                    }
+                }
+            }
+        }
     }
 }
