@@ -81,6 +81,30 @@ namespace Model.Games
         public Player CurrentPlayer { get; private set; }
 
         /// <summary>
+        /// Get the winner from the game if there is more than one player and if the game is finished.
+        /// </summary>
+        public Player Winner
+        {
+            get
+            {
+                if (Players.Count == 1 || !IsFinished) return null;
+                return Scores.MaxBy(kvp => kvp.Value.TotalScore).Key;
+            }
+        }
+
+        /// <summary>
+        /// Get the loser of the game if there is more than one player and if the game is finished.
+        /// </summary>
+        public Player Loser
+        {
+            get
+            {
+                if (Players.Count == 1 || !IsFinished) return null;
+                return Scores.MinBy(kvp => kvp.Value.TotalScore).Key;
+            }
+        }
+
+        /// <summary>
         /// A dictionnary that links the player to their scores.
         /// </summary>
         public ReadOnlyDictionary<Player, ScoreTable> Scores { get; private set; }
