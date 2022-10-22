@@ -60,7 +60,12 @@ namespace Model.Players
         /// </summary>
         public double MediumThrow
         {
-            get => _throwResults.Values.Average();
+            get
+            {
+                double result = (double)_throwResults.Sum(kvp => kvp.Key.ToInt() * kvp.Value) / _throwResults.Values.Sum();
+                if (Double.IsNaN(result)) return 0.0;
+                return result;
+            }
         }
 
         /// <summary>
@@ -68,7 +73,7 @@ namespace Model.Players
         /// </summary>
         public double MediumScore
         {
-            get => Scores.Average();
+            get => Scores.Count == 0 ? 0 : Scores.Average();
         }
 
         /// <summary>
@@ -83,6 +88,11 @@ namespace Model.Players
             Games = new ReadOnlyCollection<Game>(_games);
             _scores = new List<int>();
             Scores = new ReadOnlyCollection<int>(_scores);
+            foreach (ThrowResult value in Enum.GetValues<ThrowResult>())
+            {
+                _throwResults[value] = 0;
+            }
+            _throwResults.Remove(ThrowResult.NONE);
         }
 
         /// <summary>
@@ -90,7 +100,7 @@ namespace Model.Players
         /// </summary>
         /// <param name="game">The game to be added.</param>
         /// <returns>A boolean indicating if the game was added.</returns>
-        public bool AddGame(Player player, Game game)
+        internal bool AddGame(Player player, Game game)
         {
             if (game == null || _games.Contains(game) || !game.IsFinished 
                 || player == null || !game.Players.Contains(player)) return false;
@@ -105,9 +115,9 @@ namespace Model.Players
         /// Deletes a game and all scores related to it.
         /// </summary>
         /// <param name="gameID"></param>
-        public bool RemoveGame(Player player, Game game)
+        internal bool RemoveGame(Player player, Game game)
         {
-            if (game == null || _games.Contains(game) || player == null 
+            if (game == null || !_games.Contains(game) || player == null 
                 || !game.Players.Contains(player)) return false;
             _games.Remove(game);
             RemoveScore(game.Scores[player].TotalScore);
@@ -136,8 +146,7 @@ namespace Model.Players
         /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
         public bool Equals(Statistics other)
         {
-            return other != null
-                && other.Scores.SequenceEqual(Scores);
+            return other != null && other.Scores.SequenceEqual(Scores) && other.BestScore == BestScore;
         }
 
         /// <summary>
@@ -146,7 +155,7 @@ namespace Model.Players
         /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
-            return HashCode.Combine(Scores);
+            return HashCode.Combine(BestScore);
         }
 
         /// <summary>
@@ -265,7 +274,7 @@ namespace Model.Players
         private void RemoveScore(int score)
         {
             _scores.Remove(score);
-            BestScore = Scores.Max();
+            BestScore = Scores.Count == 0 ? 0 : Scores.Max();
         }
 
         /// <summary>
@@ -298,14 +307,9 @@ namespace Model.Players
             {
                 foreach (ThrowResult throwResult in frame.ThrowResults)
                 {
-                    if (willBeAdded)
-                    {
-                        _throwResults[throwResult]++;
-                    }
-                    else
-                    {
-                        _throwResults[throwResult]--;
-                    }
+                    if (throwResult == ThrowResult.NONE) continue;
+                    if (willBeAdded) _throwResults[throwResult]++;
+                    else _throwResults[throwResult]--;
                 }
             }
         }

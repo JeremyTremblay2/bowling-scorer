@@ -183,6 +183,11 @@ namespace Model.Games
                 // be sure we are manipulating score tables full with same rules.
                 if (score.Value.AreRulesEquals(rules) && score.Value.IsScoreTableComplete()) 
                 {
+                    for (int i = 0; i < score.Value.Frames.Count; i++)
+                    {
+                        score.Value.UpdateFromFrame(i);
+                    }
+                    _ = score.Value.TotalScore;
                     AddPlayer(score.Key, score.Value);
                 }
             }

@@ -318,6 +318,10 @@ namespace Model.Score.Rules.Calculator
                 {
                     computedScore += ThrowResult.STRIKE.ToInt();
                 }
+                else
+                {
+                    computedScore += frame0.ThrowResults[2].ToInt();
+                }
             }
             else
             {
