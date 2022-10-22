@@ -19,11 +19,11 @@ namespace Entities
         /// <summary>
         /// The name of the player.
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// The image of the player.
         /// </summary>
-        public string Image { get; set; }
+        public string? Image { get; set; }
     }
 }

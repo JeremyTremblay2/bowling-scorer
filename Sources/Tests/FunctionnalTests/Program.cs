@@ -24,6 +24,12 @@ namespace FunctionnalTests
             {
                 WriteLine("Opening the connection to the database.");
 
+                if (db.Players is null)
+                {
+                    WriteLine("----- ERROR: The player DBSET is null, program termination.-----");
+                    return;
+                }
+
                 if (db.Players.Any())
                 {
                     WriteLine("The databse is not empty, it has already some players.");
