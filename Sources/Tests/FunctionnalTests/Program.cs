@@ -6,7 +6,7 @@ using Model.Players;
 using Stub;
 using static System.Console;
 
-namespace BowlingScorer
+namespace FunctionnalTests
 {
     class Program
     {
