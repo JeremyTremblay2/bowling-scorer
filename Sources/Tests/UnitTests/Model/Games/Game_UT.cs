@@ -299,5 +299,77 @@ namespace UnitTests.Games
 
             Assert.Throws<InvalidOperationException>(() => game.NextTurn());
         }
+
+        [Fact]
+        public void GetWinnerWhenGameHasOnlyOnePlayerShouldReturnsNull()
+        {
+            Game game = new Game(new ClassicRules(), new Dictionary<Player, ScoreTable>
+            {
+                { new Player(12, "Maya", "beeImage"), GameDataTest.scoreTableComplete },
+            }, true);
+
+            Assert.Null(game.Winner);
+        }
+
+        [Fact]
+        public void GetLoserWhenGameHasOnlyOnePlayerShouldReturnsNull()
+        {
+            Game game = new Game(new ClassicRules(), new Dictionary<Player, ScoreTable>
+            {
+                { new Player(12, "Maya", "beeImage"), GameDataTest.scoreTableComplete },
+            }, true);
+
+            Assert.Null(game.Loser);
+        }
+
+        [Fact]
+        public void GetWinnerWhenGameIsNotFinishedShouldReturnsNull()
+        {
+            Game game = new Game(new ClassicRules(), new Dictionary<Player, ScoreTable>
+            {
+                { new Player(12, "Maya", "beeImage"), GameDataTest.scoreTableComplete },
+                { new Player(52, "Toto", "totoImage"), GameDataTest.anotherScoreTableComplete },
+            }, false);
+
+            Assert.Null(game.Winner);
+        }
+
+        [Fact]
+        public void GetLoserWhenGameIsNotFinishedShouldReturnsNull()
+        {
+            Game game = new Game(new ClassicRules(), new Dictionary<Player, ScoreTable>
+            {
+                { new Player(12, "Maya", "beeImage"), GameDataTest.scoreTableComplete },
+                { new Player(52, "Toto", "totoImage"), GameDataTest.anotherScoreTableComplete },
+            }, false);
+
+            Assert.Null(game.Loser);
+        }
+
+        [Fact]
+        public void GetWinnerWhenGameIsFinishedWithMultiplePlayersShouldReturnsTheWinner()
+        {
+            Game game = new Game(new ClassicRules(), new Dictionary<Player, ScoreTable>
+            {
+                { new Player(12, "Maya", "beeImage"), GameDataTest.scoreTableComplete },
+                { new Player(52, "Toto", "totoImage"), GameDataTest.anotherScoreTableComplete },
+            }, true);
+
+            Assert.NotNull(game.Winner);
+            Assert.Equal(new Player(12, "Maya", "beeImage"), game.Winner);
+        }
+
+        [Fact]
+        public void GetLoserWhenGameIsFinishedWithMultiplePlayersShouldReturnsTheLoser()
+        {
+            Game game = new Game(new ClassicRules(), new Dictionary<Player, ScoreTable>
+            {
+                { new Player(12, "Maya", "beeImage"), GameDataTest.scoreTableComplete },
+                { new Player(52, "Toto", "totoImage"), GameDataTest.anotherScoreTableComplete },
+            }, true);
+
+            Assert.NotNull(game.Loser);
+            Assert.Equal(new Player(52, "Toto", "totoImage"), game.Loser);
+        }
     }
 }
