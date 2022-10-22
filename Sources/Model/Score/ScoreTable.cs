@@ -79,6 +79,18 @@ namespace Model.Score
         public void UpdateFromFrame(int index) => rules.UpdateFromFrame(index, _frames);
 
         /// <summary>
+        /// Update all the score table
+        /// </summary>
+        public void UpdateAll()
+        {
+            for (int i = 0; i < _frames.Count; i++)
+            {
+                UpdateFromFrame(i);
+            }
+            rules.CalculateScore(_frames);
+        }
+
+        /// <summary>
         /// Returns a boolean indicating whether the scoreboard is complete according to established bowling rules.
         /// </summary>
         /// <param name="scoreTable">The score table to inspect.</param>
@@ -134,7 +146,7 @@ namespace Model.Score
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != typeof(ScoreTable)) return false;
-            return Equals((ScoreTable) obj);
+            return Equals((ScoreTable)obj);
         }
 
         /// <summary>

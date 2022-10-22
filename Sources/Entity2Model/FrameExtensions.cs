@@ -21,12 +21,27 @@ namespace Entity2Model
         public static AFrame ToModel(this FrameEntity aFrameEntity)
         {
             var trEnt = aFrameEntity.ThrowResultEntitys.ToList();
-            ClassicFrame classic = new(aFrameEntity.FrameId, aFrameEntity.FrameNumberLabel, trEnt[0].Value.ToThrowResult(), trEnt[1].Value.ToThrowResult())
+            AFrame? frame = null;
+            if (trEnt.Count == 2)
             {
-                CumulativeScore = aFrameEntity.CumulativeScore,
-                ScoreValue = aFrameEntity.ScoreValue
-            };
-            return classic;
+                ClassicFrame classic = new(aFrameEntity.FrameId, aFrameEntity.FrameNumberLabel, trEnt[0].Value.ToThrowResult(), trEnt[1].Value.ToThrowResult())
+                {
+                    CumulativeScore = aFrameEntity.CumulativeScore,
+                    ScoreValue = aFrameEntity.ScoreValue
+                };
+                frame = classic;
+            }
+            else if (trEnt.Count == 3)
+            {
+                ClassicLastFrame classicLast = new(aFrameEntity.FrameId, aFrameEntity.FrameNumberLabel,
+                    trEnt[0].Value.ToThrowResult(), trEnt[1].Value.ToThrowResult(), trEnt[2].Value.ToThrowResult())
+                {
+                    CumulativeScore = aFrameEntity.CumulativeScore,
+                    ScoreValue = aFrameEntity.ScoreValue
+                };
+                frame = classicLast;
+            }
+            return frame;
         }
 
         public static FrameEntity ToEntity(this AFrame aFrame)

@@ -23,12 +23,26 @@ namespace FunctionnalTests
             scoreTable.WriteValue(scoreTable.Frames[1], 1, ThrowResult.FOUR);
             scoreTable.WriteValue(scoreTable.Frames[2], 0, ThrowResult.NONE);
             scoreTable.WriteValue(scoreTable.Frames[2], 1, ThrowResult.STRIKE);
-            scoreTable.UpdateFromFrame(2);
-            int totalScore = scoreTable.TotalScore;
+            scoreTable.WriteValue(scoreTable.Frames[3], 0, ThrowResult.NONE);
+            scoreTable.WriteValue(scoreTable.Frames[3], 1, ThrowResult.STRIKE);
+            scoreTable.WriteValue(scoreTable.Frames[4], 0, ThrowResult.NONE);
+            scoreTable.WriteValue(scoreTable.Frames[4], 1, ThrowResult.STRIKE);
+            scoreTable.WriteValue(scoreTable.Frames[5], 0, ThrowResult.NONE);
+            scoreTable.WriteValue(scoreTable.Frames[5], 1, ThrowResult.STRIKE);
+            scoreTable.WriteValue(scoreTable.Frames[6], 0, ThrowResult.NONE);
+            scoreTable.WriteValue(scoreTable.Frames[6], 1, ThrowResult.STRIKE);
+            scoreTable.WriteValue(scoreTable.Frames[7], 0, ThrowResult.NONE);
+            scoreTable.WriteValue(scoreTable.Frames[7], 1, ThrowResult.STRIKE);
+            scoreTable.WriteValue(scoreTable.Frames[8], 0, ThrowResult.NONE);
+            scoreTable.WriteValue(scoreTable.Frames[8], 1, ThrowResult.STRIKE);
+            scoreTable.WriteValue(scoreTable.Frames[9], 0, ThrowResult.STRIKE);
+            scoreTable.WriteValue(scoreTable.Frames[9], 1, ThrowResult.STRIKE);
+            scoreTable.WriteValue(scoreTable.Frames[9], 2, ThrowResult.STRIKE);
+            scoreTable.UpdateAll();
             using (BowlingDbContext db = new())
             {
                 WriteLine("Opening the connection to the database.");
-                
+
                 if (db.Frames.Any())
                 {
                     WriteLine("There is some frames in the db, clean it");
@@ -49,7 +63,7 @@ namespace FunctionnalTests
                 db.SaveChanges();
 
                 WriteLine("All frames in the db :");
-                foreach(var frameToShow in db.Frames.Include(f => f.ThrowResultEntitys))
+                foreach (var frameToShow in db.Frames.Include(f => f.ThrowResultEntitys))
                 {
                     WriteLine(frameToShow.ToModel());
                 }
