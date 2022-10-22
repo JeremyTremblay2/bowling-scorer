@@ -1,6 +1,6 @@
-﻿using FrameWriterModel.Frame;
-using FrameWriterModel.Frame.ThrowResults;
-using FrameWriterModel.Writer;
+﻿using FrameModel.Frame;
+using FrameModel.Frame.ThrowResults;
+using FrameModel.Writer;
 using Model.Games;
 using Model.Score.Rules.Calculator;
 using Model.Score.Rules.Detector;

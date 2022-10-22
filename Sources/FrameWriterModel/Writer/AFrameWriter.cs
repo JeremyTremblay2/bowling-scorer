@@ -1,12 +1,12 @@
-﻿using FrameWriterModel.Frame;
-using FrameWriterModel.Frame.ThrowResults;
+﻿using FrameModel.Frame;
+using FrameModel.Frame.ThrowResults;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FrameWriterModel.Writer
+namespace FrameModel.Writer
 {
     public abstract class AFrameWriter
     {

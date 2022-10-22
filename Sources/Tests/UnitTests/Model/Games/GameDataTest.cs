@@ -1,4 +1,4 @@
-﻿using FrameWriterModel.Frame.ThrowResults;
+﻿using FrameModel.Frame.ThrowResults;
 using Model.Players;
 using Model.Score;
 using System;
@@ -9,7 +9,7 @@ using Model;
 using System.Threading.Tasks;
 using Model.Score.Rules;
 using Model.Games;
-using FrameWriterModel.Frame;
+using FrameModel.Frame;
 
 namespace UnitTests.Games
 {

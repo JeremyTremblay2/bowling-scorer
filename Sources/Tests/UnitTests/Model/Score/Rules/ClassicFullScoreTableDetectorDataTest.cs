@@ -1,4 +1,4 @@
-﻿using FrameWriterModel.Frame.ThrowResults;
+﻿using FrameModel.Frame.ThrowResults;
 using Model.Score;
 using Model.Score.Rules;
 using System;

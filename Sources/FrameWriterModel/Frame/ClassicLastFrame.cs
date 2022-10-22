@@ -1,12 +1,12 @@
-﻿using FrameWriterModel.Frame.ThrowResults;
-using FrameWriterModel.Writer;
+﻿using FrameModel.Frame.ThrowResults;
+using FrameModel.Writer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FrameWriterModel.Frame
+namespace FrameModel.Frame
 {
     /// <summary>
     /// The ClassicLastFrame represent a classic frame with 3 boxes.

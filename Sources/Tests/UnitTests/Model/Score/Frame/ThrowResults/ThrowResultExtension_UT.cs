@@ -1,4 +1,4 @@
-﻿using FrameWriterModel.Frame.ThrowResults;
+﻿using FrameModel.Frame.ThrowResults;
 using Xunit;
 
 namespace UnitTests.Score.Frame.ThrowResults

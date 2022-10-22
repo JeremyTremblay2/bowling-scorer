@@ -21,6 +21,8 @@ namespace Entities
 
         public DbSet<FrameEntity> Frames { get; set; }
 
+        public DbSet<ThrowResultEntity> ThrowResults { get; set; }
+
         /// <summary>
         /// Used to configure the database.
         /// </summary>
@@ -47,9 +49,26 @@ namespace Entities
             modelBuilder.Entity<PlayerEntity>().Property(n => n.ID)
                                                .ValueGeneratedOnAdd();
 
-            //Frames
-            modelBuilder.Entity<FrameEntity>().ToTable("Frame");
+            // Frames
+            modelBuilder.Entity<FrameEntity>().ToTable("Frame"); //table definition
+            modelBuilder.Entity<FrameEntity>().HasKey(f => f.FrameId); //PK definition
+            modelBuilder.Entity<FrameEntity>().Property(f => f.FrameId)
+                .ValueGeneratedOnAdd(); //PK Generation directive
 
+            // ThrowResults
+            modelBuilder.Entity<ThrowResultEntity>().ToTable("ThrowResult"); //table definition
+            modelBuilder.Entity<ThrowResultEntity>().HasKey(tr => tr.ThrowResultId); //PK definition
+            modelBuilder.Entity<ThrowResultEntity>().Property(tr => tr.ThrowResultId)
+                .ValueGeneratedOnAdd(); //PK Generation directive
+
+            // Add the shadow property to the model (shadow = not hard-writed, it is created thanks to this line
+            modelBuilder.Entity<ThrowResultEntity>()
+                .Property<int>("FrameForeignKey");
+            // Use the shadow property as a foreign key
+            modelBuilder.Entity<ThrowResultEntity>()
+                .HasOne(tr => tr.FrameEntity)
+                .WithMany(f => f.ThrowResultEntitys)
+                .HasForeignKey("FrameForeignKey");
 
 
             base.OnModelCreating(modelBuilder);

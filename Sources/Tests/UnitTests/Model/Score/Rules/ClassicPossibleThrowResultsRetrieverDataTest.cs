@@ -1,5 +1,5 @@
-﻿using FrameWriterModel.Frame;
-using FrameWriterModel.Frame.ThrowResults;
+﻿using FrameModel.Frame;
+using FrameModel.Frame.ThrowResults;
 using Model.Players;
 using System;
 using System.Collections.Generic;

@@ -1,7 +1,7 @@
 ﻿using Entities;
 using Entity2Model;
-using FrameWriterModel.Frame;
-using FrameWriterModel.Frame.ThrowResults;
+using FrameModel.Frame;
+using FrameModel.Frame.ThrowResults;
 using Microsoft.EntityFrameworkCore;
 using Model.Games;
 using Model.Players;
@@ -28,11 +28,7 @@ namespace FunctionnalTests
             using (BowlingDbContext db = new())
             {
                 WriteLine("Opening the connection to the database.");
-                WriteLine("All frames in the db :");
-                foreach (var frameToShow in db.Frames)
-                {
-                    WriteLine(frameToShow.ToModel());
-                }
+                
                 if (db.Frames.Any())
                 {
                     WriteLine("There is some frames in the db, clean it");
@@ -53,7 +49,7 @@ namespace FunctionnalTests
                 db.SaveChanges();
 
                 WriteLine("All frames in the db :");
-                foreach(var frameToShow in db.Frames)
+                foreach(var frameToShow in db.Frames.Include(f => f.ThrowResultEntitys))
                 {
                     WriteLine(frameToShow.ToModel());
                 }

@@ -7,8 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Model.Score.Rules.Calculator;
-using FrameWriterModel.Frame;
-using FrameWriterModel.Frame.ThrowResults;
+using FrameModel.Frame;
+using FrameModel.Frame.ThrowResults;
 
 namespace UnitTests.Score.Rules
 {

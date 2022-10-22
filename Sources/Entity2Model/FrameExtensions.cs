@@ -1,7 +1,9 @@
 ﻿using Entities.Frame;
-using FrameWriterModel.Frame;
+using FrameModel.Frame;
+using FrameModel.Frame.ThrowResults;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -18,19 +20,31 @@ namespace Entity2Model
         /// <returns></returns>
         public static AFrame ToModel(this FrameEntity aFrameEntity)
         {
-            ClassicFrame classic = new ClassicFrame(aFrameEntity.Id, aFrameEntity.FrameNumberLabel);
-            classic.CumulativeScore = aFrameEntity.CumulativeScore;
-            classic.ScoreValue = aFrameEntity.ScoreValue;
+            var trEnt = aFrameEntity.ThrowResultEntitys.ToList();
+            ClassicFrame classic = new(aFrameEntity.FrameId, aFrameEntity.FrameNumberLabel, trEnt[0].Value.ToThrowResult(), trEnt[1].Value.ToThrowResult())
+            {
+                CumulativeScore = aFrameEntity.CumulativeScore,
+                ScoreValue = aFrameEntity.ScoreValue
+            };
             return classic;
         }
 
         public static FrameEntity ToEntity(this AFrame aFrame)
         {
             FrameEntity frameEntity = new();
-            frameEntity.Id = aFrame.ID;
+            frameEntity.FrameId = aFrame.ID;
             frameEntity.FrameNumberLabel = aFrame.FrameNumberLabel;
             frameEntity.ScoreValue = aFrame.ScoreValue;
             frameEntity.CumulativeScore = aFrame.CumulativeScore;
+            foreach (ThrowResult tr in aFrame.ThrowResults)
+            {
+                ThrowResultEntity throwResultEntity = new()
+                {
+                    FrameEntity = frameEntity,
+                    Value = tr.ToChar()
+                };
+                frameEntity.ThrowResultEntitys.Add(throwResultEntity);
+            }
             return frameEntity;
         }
     }

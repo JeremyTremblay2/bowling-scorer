@@ -1,4 +1,4 @@
-﻿using FrameWriterModel.Frame.ThrowResults;
+﻿using FrameModel.Frame.ThrowResults;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

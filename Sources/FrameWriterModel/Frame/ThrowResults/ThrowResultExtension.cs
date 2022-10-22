@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FrameWriterModel.Frame.ThrowResults
+namespace FrameModel.Frame.ThrowResults
 {
     /// <summary>
     /// Extension used to convert ThrowResult occurences into other types
@@ -87,6 +87,33 @@ namespace FrameWriterModel.Frame.ThrowResults
                 ThrowResult.NINE => '9',
                 ThrowResult.SPARE => '/',
                 ThrowResult.STRIKE => 'X',
+                _ => throw new ArgumentException($"Cannot convert this ThrowResult to char : {throwResult}")
+            };
+        }
+
+        /// <summary>
+        /// Transform a char to a ThrowResult.
+        /// </summary>
+        /// <param name="throwResult">The ThrowResult to convert.</param>
+        /// <returns>A char describing the ThrowResult.</returns>
+        /// <exception cref="ArgumentException">If the ThrowResult cannot be convert.</exception>
+        public static ThrowResult ToThrowResult(this char throwResult)
+        {
+            return throwResult switch
+            {
+                '-' => ThrowResult.NONE,
+                '0' => ThrowResult.ZERO,
+                '1' => ThrowResult.ONE,
+                '2' => ThrowResult.TWO,
+                '3' => ThrowResult.THREE,
+                '4' => ThrowResult.FOUR,
+                '5' => ThrowResult.FIVE,
+                '6' => ThrowResult.SIX,
+                '7' => ThrowResult.SEVEN,
+                '8' => ThrowResult.EIGHT,
+                '9' => ThrowResult.NINE,
+                '/' => ThrowResult.SPARE,
+                'X' => ThrowResult.STRIKE,
                 _ => throw new ArgumentException($"Cannot convert this ThrowResult to char : {throwResult}")
             };
         }
