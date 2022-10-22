@@ -23,13 +23,23 @@ namespace Entities
 
         public DbSet<ThrowResultEntity> ThrowResults { get; set; }
 
+        public BowlingDbContext()
+        { }
+
+        public BowlingDbContext(DbContextOptions<BowlingDbContext> options)
+            : base(options)
+        { }
+
         /// <summary>
         /// Used to configure the database.
         /// </summary>
         /// <param name="optionsBuilder">The options that can be configured.</param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite($"Data Source=Entities.BowlingDatabase.db");
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlite($"Data Source=Entities.BowlingDatabase.db");
+            }
         }
 
         /// <summary>
