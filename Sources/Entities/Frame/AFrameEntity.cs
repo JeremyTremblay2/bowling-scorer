@@ -14,7 +14,6 @@ namespace Entities.Frame
         public int ScoreValue { get; set; }
         public int CumulativeScore { get; set; }
 
-        //public IEnumerable<ThrowResult> throwResults { get; set; }
 
     }
 }

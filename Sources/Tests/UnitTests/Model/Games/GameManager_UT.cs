@@ -53,7 +53,7 @@ namespace UnitTests.Games
                                                         GameManager manager)
         {
             bool result = false;
-            for (int i = 0; i < gamesToAdd.Count(); i++)
+            for (int i = 0; i < gamesToAdd.Length; i++)
             {
                 if (expectedInvalidOperationException && i == indexExpectedToFail)
                 {
