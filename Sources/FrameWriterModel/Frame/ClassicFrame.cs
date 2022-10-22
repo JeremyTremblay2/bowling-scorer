@@ -19,6 +19,15 @@ namespace FrameWriterModel.Frame
         public bool IsStrike => ThrowResults[1] == ThrowResult.STRIKE;
 
         /// <summary>
+        /// Constructor of ClassicFrame with an Id
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="frameNumberLabel"></param>
+        public ClassicFrame(int Id, int frameNumberLabel) : base(Id, frameNumberLabel, CLASSIC_SIZE)
+        {
+        }
+
+        /// <summary>
         /// Constructor of ClassicFrame
         /// </summary>
         /// <param name="frameNumberLabel">The number of the Frame</param>

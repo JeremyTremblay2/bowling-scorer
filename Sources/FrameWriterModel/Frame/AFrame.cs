@@ -14,6 +14,12 @@ namespace FrameWriterModel.Frame
     public abstract class AFrame : IEquatable<AFrame>, ICloneable
     {
         /// <summary>
+        /// The Id of the Frame
+        /// </summary>
+        public int ID { get => _id;}
+        private readonly int _id;
+
+        /// <summary>
         /// The name of the Frame
         /// </summary>
         public int FrameNumberLabel
@@ -75,7 +81,17 @@ namespace FrameWriterModel.Frame
         /// <param name="frameNumberLabel">Name of the Frame</param>
         /// <param name="nbThrows">Number of slots for the ThrowResults</param>
         /// <exception cref="ArgumentException"></exception>
-        protected AFrame(int frameNumberLabel, int nbThrows)
+        protected AFrame(int frameNumberLabel, int nbThrows) : this (0, frameNumberLabel, nbThrows)
+        {
+        }
+
+        /// <summary>
+        /// Build a frame and specify the Id
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="frameNumberLabel"></param>
+        /// <param name="nbThrows"></param>
+        protected AFrame(int Id, int frameNumberLabel, int nbThrows)
         {
             if (nbThrows <= 0)
             {
@@ -84,6 +100,7 @@ namespace FrameWriterModel.Frame
             FrameNumberLabel = frameNumberLabel;
             throwResults = new ThrowResult[nbThrows];
             ThrowResults = new ReadOnlyCollection<ThrowResult>(throwResults);
+            _id = Id;
             CleanFrame();
         }
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Frame
 {
-    public class AFrameEntity
+    public class FrameEntity
     {
         public int Id { get; set; }
         public int FrameNumberLabel { get; set; }

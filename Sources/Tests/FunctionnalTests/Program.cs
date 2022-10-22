@@ -1,8 +1,12 @@
 ﻿using Entities;
 using Entity2Model;
+using FrameWriterModel.Frame;
+using FrameWriterModel.Frame.ThrowResults;
 using Microsoft.EntityFrameworkCore;
 using Model.Games;
 using Model.Players;
+using Model.Score;
+using Model.Score.Rules;
 using Stub;
 using static System.Console;
 
@@ -11,6 +15,52 @@ namespace FunctionnalTests
     class Program
     {
         static void Main(string[] args)
+        {
+            ScoreTable scoreTable = new ScoreTable(new ClassicRules());
+            scoreTable.WriteValue(scoreTable.Frames[0], 0, ThrowResult.SIX);
+            scoreTable.WriteValue(scoreTable.Frames[0], 1, ThrowResult.TWO);
+            scoreTable.WriteValue(scoreTable.Frames[1], 0, ThrowResult.THREE);
+            scoreTable.WriteValue(scoreTable.Frames[1], 1, ThrowResult.FOUR);
+            scoreTable.WriteValue(scoreTable.Frames[2], 0, ThrowResult.NONE);
+            scoreTable.WriteValue(scoreTable.Frames[2], 1, ThrowResult.STRIKE);
+            scoreTable.UpdateFromFrame(2);
+            int totalScore = scoreTable.TotalScore;
+            using (BowlingDbContext db = new())
+            {
+                WriteLine("Opening the connection to the database.");
+                WriteLine("All frames in the db :");
+                foreach (var frameToShow in db.Frames)
+                {
+                    WriteLine(frameToShow.ToModel());
+                }
+                if (db.Frames.Any())
+                {
+                    WriteLine("There is some frames in the db, clean it");
+                    foreach (var frame in db.Frames)
+                    {
+                        WriteLine("Delete one frame : " + frame);
+                        db.Frames.Remove(frame);
+                    }
+                    db.SaveChanges();
+                }
+
+                WriteLine("Start to write the ScoreTable's scores");
+                foreach (AFrame frameToSave in scoreTable.Frames)
+                {
+                    WriteLine("Add : " + frameToSave);
+                    db.Frames.Add(frameToSave.ToEntity());
+                }
+                db.SaveChanges();
+
+                WriteLine("All frames in the db :");
+                foreach(var frameToShow in db.Frames)
+                {
+                    WriteLine(frameToShow.ToModel());
+                }
+            }
+        }
+
+        private static void PlayerFuctionnalTests()
         {
             PlayerEntity toto = new PlayerEntity { Name = "Toto", Image = "girafe.png" };
             PlayerEntity antoine = new PlayerEntity { Name = "Antoine", Image = "mickaelJackson.png" };

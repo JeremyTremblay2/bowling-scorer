@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Entities.Frame;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace Entities
         /// </summary>
         public DbSet<PlayerEntity> Players { get; set; }
 
+        public DbSet<FrameEntity> Frames { get; set; }
+
         /// <summary>
         /// Used to configure the database.
         /// </summary>
@@ -34,6 +37,7 @@ namespace Entities
         /// <param name="modelBuilder">The model builder.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //Players
             modelBuilder.Entity<PlayerEntity>().ToTable("Player");
 
             modelBuilder.Entity<PlayerEntity>().Property(n => n.Name)
@@ -42,6 +46,11 @@ namespace Entities
 
             modelBuilder.Entity<PlayerEntity>().Property(n => n.ID)
                                                .ValueGeneratedOnAdd();
+
+            //Frames
+            modelBuilder.Entity<FrameEntity>().ToTable("Frame");
+
+
 
             base.OnModelCreating(modelBuilder);
         }
