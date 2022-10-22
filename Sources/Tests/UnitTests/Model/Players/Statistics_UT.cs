@@ -107,15 +107,16 @@ namespace UnitTests.Players
         [Theory]
         [MemberData(nameof(StatisticsDataTest.Test_StatisticsDataEquality), MemberType = typeof(StatisticsDataTest))]
         public void EqualsAndHashCodeShouldReturnLogicalValues(bool expectedResult, 
-                                                               Statistics statistics1, 
-                                                               Statistics statistics2)
+                                                               object statistics1, 
+                                                               object statistics2)
         {
-            Assert.Equal(expectedResult, statistics1 == statistics2);
-            Assert.Equal(!expectedResult, statistics1 != statistics2);
             if (statistics1 != null) Assert.Equal(expectedResult, statistics1.Equals(statistics2));
             if (statistics2 != null) Assert.Equal(expectedResult, statistics2.Equals(statistics1));
-            if (statistics1 != null && statistics2 != null) {
+            if (statistics1 != null && statistics2 != null 
+                && statistics1 is Statistics stats1 && statistics2 is Statistics stats2) {
                 Assert.Equal(expectedResult, statistics1.GetHashCode().Equals(statistics2.GetHashCode()));
+                Assert.Equal(expectedResult, stats1 == stats2);
+                Assert.Equal(!expectedResult, stats1 != stats2);
             }
         }
 
