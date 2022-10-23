@@ -180,8 +180,8 @@ namespace Model.Games
             var validScores = scores.Where(s => s.Key != null && s.Value != null);
             foreach (KeyValuePair<Player, ScoreTable> score in validScores)
             {
-                // be sure we are manipulating score tables full with same rules.
-                if (score.Value.AreRulesEquals(rules) && score.Value.IsScoreTableComplete()) 
+                // be sure we are manipulating score tables with same rules.
+                if (score.Value.AreRulesEquals(rules)) 
                 {
                     for (int i = 0; i < score.Value.Frames.Count; i++)
                     {
@@ -197,8 +197,10 @@ namespace Model.Games
                     + "must contains at least one player and score table.", nameof(scores));
             }
 
-            CurrentPlayer = null;
-            CurrentTurn = _scores[_players.First()].Frames.Count;
+            CurrentTurn = _scores.Min(kvp => GetFirstFrameIncomplete(kvp.Value));
+            CurrentPlayer = _players.FirstOrDefault(p => GetFirstFrameIncomplete(_scores[p]) == CurrentTurn 
+                    && (CurrentTurn < _scores.First().Value.Frames.Count));
+            if (CurrentTurn > _scores.First().Value.Frames.Count) CurrentTurn--;
 
             // If the game is finished, initialize the game like it should be at the end, when score tables are complete.
             if (isFinished)
@@ -461,6 +463,20 @@ namespace Model.Games
                 }
             }
             return true;
+        }
+
+        /// <summary>
+        /// Get the first frame incomplete of a specific score table.
+        /// </summary>
+        /// <param name="scoreTable">The score table where the first incomplete frame will be found.</param>
+        /// <returns>The first frame incomplete of a specific score table.</returns>
+        private int GetFirstFrameIncomplete(ScoreTable scoreTable)
+        {
+            for (int i = 0; i < scoreTable.Frames.Count; i++)
+            {
+                if (!scoreTable.IsFrameComplete(scoreTable.Frames[i])) return i + 1;
+            }
+            return scoreTable.Frames.Count + 1;
         }
     }
 }
