@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Entities.Entities;
+using Entities.Entities.Game;
+using Entities.Frame;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,5 +28,7 @@ namespace Entities
         /// The image of the player.
         /// </summary>
         public string? Image { get; set; }
+
+        public ICollection<GamePlayer> GamePlayer { get; set; } = new List<GamePlayer>();
     }
 }

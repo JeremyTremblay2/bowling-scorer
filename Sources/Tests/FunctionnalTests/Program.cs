@@ -1,4 +1,6 @@
 ﻿using Entities;
+using Entities.Entities;
+using Entities.Entities.Game;
 using Entity2Model;
 using FrameModel.Frame;
 using FrameModel.Frame.ThrowResults;
@@ -15,6 +17,61 @@ namespace FunctionnalTests
     class Program
     {
         static void Main(string[] args)
+        {
+            var games = new Stub.Stub().GetGames(0, 10).Result;
+            using (BowlingDbContext db = new())
+            {
+                WriteLine("Opening the connection to the database.");
+                WriteLine("Cleaning tables...");
+                if (db.GamePlayers.Any())
+                {
+                    foreach (var gp in db.GamePlayers)
+                    {
+                        db.GamePlayers.Remove(gp);
+                    }
+                }
+                if (db.Games.Any())
+                {
+                    foreach (var g in db.Games)
+                    {
+                        db.Games.Remove(g);
+                    }
+                }
+                if (db.Players.Any())
+                {
+                    foreach( var player in db.Players)
+                    {
+                        db.Players.Remove(player);
+                    }
+                }
+                db.SaveChanges();
+                WriteLine("Add New Games, Players in the db...");
+                foreach (var game in games)
+                {
+                    GameEntity gameEntity = game.ToEntity();
+                    foreach(var player in game.Players)
+                    {
+                        gameEntity.GamePlayer.Add(
+                            new GamePlayer()
+                            {
+                                GameEntity = gameEntity,
+                                PlayerEntity = player.ToEntity()
+                            }
+                        );
+                    }
+                    db.Games.Add(gameEntity);
+                }
+                db.SaveChanges();
+
+                /*WriteLine("Games in the db :");
+                foreach (var gameEnt in db.Games.Include(g => g.GamePlayer).Include(g => g.GamePlayer.Select(gp => gp.PlayerEntity)))
+                {
+                    WriteLine(gameEnt.ToModel());
+                }*/
+            }
+        }
+
+        private static void FrameTROneToManyFunctionnalTests()
         {
             ScoreTable scoreTable = new ScoreTable(new ClassicRules());
             scoreTable.WriteValue(scoreTable.Frames[0], 0, ThrowResult.SIX);
