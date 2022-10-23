@@ -1,4 +1,4 @@
-﻿using FrameWriterModel.Exceptions;
+﻿using FrameModel.Exceptions;
 using System;
 using System.Runtime.Serialization;
 using Xunit;

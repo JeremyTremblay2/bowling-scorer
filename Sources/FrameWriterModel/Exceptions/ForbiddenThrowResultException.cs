@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FrameWriterModel.Exceptions
+namespace FrameModel.Exceptions
 {
     /// <summary>
     /// Represents an occur that can occur if a throwresult is not correct at the specific time.

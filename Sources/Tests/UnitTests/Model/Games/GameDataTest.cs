@@ -1,4 +1,4 @@
-﻿using FrameWriterModel.Frame.ThrowResults;
+﻿using FrameModel.Frame.ThrowResults;
 using Model.Players;
 using Model.Score;
 using System;
@@ -9,7 +9,7 @@ using Model;
 using System.Threading.Tasks;
 using Model.Score.Rules;
 using Model.Games;
-using FrameWriterModel.Frame;
+using FrameModel.Frame;
 
 namespace UnitTests.Games
 {
@@ -24,7 +24,7 @@ namespace UnitTests.Games
         /// <param name="scoreTable">The score table to fill in.</param>
         /// <param name="throwResults">The throw results to write into.</param>
         /// <returns>The score table updated.</returns>
-        public static ScoreTable ToScoreTable(this ScoreTable scoreTable, ThrowResult[][] throwResults)
+        public static ScoreTable ToScoreTableUT(this ScoreTable scoreTable, ThrowResult[][] throwResults)
         {
             for (int i = 0; i < throwResults.Length; i++)
             {
@@ -37,7 +37,7 @@ namespace UnitTests.Games
             return scoreTable;
         }
 
-        public static ScoreTable scoreTableComplete = new ScoreTable(new ClassicRules()).ToScoreTable(new ThrowResult[][]
+        public static ScoreTable scoreTableComplete = new ScoreTable(new ClassicRules()).ToScoreTableUT(new ThrowResult[][]
         {
             new ThrowResult[]
             {
@@ -92,7 +92,7 @@ namespace UnitTests.Games
             }
         });
 
-        public static ScoreTable anotherScoreTableComplete = new ScoreTable(new ClassicRules()).ToScoreTable(new ThrowResult[][]
+        public static ScoreTable anotherScoreTableComplete = new ScoreTable(new ClassicRules()).ToScoreTableUT(new ThrowResult[][]
         {
             new ThrowResult[]
             {
@@ -147,7 +147,7 @@ namespace UnitTests.Games
             }
         });
 
-        public static ScoreTable scoreTableNotComplete = new ScoreTable(new ClassicRules()).ToScoreTable(new ThrowResult[][]
+        public static ScoreTable scoreTableNotComplete = new ScoreTable(new ClassicRules()).ToScoreTableUT(new ThrowResult[][]
         {
             new ThrowResult[]
             {

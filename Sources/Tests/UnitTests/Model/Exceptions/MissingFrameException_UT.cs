@@ -1,4 +1,4 @@
-﻿using FrameWriterModel.Exceptions;
+﻿using FrameModel.Exceptions;
 using Model.Exceptions;
 using System;
 using System.Collections.Generic;
