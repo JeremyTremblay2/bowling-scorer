@@ -155,14 +155,11 @@ namespace UnitTests.Games
         {
             if (expectedInvalidOperationException)
             {
-                Assert.Throws<InvalidOperationException>(() => new Game(rulesToAdd, scoresToAdd, false));
+                Assert.Throws<InvalidOperationException>(() => new Game(rulesToAdd, scoresToAdd, true));
             }
             else
             {
                 Game game = new Game(rulesToAdd, scoresToAdd, true);
-
-
-
                 Assert.Null(game.CurrentPlayer);
                 Assert.Equal(10, game.CurrentTurn);
                 Assert.True(game.IsFinished);
