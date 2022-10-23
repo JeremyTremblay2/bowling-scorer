@@ -13,5 +13,13 @@ namespace Entity2Model.Mapper
         /// Mapper used to do the correspondance between player entities and pleyr models.
         /// </summary>
         public static IMapper<PlayerEntity, Player> Players = new Mapper<PlayerEntity, Player>();
+
+        /// <summary>
+        /// Clear all the mappers of the project.
+        /// </summary>
+        public static void Reset()
+        {
+            Players.Clear();
+        }
     }
 }
