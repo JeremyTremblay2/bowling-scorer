@@ -223,5 +223,40 @@ namespace UnitTests.DBTest
             Assert.Equal(ThrowResult.FIVE, frame.ThrowResults[0]);
             Assert.Equal(ThrowResult.SPARE, frame.ThrowResults[1]);
         }
+
+        [Fact]
+        public void ThrowResultsFromFrameEntityShouldHaveLogicalValues()
+        {
+            FrameEntity entity = null;
+            entity = new FrameEntity
+            {
+                FrameId = 2,
+                FrameNumberLabel = 3,
+                CumulativeScore = 10,
+                ScoreValue = 5,
+            };
+            var values = new List<ThrowResultEntity>()
+            {
+                new ThrowResultEntity
+                {
+                    ThrowResultId = 0,
+                    FrameEntity = entity,
+                    Value = '5'
+                },
+                new ThrowResultEntity
+                {
+                    ThrowResultId = 1,
+                    FrameEntity = entity,
+                    Value = '/'
+                }
+            };
+            entity.ThrowResultEntitys = values;
+            Assert.Equal(0, entity.ThrowResultEntitys.ElementAt(0).ThrowResultId);
+            Assert.Equal(1, entity.ThrowResultEntitys.ElementAt(1).ThrowResultId);
+            Assert.Equal('/', entity.ThrowResultEntitys.ElementAt(1).Value);
+            Assert.Equal('5', entity.ThrowResultEntitys.ElementAt(0).Value);
+            Assert.Equal(entity, entity.ThrowResultEntitys.ElementAt(0).FrameEntity);
+            Assert.Equal(entity, entity.ThrowResultEntitys.ElementAt(1).FrameEntity);
+        }
     }
 }
