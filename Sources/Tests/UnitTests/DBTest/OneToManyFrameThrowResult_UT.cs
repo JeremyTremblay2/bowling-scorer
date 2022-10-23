@@ -6,6 +6,7 @@ using FrameModel.Frame.ThrowResults;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Model.Score.Rules;
+using Model.Score.Rules.Calculator;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -173,6 +174,131 @@ namespace UnitTests.DBTest
 
                 Assert.Equal(0, context.Frames.Count());
             }
+        }
+
+        [Fact]
+        public void FrameExtensionShouldTransformFrameIntoFrameEntity()
+        {
+            AFrame classic1 = new ClassicFrame(1, ThrowResult.FIVE, ThrowResult.TWO);
+            FrameEntity entity = classic1.ToEntity();
+            Assert.Equal(1, entity.FrameNumberLabel);
+            Assert.Equal(0, entity.FrameId);
+            Assert.Equal(0, entity.CumulativeScore);
+            Assert.Equal(0, entity.ScoreValue);
+            Assert.Equal(ThrowResult.FIVE, entity.ThrowResultEntitys.First().Value.ToThrowResult());
+            Assert.Equal(ThrowResult.TWO, entity.ThrowResultEntitys.ElementAt(1).Value.ToThrowResult());
+        }
+
+        [Fact]
+        public void FrameExtensionShouldTransformFrameEntityIntoClassicFrame()
+        {
+            FrameEntity entity = null;
+            entity = new FrameEntity
+            {
+                FrameId = 2,
+                FrameNumberLabel = 3,
+                CumulativeScore = 10,
+                ScoreValue = 5,
+                ThrowResultEntitys = new List<ThrowResultEntity>()
+                {
+                    new ThrowResultEntity
+                    {
+                        ThrowResultId = 0,
+                        FrameEntity = entity,
+                        Value = '5'
+                    },
+                    new ThrowResultEntity
+                    {
+                        ThrowResultId = 1,
+                        FrameEntity = entity,
+                        Value = '/'
+                    }
+                }
+            };
+            AFrame frame = entity.ToModel();
+            Assert.Equal(2, frame.ID);
+            Assert.Equal(3, frame.FrameNumberLabel);
+            Assert.Equal(10, frame.CumulativeScore);
+            Assert.Equal(5, frame.ScoreValue);
+            Assert.Equal(ThrowResult.FIVE, frame.ThrowResults[0]);
+            Assert.Equal(ThrowResult.SPARE, frame.ThrowResults[1]);
+        }
+
+        [Fact]
+        public void FrameExtensionShouldTransformFrameEntityIntoClassicLastFrame()
+        {
+            FrameEntity entity = null;
+            entity = new FrameEntity
+            {
+                FrameId = 2,
+                FrameNumberLabel = 3,
+                CumulativeScore = 20,
+                ScoreValue = 15,
+                ThrowResultEntitys = new List<ThrowResultEntity>()
+                {
+                    new ThrowResultEntity
+                    {
+                        ThrowResultId = 0,
+                        FrameEntity = entity,
+                        Value = '5'
+                    },
+                    new ThrowResultEntity
+                    {
+                        ThrowResultId = 1,
+                        FrameEntity = entity,
+                        Value = '/'
+                    },
+                    new ThrowResultEntity
+                    {
+                        ThrowResultId = 2,
+                        FrameEntity = entity,
+                        Value = 'X'
+                    }
+                }
+            };
+            AFrame frame = entity.ToModel();
+            Assert.Equal(2, frame.ID);
+            Assert.Equal(3, frame.FrameNumberLabel);
+            Assert.Equal(20, frame.CumulativeScore);
+            Assert.Equal(15, frame.ScoreValue);
+            Assert.Equal(ThrowResult.FIVE, frame.ThrowResults[0]);
+            Assert.Equal(ThrowResult.SPARE, frame.ThrowResults[1]);
+            Assert.Equal(ThrowResult.STRIKE, frame.ThrowResults[2]);
+        }
+
+        [Fact]
+        public void ThrowResultsFromFrameEntityShouldHaveLogicalValues()
+        {
+            FrameEntity entity = null;
+            entity = new FrameEntity
+            {
+                FrameId = 2,
+                FrameNumberLabel = 3,
+                CumulativeScore = 10,
+                ScoreValue = 5,
+            };
+            var values = new List<ThrowResultEntity>()
+            {
+                new ThrowResultEntity
+                {
+                    ThrowResultId = 0,
+                    FrameEntity = entity,
+                    Value = '5'
+                },
+                new ThrowResultEntity
+                {
+                    ThrowResultId = 1,
+                    FrameEntity = entity,
+                    Value = '/'
+                }
+            };
+            entity.ThrowResultEntitys = values;
+            Assert.Equal(0, entity.ThrowResultEntitys.ElementAt(0).ThrowResultId);
+            Assert.Equal(1, entity.ThrowResultEntitys.ElementAt(1).ThrowResultId);
+            Assert.Equal('/', entity.ThrowResultEntitys.ElementAt(1).Value);
+            Assert.Equal('5', entity.ThrowResultEntitys.ElementAt(0).Value);
+            Assert.Equal(entity, entity.ThrowResultEntitys.ElementAt(0).FrameEntity);
+            Assert.Equal(entity, entity.ThrowResultEntitys.ElementAt(1).FrameEntity);
         }
     }
 }

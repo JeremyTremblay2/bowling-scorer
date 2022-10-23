@@ -11,7 +11,7 @@ namespace Entities.Frame
         public int ThrowResultId { get; set; }
 
         public FrameEntity FrameEntity { get; set; }
-        public char Value { get; set; }
 
+        public char Value { get; set; }
     }
 }

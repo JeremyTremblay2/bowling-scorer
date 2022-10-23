@@ -25,7 +25,7 @@ namespace Entity2Model.Mapper
         /// </summary>
         /// <param name="entity">The entity to map.</param>
         /// <param name="model">The model to map.</param>
-        public void Map(TEntity entity, TModel model) => maps.Add(new Tuple<TEntity, TModel>(entity, model));
+        public void Map(TEntity elem1, TModel elem2) => maps.Add(new Tuple<TEntity, TModel>(elem1, elem2));
 
         /// <summary>
         /// Get the model object corresponding to the given entity.
