@@ -1,4 +1,7 @@
-﻿using FrameModel.Frame.ThrowResults;
+﻿using FrameModel.Frame;
+using FrameModel.Frame.ThrowResults;
+using Model.Games;
+using Model.Score;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
