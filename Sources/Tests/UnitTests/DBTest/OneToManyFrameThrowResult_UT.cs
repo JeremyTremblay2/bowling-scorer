@@ -98,6 +98,81 @@ namespace UnitTests.DBTest
             }
         }
 
-        
+        [Fact]
+        public void ModifyFrame()
+        {
+            //connection must be opened to use In-memory database
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+
+            var options = new DbContextOptionsBuilder<BowlingDbContext>()
+                .UseSqlite(connection)
+                .Options;
+
+            //prepares the database with one instance of the context
+            using (var context = new BowlingDbContext(options))
+            {
+                context.Database.EnsureCreated();
+
+                ARules rules = new ClassicRules();
+                AFrame classic1 = new ClassicFrame(1, ThrowResult.FIVE, ThrowResult.TWO);
+
+                context.Frames.Add(classic1.ToEntity());
+                context.SaveChanges();
+            }
+
+            using (var context = new BowlingDbContext(options))
+            {
+                context.Database.EnsureCreated();
+
+                Assert.Equal(1, context.Frames.Count());
+                FrameEntity frameEntity = context.Frames.First();
+                frameEntity.FrameNumberLabel = 2;
+                context.SaveChanges();
+            }
+            using (var context = new BowlingDbContext(options))
+            {
+                FrameEntity frameEntity = context.Frames.First();
+                Assert.Equal(2, frameEntity.FrameNumberLabel);
+            }
+        }
+
+        [Fact]
+        public void DeleteFrame()
+        {
+            //connection must be opened to use In-memory database
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+
+            var options = new DbContextOptionsBuilder<BowlingDbContext>()
+                .UseSqlite(connection)
+                .Options;
+
+            using (var context = new BowlingDbContext(options))
+            {
+                context.Database.EnsureCreated();
+
+                ARules rules = new ClassicRules();
+                AFrame classic1 = new ClassicFrame(1, ThrowResult.FIVE, ThrowResult.TWO);
+
+                context.Frames.Add(classic1.ToEntity());
+                context.SaveChanges();
+            }
+
+            using (var context = new BowlingDbContext(options))
+            {
+                context.Database.EnsureCreated();
+
+                context.Frames.Remove(context.Frames.First());
+                context.SaveChanges();
+            }
+
+            using (var context = new BowlingDbContext(options))
+            {
+                context.Database.EnsureCreated();
+
+                Assert.Equal(0, context.Frames.Count());
+            }
+        }
     }
 }
