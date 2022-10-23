@@ -102,7 +102,7 @@ namespace UnitTests.StubTest
             Stub.Stub stub = new();
             var games = (await stub.GetGames(0, 10)).ToList();
             Assert.Throws<InvalidOperationException>(() => games[0].NextTurn());
-            games[1].AddResultToCurrentPlayer(1, FrameWriterModel.Frame.ThrowResults.ThrowResult.THREE);
+            games[1].AddResultToCurrentPlayer(1, FrameModel.Frame.ThrowResults.ThrowResult.THREE);
             bool result = games[1].NextTurn();
             Assert.True(result);
             Assert.Throws<InvalidOperationException>(() => games[2].NextTurn());

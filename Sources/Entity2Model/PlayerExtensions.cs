@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Entity2Model.Mapper;
 using Model.Players;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,11 @@ namespace Entity2Model
         /// <returns>A player similar to the entity.</returns>
         public static Player ToModel(this PlayerEntity entity)
         {
-            return new Player(entity.ID, entity.Name, entity.Image);
+            //Player? player = BowlingMapper.Players.Get(entity);
+            //if (player is not null) return player;
+            Player player = new Player(entity.ID, entity.Name, entity.Image);
+            //BowlingMapper.Players.Map(entity, player);
+            return player;
         }
 
         /// <summary>
@@ -31,12 +36,16 @@ namespace Entity2Model
         /// <returns>An entity similar to the player model.</returns>
         public static PlayerEntity ToEntity(this Player player)
         {
-            return new PlayerEntity
+            PlayerEntity? entity = BowlingMapper.Players.Get(player);
+            if (entity is not null) return entity;
+            entity = new PlayerEntity
             {
                 ID = player.ID,
                 Name = player.Name,
                 Image = player.Image
             };
+            BowlingMapper.Players.Map(entity, player);
+            return entity;
         }
     }
 }

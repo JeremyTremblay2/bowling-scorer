@@ -1,5 +1,5 @@
 ﻿using Business;
-using FrameWriterModel.Frame.ThrowResults;
+using FrameModel.Frame.ThrowResults;
 using Model.Games;
 using Model.Players;
 using Model.Score;

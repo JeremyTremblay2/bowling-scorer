@@ -1,5 +1,5 @@
-﻿using FrameWriterModel.Frame;
-using FrameWriterModel.Frame.ThrowResults;
+﻿using FrameModel.Frame;
+using FrameModel.Frame.ThrowResults;
 using Model.Players;
 using Model.Score;
 using Model.Score.Rules;
@@ -125,7 +125,8 @@ namespace Model.Games
         /// <param name="rules">The rules used by the game.</param>
         /// <param name="ID">The ID of the Game.</param>
         /// <param name="players">The players that will participate to the game.</param>
-        public Game(ARules rules, int ID, IEnumerable<Player> players)
+        /// <param name="date">The date of the game.</param>
+        public Game(ARules rules, int ID, IEnumerable<Player> players, DateTime date = default)
         {
             if (players == null)
             {
@@ -148,7 +149,7 @@ namespace Model.Games
                     + "must contains at least one player.", nameof(players));
             }
             this.ID = ID;
-            CreationDate = DateTime.Now;
+            this.CreationDate = date.Equals(default) ? DateTime.Now : date;
             CurrentTurn = 1;
             CurrentPlayer = Players.First();
             IsFinished = false;
@@ -159,7 +160,7 @@ namespace Model.Games
         /// </summary>
         /// <param name="rules">The rules used by the game.</param>
         /// <param name="players">The players that will participate to the game.</param>
-        public Game(ARules rules, IEnumerable<Player> players) : this(rules, 0, players)
+        public Game(ARules rules, IEnumerable<Player> players) : this(rules, 0, players, DateTime.Now)
         { }
 
         /// <summary>
@@ -172,8 +173,9 @@ namespace Model.Games
         /// because an InvalidOperationException will be throw if it is not the case.
         /// </param>
         /// <param name="ID">The ID of the game (facultative).</param>
+        /// <param name="CreationDate">The date of the game.</param>
         /// <exception cref="ArgumentException">If the collection does not contains at least one player and score table valids.</exception>
-        public Game(ARules rules, IDictionary<Player, ScoreTable> scores, bool isFinished, int ID = 0) : this(rules, ID, scores.Keys)
+        public Game(ARules rules, IDictionary<Player, ScoreTable> scores, bool isFinished, int ID = 0, DateTime CreationDate = default) : this(rules, ID, scores.Keys)
         {
             _scores.Clear();
             _players.Clear();
@@ -198,9 +200,10 @@ namespace Model.Games
             }
 
             CurrentTurn = _scores.Min(kvp => GetFirstFrameIncomplete(kvp.Value));
-            CurrentPlayer = _players.FirstOrDefault(p => GetFirstFrameIncomplete(_scores[p]) == CurrentTurn 
+            CurrentPlayer = _players.FirstOrDefault(p => GetFirstFrameIncomplete(_scores[p]) == CurrentTurn
                     && (CurrentTurn < _scores.First().Value.Frames.Count));
             if (CurrentTurn > _scores.First().Value.Frames.Count) CurrentTurn--;
+            this.CreationDate = CreationDate.Equals(default) ? DateTime.Now : CreationDate;
 
             // If the game is finished, initialize the game like it should be at the end, when score tables are complete.
             if (isFinished)
@@ -391,7 +394,9 @@ namespace Model.Games
         /// <returns>True if the specified object is equal to the current object; otherwise, False.</returns>
         public bool Equals(Game other)
         {
-            return other != null && other.ID.Equals(ID);
+            if (other == null) return false;
+            if (ID == 0 || other.ID == 0) return CreationDate.Equals(other.CreationDate);
+            return other.ID.Equals(ID);
         }
 
         /// <summary>

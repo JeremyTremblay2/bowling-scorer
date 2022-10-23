@@ -24,4 +24,10 @@
     <ProjectReference Include="..\FrameWriterModel\FrameModel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Entities.BowlingDatabase.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

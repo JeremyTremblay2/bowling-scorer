@@ -7,10 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Model.Score.Rules;
-using FrameWriterModel.Frame.ThrowResults;
-using FrameWriterModel.Frame;
-using FrameWriterModel.Writer;
-using FrameWriterModel.Exceptions;
+using FrameModel.Frame.ThrowResults;
+using FrameModel.Frame;
+using FrameModel.Writer;
+using FrameModel.Exceptions;
 
 namespace UnitTests.Score.Rules
 {
