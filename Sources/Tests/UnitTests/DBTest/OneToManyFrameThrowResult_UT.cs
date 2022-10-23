@@ -190,7 +190,7 @@ namespace UnitTests.DBTest
         }
 
         [Fact]
-        public void FrameExtensionShouldTransformFrameEntityIntoFrame()
+        public void FrameExtensionShouldTransformFrameEntityIntoClassicFrame()
         {
             FrameEntity entity = null;
             entity = new FrameEntity
@@ -222,6 +222,48 @@ namespace UnitTests.DBTest
             Assert.Equal(5, frame.ScoreValue);
             Assert.Equal(ThrowResult.FIVE, frame.ThrowResults[0]);
             Assert.Equal(ThrowResult.SPARE, frame.ThrowResults[1]);
+        }
+
+        [Fact]
+        public void FrameExtensionShouldTransformFrameEntityIntoClassicLastFrame()
+        {
+            FrameEntity entity = null;
+            entity = new FrameEntity
+            {
+                FrameId = 2,
+                FrameNumberLabel = 3,
+                CumulativeScore = 20,
+                ScoreValue = 15,
+                ThrowResultEntitys = new List<ThrowResultEntity>()
+                {
+                    new ThrowResultEntity
+                    {
+                        ThrowResultId = 0,
+                        FrameEntity = entity,
+                        Value = '5'
+                    },
+                    new ThrowResultEntity
+                    {
+                        ThrowResultId = 1,
+                        FrameEntity = entity,
+                        Value = '/'
+                    },
+                    new ThrowResultEntity
+                    {
+                        ThrowResultId = 2,
+                        FrameEntity = entity,
+                        Value = 'X'
+                    }
+                }
+            };
+            AFrame frame = entity.ToModel();
+            Assert.Equal(2, frame.ID);
+            Assert.Equal(3, frame.FrameNumberLabel);
+            Assert.Equal(20, frame.CumulativeScore);
+            Assert.Equal(15, frame.ScoreValue);
+            Assert.Equal(ThrowResult.FIVE, frame.ThrowResults[0]);
+            Assert.Equal(ThrowResult.SPARE, frame.ThrowResults[1]);
+            Assert.Equal(ThrowResult.STRIKE, frame.ThrowResults[2]);
         }
 
         [Fact]
