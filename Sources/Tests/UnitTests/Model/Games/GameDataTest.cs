@@ -392,18 +392,19 @@ namespace UnitTests.Games
 
         public static IEnumerable<object[]> Data_EqualsGame()
         {
+            DateTime date = DateTime.Now;
             yield return new object[] {
                 true,
                 new Game(new ClassicRules(), new Dictionary<Player, ScoreTable>
                 {
                     { new Player(12, "Maya", "beeImage"), scoreTableComplete },
                     { new Player(52, "Toto", "totoImage"), anotherScoreTableComplete },
-                }, false),
-                new Game(new ClassicRules(), new List<Player>
+                }, false, 0, date),
+                new Game(new ClassicRules(), 0, new List<Player>
                 {
                     new Player(23, "Jas", "jasImage"),
                     new Player(75, "Pierre", "pierreImage"),
-                })
+                }, date)
             };
 
             yield return new object[] {

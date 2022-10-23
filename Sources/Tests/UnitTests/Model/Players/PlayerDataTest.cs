@@ -10,7 +10,7 @@ namespace UnitTests.Players
 {
     public class PlayerDataTest
     {
-        private static readonly int[] ids = Enumerable.Range(0, 5).ToArray();
+        private static readonly int[] ids = Enumerable.Range(1, 6).ToArray();
 
         public static IEnumerable<object[]> Test_PlayerDataEquality()
         {
@@ -18,7 +18,6 @@ namespace UnitTests.Players
                 new Player[] {
                     new(ids[0], "Jean", "linkToImage"),
                     new(ids[0], "Francis", "otherLink"),
-                    new("Steeve", "otherDoc"),
                     new(ids[4], "Steeve", "randomImage"),
                     new(ids[1], "Patrick", "catImage"),
                     new(ids[3], "Camille", "dogImage"),
