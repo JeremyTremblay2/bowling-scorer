@@ -227,7 +227,7 @@ namespace Stub
             return scoreTable;
         }
 
-        private static ScoreTable scoreTableComplete1 = ToScoreTable(new ScoreTable(new ClassicRules()), new ThrowResult[][]
+        private static readonly ScoreTable scoreTableComplete1 = ToScoreTable(new ScoreTable(new ClassicRules()), new ThrowResult[][]
         {
             new ThrowResult[]
             {
@@ -282,7 +282,7 @@ namespace Stub
             }
         });
 
-        private ScoreTable scoreTableComplete2 = ToScoreTable(new ScoreTable(new ClassicRules()), new ThrowResult[][]
+        private readonly ScoreTable scoreTableComplete2 = ToScoreTable(new ScoreTable(new ClassicRules()), new ThrowResult[][]
         {
             new ThrowResult[]
             {
@@ -337,62 +337,7 @@ namespace Stub
             }
         });
 
-        private ScoreTable scoreTableComplete3 = ToScoreTable(new ScoreTable(new ClassicRules()), new ThrowResult[][]
-        {
-            new ThrowResult[]
-            {
-                ThrowResult.SIX,
-                ThrowResult.THREE,
-            },
-            new ThrowResult[]
-            {
-                ThrowResult.NINE,
-                ThrowResult.SPARE,
-            },
-            new ThrowResult[]
-            {
-                ThrowResult.NONE,
-                ThrowResult.STRIKE,
-            },
-            new ThrowResult[]
-            {
-                ThrowResult.ZERO,
-                ThrowResult.FOUR,
-            },
-            new ThrowResult[]
-            {
-                ThrowResult.ONE,
-                ThrowResult.SEVEN,
-            },
-            new ThrowResult[]
-            {
-                ThrowResult.ONE,
-                ThrowResult.ONE,
-            },
-            new ThrowResult[]
-            {
-                ThrowResult.ZERO,
-                ThrowResult.EIGHT,
-            },
-            new ThrowResult[]
-            {
-                ThrowResult.SIX,
-                ThrowResult.TWO,
-            },
-            new ThrowResult[]
-            {
-                ThrowResult.FIVE,
-                ThrowResult.FOUR,
-            },
-            new ThrowResult[]
-            {
-                ThrowResult.THREE,
-                ThrowResult.SIX,
-                ThrowResult.NONE,
-            }
-        });
-
-        private ScoreTable scoreTableComplete4 = ToScoreTable(new ScoreTable(new ClassicRules()), new ThrowResult[][]
+        private readonly ScoreTable scoreTableComplete4 = ToScoreTable(new ScoreTable(new ClassicRules()), new ThrowResult[][]
         {
             new ThrowResult[]
             {
@@ -447,7 +392,7 @@ namespace Stub
             }
         });
 
-        private ScoreTable scoreTableComplete5 = ToScoreTable(new ScoreTable(new ClassicRules()), new ThrowResult[][]
+        private readonly ScoreTable scoreTableComplete5 = ToScoreTable(new ScoreTable(new ClassicRules()), new ThrowResult[][]
         {
             new ThrowResult[]
             {
@@ -502,7 +447,7 @@ namespace Stub
             }
         });
 
-        private ScoreTable scoreTableComplete6 = ToScoreTable(new ScoreTable(new ClassicRules()), new ThrowResult[][]
+        private readonly ScoreTable scoreTableComplete6 = ToScoreTable(new ScoreTable(new ClassicRules()), new ThrowResult[][]
         {
             new ThrowResult[]
             {
@@ -557,7 +502,7 @@ namespace Stub
             }
         });
 
-        private ScoreTable scoreTableComplete7 = ToScoreTable(new ScoreTable(new ClassicRules()), new ThrowResult[][]
+        private readonly ScoreTable scoreTableComplete7 = ToScoreTable(new ScoreTable(new ClassicRules()), new ThrowResult[][]
         {
             new ThrowResult[]
             {
@@ -612,7 +557,7 @@ namespace Stub
             }
         });
 
-        private ScoreTable scoreTableNotComplete1 = ToScoreTable(new ScoreTable(new ClassicRules()), new ThrowResult[][]
+        private readonly ScoreTable scoreTableNotComplete1 = ToScoreTable(new ScoreTable(new ClassicRules()), new ThrowResult[][]
         {
             new ThrowResult[]
             {
@@ -667,7 +612,7 @@ namespace Stub
             }
         });
 
-        private ScoreTable scoreTableNotComplete2 = ToScoreTable(new ScoreTable(new ClassicRules()), new ThrowResult[][]
+        private readonly ScoreTable scoreTableNotComplete2 = ToScoreTable(new ScoreTable(new ClassicRules()), new ThrowResult[][]
         {
             new ThrowResult[]
             {
@@ -722,7 +667,7 @@ namespace Stub
             }
         });
 
-        private ScoreTable scoreTableNotComplete3 = ToScoreTable(new ScoreTable(new ClassicRules()), new ThrowResult[][]
+        private readonly ScoreTable scoreTableNotComplete3 = ToScoreTable(new ScoreTable(new ClassicRules()), new ThrowResult[][]
         {
             new ThrowResult[]
             {
