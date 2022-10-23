@@ -22,10 +22,10 @@ namespace Entity2Model
         /// <returns>A player similar to the entity.</returns>
         public static Player ToModel(this PlayerEntity entity)
         {
-            Player? player = BowlingMapper.Players.Get(entity);
-            if (player is not null) return player;
-            player = new Player(entity.ID, entity.Name, entity.Image);
-            BowlingMapper.Players.Map(entity, player);
+            //Player? player = BowlingMapper.Players.Get(entity);
+            //if (player is not null) return player;
+            Player player = new Player(entity.ID, entity.Name, entity.Image);
+            //BowlingMapper.Players.Map(entity, player);
             return player;
         }
 
