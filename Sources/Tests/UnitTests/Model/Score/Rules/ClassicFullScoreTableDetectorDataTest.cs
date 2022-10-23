@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using Model;
 using System.Threading.Tasks;
+using UnitTests.Games;
 
 namespace UnitTests.Score.Rules
 {

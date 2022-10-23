@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.Games;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -57,6 +58,20 @@ namespace Model.Players
         /// <param name="name">The name of the player.</param>
         /// <param name="image">The image of the player.</param>
         public Player(string name, string image) : this(0, name, image) { }
+
+        /// <summary>
+        /// Add a game to the player's statistics.
+        /// </summary>
+        /// <param name="game">The game to be added.</param>
+        /// <returns>A boolean indicating if the game was added.</returns>
+        public bool AddGame(Game game) => Statistics.AddGame(this, game);
+
+        /// <summary>
+        /// Remove a game from the player's Statistics.
+        /// </summary>
+        /// <param name="game">The game to be removed.</param>
+        /// <returns>A boolean indicating if the game was removed or not.</returns>
+        public bool RemoveGame(Game game) => Statistics.RemoveGame(this, game);
 
         /// <summary>
         /// Serves as the default hash function.
