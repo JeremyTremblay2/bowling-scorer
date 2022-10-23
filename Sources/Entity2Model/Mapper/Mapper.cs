@@ -34,7 +34,7 @@ namespace Entity2Model.Mapper
         /// <returns>The model corresponding to the entity or null if is was not found.</returns>
         public TModel? Get(TEntity elem)
         {
-            var value = maps.FirstOrDefault(t => t.Item1 != null && t.Item1.Equals(entity));
+            var value = maps.FirstOrDefault(t => t.Item1 != null && t.Item1.Equals(elem));
             if (value == null) return null;
             return value.Item2;
         }
@@ -46,7 +46,7 @@ namespace Entity2Model.Mapper
         /// <returns>The entity corresponding to the model or null if is was not found.</returns>
         public TEntity? Get(TModel elem)
         {
-            var value = maps.FirstOrDefault(t => t.Item2 != null && t.Item2.Equals(model));
+            var value = maps.FirstOrDefault(t => t.Item2 != null && t.Item2.Equals(elem));
             if (value == null) return null;
             return value.Item1;
         }
