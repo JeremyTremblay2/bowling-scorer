@@ -61,7 +61,7 @@ namespace UnitTests.Players
             {
                 foreach (Player internalPlayer in players)
                 {
-                    if (player.ID.Equals(internalPlayer.ID))
+                    if (player.ID.Equals(internalPlayer.ID) || ((player.ID == 0 || internalPlayer.ID == 0) && player.Name.Equals(internalPlayer.Name)))
                     {
                         // The player is cast into an object to check also the Equals method.
                         Assert.True(player.Equals((object)internalPlayer));

@@ -17,7 +17,7 @@ namespace Entities
         /// <summary>
         /// Contains a set of PlayerEntity which represents the players contained in our application.
         /// </summary>
-        public DbSet<PlayerEntity> Players { get; set; }
+        public DbSet<PlayerEntity>? Players { get; set; }
 
         public DbSet<FrameEntity> Frames { get; set; }
 
