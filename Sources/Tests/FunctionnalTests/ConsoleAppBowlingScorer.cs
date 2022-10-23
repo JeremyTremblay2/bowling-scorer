@@ -1,20 +1,49 @@
 ﻿using static System.Console;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Business;
 using Entity2Model;
-using System.Diagnostics.Metrics;
 using Model.Players;
+using Microsoft.Extensions.Configuration;
+using NLog;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
 
 namespace FunctionnalTests
 {
     public static class ConsoleAppBowlingScorer
     {
-        private static BowlingManager manager = new BowlingManager(new DbDataManager());
+        private static BowlingManager manager;
 
-        public static void StartConsoleApp()
+        public static void TestDisplayPlayerLauncher()
+        {
+            var logger = LogManager.GetCurrentClassLogger();
+            try
+            {
+                var config = new ConfigurationBuilder()
+                   .SetBasePath(Directory.GetCurrentDirectory())
+                   .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                   .Build();
+
+                var servicesProvider = BuildDi(config);
+
+                using (servicesProvider as IDisposable)
+                {
+                    manager = servicesProvider.GetRequiredService<BowlingManager>();
+                    StartConsoleApp();
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Stopped program because of exception");
+                throw;
+            }
+            finally
+            {
+                LogManager.Shutdown();
+            }
+        }
+
+        private static void StartConsoleApp()
         {
             WriteLine("Welcome to Bowling Scorer ! ");
             LoopMenu();
@@ -164,6 +193,21 @@ namespace FunctionnalTests
             {
                 WriteLine(obj.ToString());
             }
+        }
+
+        private static IServiceProvider BuildDi(IConfiguration config)
+        {
+            return new ServiceCollection()
+               .AddTransient<BowlingManager>()
+               .AddSingleton<IDataManager>(x => new DbDataManager()) // Add custom DbDataManager for persistance
+               .AddLogging(loggingBuilder =>
+               {
+                   // configure Logging with NLog
+                   loggingBuilder.ClearProviders();
+                   loggingBuilder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+                   loggingBuilder.AddNLog(config);
+               })
+               .BuildServiceProvider();
         }
     }
 }
