@@ -130,7 +130,11 @@ namespace Business
         {
             IEnumerable<Game> result = await dataManager.GetGames(index, count);
             logger.LogInformation("Trying to get until {count} game from the data manager from the index {index}. "
-                + "Found {result.Count} games in total.", count, index, result);
+                + "Found {result.Count} games in total.", count, index, result.Count());
+            foreach (Game game in result)
+            {
+                gameManager.AddGame(game);
+            }
             return result;
         }
 
@@ -145,7 +149,7 @@ namespace Business
         {
             IEnumerable<Game> result = await dataManager.GetGamesFromPlayer(player, index, count);
             logger.LogInformation("Trying to get until {count} game from the data manager from the index {index}. "
-                + "Found {result.Count} games in total related to the player {player}.", count, index, result, player);
+                + "Found {result.Count} games in total related to the player {player}.", count, index, result.Count(), player);
             return result;
         }
 
@@ -247,7 +251,11 @@ namespace Business
         {
             IEnumerable<Player> result = await dataManager.GetPlayers(index, count);
             logger.LogInformation("Trying to get until {count} players from the data manager from the index {index}. "
-                + "Found {result.Count} players in total.", count, index, result);
+                + "Found {result.Count} players in total.", count, index, result.Count());
+            foreach (Player player in result)
+            {
+                playerManager.AddPlayer(player);
+            }
             return result;
         }
 
@@ -283,7 +291,7 @@ namespace Business
         {
             IEnumerable<Player> result = await dataManager.GetPlayerFromName(substring, index, count);
             logger.LogInformation("Trying to get until {count} players from the data manager from the index {index} with name containing {substring}. "
-                + "Found {result.Count} players in total.", count, index, substring, result);
+                + "Found {result.Count} players in total.", count, index, substring, result.Count());
             return result;
         }
 

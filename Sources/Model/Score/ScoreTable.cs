@@ -158,7 +158,7 @@ namespace Model.Score
         /// <returns>A string representing a ScoreTable.</returns>
         public override string ToString()
         {
-            StringBuilder builder = new("[ScoreTable] - Total: \n");
+            StringBuilder builder = new("[ScoreTable] - Total: ");
             builder.AppendLine(TotalScore.ToString());
             foreach (AFrame aFrame in _frames)
             {
