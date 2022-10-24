@@ -48,6 +48,23 @@ Also remember to respect the standard codings defined on the Microsoft site, and
 
 🎉 Happy coding! 🎉
 
+## Future app apparence
+<img src="Documentation/doc_images/games_list.png" width="200px"/></br>
+The app's main menu will look like this sketch. On the main menu, the user will be able to see the current game (if there is a current game), the past games by scrolling to tht bottom, ... In addition, the user can go on the other pages of the app by clicing on the <img src="Documentation/doc_images/menu.png" width="20px"/> button.</br>
+<img src="Documentation/doc_images/player_detail.png" width="200px"/></br>
+This application enable the user to see statistics of each player, here you can see a preview of a player profile in the application.
+
+While waiting the mobile app, our application exists in console mode :</br>
+<img src="Documentation/doc_images/app_console.png" width="800px"/></br>
+Thanks to this version, you can list some players for example.
+
+# Migrations
+If you want to use the functionnal tests and the console app, you must to generate a migration of our database :</br>
+
+* `cd Entities/`
+* `dotnet ef migrations add BowlingDbMigration -c BowlingDbContext`
+* `dotnet ef database update -c BowlingDbContext`
+
 ## Authors
 * Mickaël DUBOIS - Mickael.DUBOIS@etu.uca.fr - [GitLab here](https://gitlab.com/omega2028)
 * Jéremy TREMBLAY - jeremy-tremblay@outlook.fr - [Github here](https://github.com/JeremyTremblay2)
