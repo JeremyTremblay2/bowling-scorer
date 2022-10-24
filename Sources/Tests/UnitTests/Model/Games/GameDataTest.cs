@@ -191,8 +191,8 @@ namespace UnitTests.Games
             },
             new ThrowResult[]
             {
-                ThrowResult.NONE,
-                ThrowResult.NONE,
+                ThrowResult.ZERO,
+                ThrowResult.ZERO,
             },
             new ThrowResult[]
             {
@@ -315,11 +315,11 @@ namespace UnitTests.Games
                 null,
             };
 
-            // Create a game with a score table not complete, should works but with only one player and score table.
+            // Create a game with a score table not complete, should works but with only two player and score table.
             yield return new object[] {
                 false,
                 false,
-                1,
+                2,
                 new Dictionary<Player, ScoreTable>
                 {
                     { new Player(12, "Maya", "beeImage"), scoreTableComplete },
@@ -330,9 +330,9 @@ namespace UnitTests.Games
 
             // Create a game with two score table not complete, should not works.
             yield return new object[] {
-                true,
                 false,
-                0,
+                false,
+                2,
                 new Dictionary<Player, ScoreTable>
                 {
                     { new Player(12, "Maya", "beeImage"), scoreTableNotComplete },
@@ -345,7 +345,7 @@ namespace UnitTests.Games
             yield return new object[] {
                 false,
                 false,
-                2,
+                3,
                 new Dictionary<Player, ScoreTable>
                 {
                     { new Player(12, "Maya", "beeImage"), scoreTableComplete },
@@ -369,7 +369,7 @@ namespace UnitTests.Games
             };
 
             yield return new object[] {
-                false,
+                true,
                 new Dictionary<Player, ScoreTable>
                 {
                     { new Player(12, "Maya", "beeImage"), scoreTableComplete },
@@ -379,7 +379,7 @@ namespace UnitTests.Games
             };
 
             yield return new object[] {
-                false,
+                true,
                 new Dictionary<Player, ScoreTable>
                 {
                     { new Player(12, "Maya", "beeImage"), scoreTableComplete },

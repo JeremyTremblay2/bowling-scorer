@@ -45,7 +45,7 @@ namespace UnitTests.Model.Players
 
         public static IEnumerable<object[]> Test_StatisticsDataAddGame()
         {
-            Player player83 = new Player(14, "Gus", "gusImage");
+            Player player1 = new Player(14, "Gus", "gusImage");
             Player player104 = new Player(21, "Clint", "clintImage");
             player104.AddGame(gameFinished);
             player83.AddGame(gameFinished);
@@ -90,9 +90,10 @@ namespace UnitTests.Model.Players
                 40,
                 4.7,
                 93.5,
-                player83,
+                player1,
                 new Game[]
                 {
+                    gameFinished,
                     gameFinished2
                 }
             };
