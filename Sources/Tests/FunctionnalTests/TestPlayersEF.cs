@@ -13,7 +13,7 @@ namespace FunctionnalTests
 {
     public static class TestPlayersEF
     {
-        public static void TestPlayerDatabase()
+        public static void PlayerFuctionnalTests()
         {
             PlayerEntity toto = new PlayerEntity { Name = "Toto", Image = "girafe.png" };
             PlayerEntity antoine = new PlayerEntity { Name = "Antoine", Image = "mickaelJackson.png" };
@@ -26,6 +26,12 @@ namespace FunctionnalTests
             using (BowlingDbContextWithStub db = new())
             {
                 WriteLine("Opening the connection to the database.");
+
+                if (db.Players is null)
+                {
+                    WriteLine("----- ERROR: The player DBSET is null, program termination.-----");
+                    return;
+                }
 
                 if (db.Players.Any())
                 {

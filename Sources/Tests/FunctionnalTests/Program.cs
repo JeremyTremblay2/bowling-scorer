@@ -12,12 +12,21 @@ using static System.Console;
 
 namespace FunctionnalTests
 {
+    /// <summary>
+    /// Main class of the functionnal tests.
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Change the methods call here to see all the funcitonnal tests of the project.
+        /// </summary>
+        /// <param name="args">The program arguments.</param>
         public static void Main(string[] args)
         {
-            //TestPlayersEF.TestPlayerDatabase();
-            TestStubModel.TestDisplayPlayerLauncher();
+            //TestFrameEF.TestFrameEntity();
+            //TestPlayersEF.PlayerFuctionnalTests();
+            //TestStubModel.TestDisplayPlayerLauncher();
+            ConsoleAppBowlingScorer.TestDisplayPlayerLauncher();
         }
     }
 }
